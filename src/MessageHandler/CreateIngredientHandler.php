@@ -8,9 +8,8 @@ use App\Repository\IngredientCategoryRepository;
 use App\Repository\IngredientRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Messenger\Attribute\AsMessageHandler;
-use Symfony\Component\Messenger\MessageBusInterface;
 
-#[AsMessageHandler]
+#[AsMessageHandler(handles: CreateIngredientCommand::class)]
 class CreateIngredientHandler
 {
 

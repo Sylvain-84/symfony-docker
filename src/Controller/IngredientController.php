@@ -3,9 +3,8 @@
 namespace App\Controller;
 
 use App\Dto\IngredientDto;
-use App\Entity\Ingredient;
+use App\MessageHandler\CreateIngredientCommand;
 use App\Repository\IngredientRepository;
-use CreateIngredientCommand;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;

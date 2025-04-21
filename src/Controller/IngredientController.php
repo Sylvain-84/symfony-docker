@@ -13,7 +13,7 @@ use Symfony\Component\HttpKernel\Attribute\MapRequestPayload;
 use Symfony\Component\Messenger\MessageBusInterface;
 use Symfony\Component\Routing\Attribute\Route;
 
-#[Route('/ingredient', name: 'ingredients_')]
+#[Route('/ingredients', name: 'ingredients_')]
 class IngredientController extends AbstractController
 {
     public function __construct(
@@ -23,8 +23,17 @@ class IngredientController extends AbstractController
     #[Route('', name: 'index', methods: ['GET'])]
     public function getAllIngredients(): JsonResponse
     {
+        $ingredients = $this->ingredientRepository->findAll();
+        $ingredientsDto = array_map(
+            fn($ingredient) => IngredientDto::transform(
+                $ingredient->getCategory()->getId(),
+                $ingredient->getName(),
+                $ingredient->getId()
+            ),
+            $ingredients
+        );
         return $this->json([
-            'message' => 'Get all ingredients',
+            'ingredients' => $ingredientsDto,
         ]);
     }
 

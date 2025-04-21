@@ -23,10 +23,11 @@ class IngredientController extends AbstractController
     #[Route('', name: 'index', methods: ['GET'])]
     public function getAllIngredients(): JsonResponse
     {
+        /** @var Ingredient[] $ingredients */
         $ingredients = $this->ingredientRepository->findAll();
         $ingredientsDto = array_map(
             fn($ingredient) => IngredientDto::transform(
-                $ingredient->getCategory()->getId(),
+                $ingredient->getCategory()->getName(),
                 $ingredient->getName(),
                 $ingredient->getId()
             ),

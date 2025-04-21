@@ -25,29 +25,57 @@ class IngredientNutritional
     #[ORM\Column(type: 'float', options: ['default' => 0])]
     private float $lipides = 0.0;
 
-    #[ORM\Column(type: 'float', options: ['default' => 0])]
-    private float $sucres = 0.0;
+    #[ORM\Column(type: 'float', nullable: true)]
+    private ?float $sucres = null;
 
-    #[ORM\Column(type: 'float', options: ['default' => 0])]
-    private float $amidon = 0.0;
+    #[ORM\Column(type: 'float', nullable: true)]
+    private ?float $amidon = null;
 
-    #[ORM\Column(name: 'fibres_alimentaires', type: 'float', options: ['default' => 0])]
-    private float $fibresAlimentaires = 0.0;
+    #[ORM\Column(name: 'fibres_alimentaires', type: 'float', nullable: true)]
+    private ?float $fibresAlimentaires = null;
 
-    #[ORM\Column(type: 'float', options: ['default' => 0])]
-    private float $cholesterol = 0.0;
+    #[ORM\Column(type: 'float', nullable: true)]
+    private ?float $cholesterol = null;
 
-    #[ORM\Column(name: 'acides_gras_satures', type: 'float', options: ['default' => 0])]
-    private float $acidesGrasSatures = 0.0;
+    #[ORM\Column(name: 'acides_gras_satures', type: 'float', nullable: true)]
+    private ?float $acidesGrasSatures = null;
 
-    #[ORM\Column(name: 'acides_gras_monoinsatures', type: 'float', options: ['default' => 0])]
-    private float $acidesGrasMonoinsatures = 0.0;
+    #[ORM\Column(name: 'acides_gras_monoinsatures', type: 'float', nullable: true)]
+    private ?float $acidesGrasMonoinsatures = null;
 
-    #[ORM\Column(name: 'acides_gras_polyinsatures', type: 'float', options: ['default' => 0])]
-    private float $acidesGrasPolyinsatures = 0.0;
+    #[ORM\Column(name: 'acides_gras_polyinsatures', type: 'float', nullable: true)]
+    private ?float $acidesGrasPolyinsatures = null;
 
-    #[ORM\Column(type: 'float', options: ['default' => 0])]
-    private float $eau = 0.0;
+    #[ORM\Column(type: 'float', nullable: true)]
+    private ?float $eau = null;
+
+    public function __construct(
+        ?float $kilocalories = 0.0,
+        ?float $proteine = 0.0,
+        ?float $glucides = 0.0,
+        ?float $lipides = 0.0,
+        ?float $sucres = null,
+        ?float $amidon = null,
+        ?float $fibresAlimentaires = null,
+        ?float $cholesterol = null,
+        ?float $acidesGrasSatures = null,
+        ?float $acidesGrasMonoinsatures = null,
+        ?float $acidesGrasPolyinsatures = null,
+        ?float $eau = null
+    ) {
+        $this->kilocalories = $kilocalories;
+        $this->proteine = $proteine;
+        $this->glucides = $glucides;
+        $this->lipides = $lipides;
+        $this->sucres = $sucres;
+        $this->amidon = $amidon;
+        $this->fibresAlimentaires = $fibresAlimentaires;
+        $this->cholesterol = $cholesterol;
+        $this->acidesGrasSatures = $acidesGrasSatures;
+        $this->acidesGrasMonoinsatures = $acidesGrasMonoinsatures;
+        $this->acidesGrasPolyinsatures = $acidesGrasPolyinsatures;
+        $this->eau = $eau;
+    }
 
     public function getId(): ?int
     {

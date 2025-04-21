@@ -46,6 +46,32 @@ class IngredientMineral
     #[ORM\Column(type: 'decimal', precision: 10, scale: 2, nullable: true)]
     private ?string $zinc = null;
 
+    public function __construct(
+        ?string $calcium = null,
+        ?string $cuivre = null,
+        ?string $fer = null,
+        ?string $iode = null,
+        ?string $magnesium = null,
+        ?string $manganese = null,
+        ?string $phosphore = null,
+        ?string $potassium = null,
+        ?string $selenium = null,
+        ?string $sodium = null,
+        ?string $zinc = null
+    ) {
+        $this->calcium = $calcium;
+        $this->cuivre = $cuivre;
+        $this->fer = $fer;
+        $this->iode = $iode;
+        $this->magnesium = $magnesium;
+        $this->manganese = $manganese;
+        $this->phosphore = $phosphore;
+        $this->potassium = $potassium;
+        $this->selenium = $selenium;
+        $this->sodium = $sodium;
+        $this->zinc = $zinc;
+    }
+
     public function getId(): ?int
     {
         return $this->id;

@@ -55,6 +55,38 @@ class IngredientVitamine
     #[ORM\Column(name: 'vitamine_B12', type: 'decimal', precision: 10, scale: 2, nullable: true)]
     private ?string $vitamineB12 = null;
 
+    public function __construct(
+        ?string $vitamineA = null,
+        ?string $betaCarotene = null,
+        ?string $vitamineD = null,
+        ?string $vitamineE = null,
+        ?string $vitamineK1 = null,
+        ?string $vitamineK2 = null,
+        ?string $vitamineC = null,
+        ?string $vitamineB1 = null,
+        ?string $vitamineB2 = null,
+        ?string $vitamineB3 = null,
+        ?string $vitamineB5 = null,
+        ?string $vitamineB6 = null,
+        ?string $vitamineB9 = null,
+        ?string $vitamineB12 = null
+    ) {
+        $this->vitamineA = $vitamineA;
+        $this->betaCarotene = $betaCarotene;
+        $this->vitamineD = $vitamineD;
+        $this->vitamineE = $vitamineE;
+        $this->vitamineK1 = $vitamineK1;
+        $this->vitamineK2 = $vitamineK2;
+        $this->vitamineC = $vitamineC;
+        $this->vitamineB1 = $vitamineB1;
+        $this->vitamineB2 = $vitamineB2;
+        $this->vitamineB3 = $vitamineB3;
+        $this->vitamineB5 = $vitamineB5;
+        $this->vitamineB6 = $vitamineB6;
+        $this->vitamineB9 = $vitamineB9;
+        $this->vitamineB12 = $vitamineB12;
+    }
+
     public function getId(): ?int
     {
         return $this->id;

@@ -14,29 +14,29 @@ class Ingredient
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
-    private ?string $name = null;
+    private string $name;
 
     #[ORM\ManyToOne(inversedBy: 'ingredients')]
     private ?IngredientCategory $category = null;
 
     #[ORM\OneToOne(cascade: ['persist', 'remove'])]
     #[ORM\JoinColumn(nullable: false)]
-    private ?IngredientMineral $mineral = null;
+    private IngredientMineral $mineral;
 
     #[ORM\OneToOne(cascade: ['persist', 'remove'])]
     #[ORM\JoinColumn(nullable: false)]
-    private ?IngredientNutritional $nutritional = null;
+    private IngredientNutritional $nutritional;
 
     #[ORM\OneToOne(cascade: ['persist', 'remove'])]
     #[ORM\JoinColumn(nullable: false)]
-    private ?IngredientVitamine $vitamine = null;
+    private IngredientVitamine $vitamine;
 
     public function __construct(
-        ?string $name = null,
+        string $name,
         ?IngredientCategory $category = null,
-        ?IngredientMineral $mineral = null,
-        ?IngredientNutritional $nutritional = null,
-        ?IngredientVitamine $vitamine = null
+        ?IngredientMineral $mineral = new IngredientMineral(),
+        ?IngredientNutritional $nutritional = new IngredientNutritional(),
+        ?IngredientVitamine $vitamine = new IngredientVitamine(),
     ) {
         $this->name = $name;
         $this->category = $category;
@@ -79,34 +79,13 @@ class Ingredient
         return $this->mineral;
     }
 
-    public function setMineral(IngredientMineral $mineral): static
-    {
-        $this->mineral = $mineral;
-
-        return $this;
-    }
-
     public function getNutritional(): ?IngredientNutritional
     {
         return $this->nutritional;
     }
 
-    public function setNutritional(IngredientNutritional $nutritional): static
-    {
-        $this->nutritional = $nutritional;
-
-        return $this;
-    }
-
     public function getVitamine(): ?IngredientVitamine
     {
         return $this->vitamine;
-    }
-
-    public function setVitamine(IngredientVitamine $vitamine): static
-    {
-        $this->vitamine = $vitamine;
-
-        return $this;
     }
 }

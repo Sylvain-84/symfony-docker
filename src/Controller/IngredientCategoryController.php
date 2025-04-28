@@ -8,6 +8,9 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Routing\Attribute\Route;
 
+use App\MessageHandler\CreateIngredientCategoryCommand;
+use Symfony\Component\HttpKernel\Attribute\MapRequestPayload;
+use Symfony\Component\Messenger\MessageBusInterface;
 #[Route('/ingredient_categories', name: 'ingredient_categories_')]
 class IngredientCategoryController extends AbstractController
 {
@@ -28,6 +31,19 @@ class IngredientCategoryController extends AbstractController
         );
         return $this->json([
             'ingredient_categories' => $ingredientCategoriesDto,
+        ]);
+    }
+
+    #[Route('', name: 'add', methods: ['POST'])]
+    public function addIngredientCategory(
+        MessageBusInterface $bus,
+        #[MapRequestPayload]
+        CreateIngredientCategoryCommand $createIngredientCategoryCommand
+    ): JsonResponse {
+        $bus->dispatch($createIngredientCategoryCommand);
+        
+        return $this->json([
+            'message' => 'Ingredient Category added successfully',
         ]);
     }
 }

@@ -24,8 +24,11 @@ class IngredientCategory
     #[ORM\OneToMany(targetEntity: Ingredient::class, mappedBy: 'category')]
     private Collection $ingredients;
 
-    public function __construct()
+    public function __construct(
+        string $name
+    )
     {
+        $this->name = $name;
         $this->ingredients = new ArrayCollection();
     }
 

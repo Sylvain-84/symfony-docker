@@ -1,15 +1,13 @@
 <?php
-// src/MessageHandler/SmsNotificationHandler.php
-namespace App\MessageHandler;
+namespace App\MessageHandler\CreateIngredient;
 
 use App\Entity\Ingredient;
-use App\Message\SmsNotification;
 use App\Entity\IngredientMineral;
-use App\Entity\IngredientVitamine;
 use App\Entity\IngredientNutritional;
+use App\Entity\IngredientVitamine;
+use App\Repository\IngredientCategoryRepository;
 use App\Repository\IngredientRepository;
 use Doctrine\ORM\EntityManagerInterface;
-use App\Repository\IngredientCategoryRepository;
 use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 
 #[AsMessageHandler(handles: CreateIngredientCommand::class)]
@@ -17,8 +15,7 @@ class CreateIngredientHandler
 {
 
     public function __construct(
-        private EntityManagerInterface $em, 
-        private IngredientRepository $ingredientRepository, 
+        private IngredientRepository $ingredientRepository,
         private IngredientCategoryRepository $ingredientCategoryRepository,
         )
     {
@@ -81,7 +78,7 @@ class CreateIngredientHandler
         );
 
         $ingredient = new Ingredient(
-            name: $command->name, 
+            name: $command->name,
             category: $category,
             mineral: $ingredientMineral,
             nutritional: $ingredientNutritional,

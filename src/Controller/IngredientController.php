@@ -3,7 +3,9 @@
 namespace App\Controller;
 
 use App\Dto\IngredientDto;
-use App\MessageHandler\CreateIngredientCommand;
+use App\Entity\Ingredient;
+use App\MessageHandler\CreateIngredient\CreateIngredientCommand;
+use App\MessageHandler\DeleteIngredient\DeleteIngredientCommand;
 use App\Repository\IngredientRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -46,7 +48,7 @@ class IngredientController extends AbstractController
         CreateIngredientCommand $createIngredientCommand
     ): JsonResponse {
         $bus->dispatch($createIngredientCommand);
-        
+
         return $this->json([
             'message' => 'Ingredient added successfully',
         ]);
@@ -74,11 +76,13 @@ class IngredientController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}', name: 'delete', methods: ['DELETE'], requirements: ['id' => '\d+'])]
-    public function deleteIngredientById(int $id): JsonResponse
+    #[Route('/{id}', name: 'delete', requirements: ['id' => '\d+'], methods: ['DELETE'])]
+    public function deleteIngredientById(
+        int $id,
+        MessageBusInterface $bus,
+    ): JsonResponse
     {
-        $ingredient = $this->ingredientRepository->find($id);
-        $this->ingredientRepository->remove($ingredient);
+        $bus->dispatch(new DeleteIngredientCommand($id));
 
         return $this->json([
             'message' => 'Ingredient deleted successfully',

@@ -1,5 +1,5 @@
 <?php
-namespace App\MessageHandler\CreateIngredient;
+namespace App\MessageHandler\Ingredient\CreateIngredient;
 
 use App\Entity\Ingredient;
 use App\Entity\IngredientMineral;
@@ -7,7 +7,6 @@ use App\Entity\IngredientNutritional;
 use App\Entity\IngredientVitamine;
 use App\Repository\IngredientCategoryRepository;
 use App\Repository\IngredientRepository;
-use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 
 #[AsMessageHandler(handles: CreateIngredientCommand::class)]

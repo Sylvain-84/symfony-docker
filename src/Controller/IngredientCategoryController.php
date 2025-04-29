@@ -3,7 +3,8 @@
 namespace App\Controller;
 
 use App\Dto\IngredientCategoryDto;
-use App\MessageHandler\CreateIngredientCategory\CreateIngredientCategoryCommand;
+use App\MessageHandler\IngredientCategory\CreateIngredientCategory\CreateIngredientCategoryCommand;
+use App\MessageHandler\IngredientCategory\DeleteIngredientCategory\DeleteIngredientCategoryCommand;
 use App\Repository\IngredientCategoryRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -44,6 +45,19 @@ class IngredientCategoryController extends AbstractController
 
         return $this->json([
             'message' => 'Ingredient Category added successfully',
+        ]);
+    }
+
+    #[Route('/{id}', name: 'delete', requirements: ['id' => '\d+'], methods: ['DELETE'])]
+    public function deleteIngredientCategoryById(
+        int $id,
+        MessageBusInterface $bus,
+    ): JsonResponse
+    {
+        $bus->dispatch(new DeleteIngredientCategoryCommand($id));
+
+        return $this->json([
+            'message' => 'Ingredient category deleted successfully',
         ]);
     }
 }

@@ -1,10 +1,10 @@
 <?php
 
-namespace App\MessageHandler\CreateIngredient;
+namespace App\MessageHandler\Ingredient\CreateIngredient;
 
-use App\MessageHandler\IngredientMineralInput;
-use App\MessageHandler\IngredientNutritionalInput;
-use App\MessageHandler\IngredientVitamineInput;
+use App\MessageHandler\Ingredient\IngredientMineralInput;
+use App\MessageHandler\Ingredient\IngredientNutritionalInput;
+use App\MessageHandler\Ingredient\IngredientVitamineInput;
 
 final readonly class CreateIngredientCommand
 {

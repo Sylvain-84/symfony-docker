@@ -1,6 +1,6 @@
 <?php
 
-namespace App\MessageHandler\DeleteIngredient;
+namespace App\MessageHandler\Ingredient\DeleteIngredient;
 
 final readonly class DeleteIngredientCommand
 {

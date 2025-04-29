@@ -1,6 +1,6 @@
 <?php
 
-namespace App\MessageHandler\CreateIngredientCategory;
+namespace App\MessageHandler\IngredientCategory\CreateIngredientCategory;
 
 final readonly class CreateIngredientCategoryCommand
 {

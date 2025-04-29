@@ -4,8 +4,8 @@ namespace App\Controller;
 
 use App\Dto\IngredientDto;
 use App\Entity\Ingredient;
-use App\MessageHandler\CreateIngredient\CreateIngredientCommand;
-use App\MessageHandler\DeleteIngredient\DeleteIngredientCommand;
+use App\MessageHandler\Ingredient\CreateIngredient\CreateIngredientCommand;
+use App\MessageHandler\Ingredient\DeleteIngredient\DeleteIngredientCommand;
 use App\Repository\IngredientRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;

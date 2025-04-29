@@ -1,5 +1,5 @@
 <?php
-namespace App\MessageHandler\DeleteIngredient;
+namespace App\MessageHandler\Ingredient\DeleteIngredient;
 
 use App\Repository\IngredientRepository;
 use Symfony\Component\Messenger\Attribute\AsMessageHandler;

@@ -1,5 +1,5 @@
 <?php
-namespace App\MessageHandler\CreateIngredientCategory;
+namespace App\MessageHandler\IngredientCategory\CreateIngredientCategory;
 
 use App\Entity\IngredientCategory;
 use App\Repository\IngredientCategoryRepository;

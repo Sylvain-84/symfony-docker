@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Dto\IngredientCategoryDto;
 use App\MessageHandler\IngredientCategory\CreateIngredientCategory\CreateIngredientCategoryCommand;
 use App\MessageHandler\IngredientCategory\DeleteIngredientCategory\DeleteIngredientCategoryCommand;
+use App\MessageHandler\IngredientCategory\UpdateIngredientCategory\UpdateIngredientCategoryCommand;
 use App\Repository\IngredientCategoryRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -45,6 +46,19 @@ class IngredientCategoryController extends AbstractController
 
         return $this->json([
             'message' => 'Ingredient Category added successfully',
+        ]);
+    }
+
+    #[Route('/{id}', name: 'update', methods: ['PUT'], requirements: ['id' => '\d+'])]
+    public function updateIngredientById(
+        MessageBusInterface $bus,
+        #[MapRequestPayload]
+        UpdateIngredientCategoryCommand $updateIngredientCategoryCommand
+    ): JsonResponse {
+        $bus->dispatch($updateIngredientCategoryCommand);
+
+        return $this->json([
+            'message' => 'Ingredient edited successfully',
         ]);
     }
 

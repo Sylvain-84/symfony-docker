@@ -3,7 +3,6 @@ namespace App\MessageHandler\IngredientCategory\CreateIngredientCategory;
 
 use App\Entity\IngredientCategory;
 use App\Repository\IngredientCategoryRepository;
-use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 
 #[AsMessageHandler(handles: CreateIngredientCategoryCommand::class)]
@@ -11,7 +10,6 @@ class CreateIngredientCategoryHandler
 {
 
     public function __construct(
-        private EntityManagerInterface $em,
         private IngredientCategoryRepository $ingredientCategoryRepository,
         )
     {

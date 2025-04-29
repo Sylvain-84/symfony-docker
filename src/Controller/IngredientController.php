@@ -6,6 +6,7 @@ use App\Dto\IngredientDto;
 use App\Entity\Ingredient;
 use App\MessageHandler\Ingredient\CreateIngredient\CreateIngredientCommand;
 use App\MessageHandler\Ingredient\DeleteIngredient\DeleteIngredientCommand;
+use App\MessageHandler\Ingredient\UpdateIngredient\UpdateIngredientCommand;
 use App\Repository\IngredientRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -69,8 +70,13 @@ class IngredientController extends AbstractController
     }
 
     #[Route('/{id}', name: 'update', methods: ['PUT'], requirements: ['id' => '\d+'])]
-    public function updateIngredientById(int $id, Request $request): JsonResponse
-    {
+    public function updateIngredientById(
+        MessageBusInterface $bus,
+        #[MapRequestPayload]
+        UpdateIngredientCommand $updateIngredientCommand
+    ): JsonResponse {
+        $bus->dispatch($updateIngredientCommand);
+
         return $this->json([
             'message' => 'Ingredient edited successfully',
         ]);

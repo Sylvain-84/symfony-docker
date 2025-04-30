@@ -1,4 +1,5 @@
 <?php
+
 namespace App\MessageHandler\Ingredient\CreateIngredient;
 
 use App\Entity\Ingredient;
@@ -12,12 +13,10 @@ use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 #[AsMessageHandler(handles: CreateIngredientCommand::class)]
 class CreateIngredientHandler
 {
-
     public function __construct(
         private IngredientRepository $ingredientRepository,
         private IngredientCategoryRepository $ingredientCategoryRepository,
-        )
-    {
+    ) {
     }
 
     public function __invoke(CreateIngredientCommand $command): int
@@ -26,10 +25,7 @@ class CreateIngredientHandler
             ->find($command->category);
 
         if (!$category) {
-            throw new \InvalidArgumentException(sprintf(
-                'Ingredient category #%d not found.',
-                $command->category
-            ));
+            throw new \InvalidArgumentException(sprintf('Ingredient category #%d not found.', $command->category));
         }
 
         $ingredientMineral = new IngredientMineral(

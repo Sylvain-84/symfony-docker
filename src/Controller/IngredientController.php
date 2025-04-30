@@ -20,22 +20,24 @@ use Symfony\Component\Routing\Attribute\Route;
 class IngredientController extends AbstractController
 {
     public function __construct(
-        private readonly IngredientRepository $ingredientRepository
+        private readonly IngredientRepository $ingredientRepository,
     ) {
     }
+
     #[Route('', name: 'index', methods: ['GET'])]
     public function getAllIngredients(): JsonResponse
     {
         /** @var Ingredient[] $ingredients */
         $ingredients = $this->ingredientRepository->findAll();
         $ingredientsDto = array_map(
-            fn($ingredient) => IngredientDto::transform(
+            fn ($ingredient) => IngredientDto::transform(
                 $ingredient->getCategory()->getName(),
                 $ingredient->getName(),
                 $ingredient->getId()
             ),
             $ingredients
         );
+
         return $this->json([
             'ingredients' => $ingredientsDto,
         ]);
@@ -46,7 +48,7 @@ class IngredientController extends AbstractController
         Request $request,
         MessageBusInterface $bus,
         #[MapRequestPayload]
-        CreateIngredientCommand $createIngredientCommand
+        CreateIngredientCommand $createIngredientCommand,
     ): JsonResponse {
         $bus->dispatch($createIngredientCommand);
 
@@ -73,7 +75,7 @@ class IngredientController extends AbstractController
     public function updateIngredientById(
         MessageBusInterface $bus,
         #[MapRequestPayload]
-        UpdateIngredientCommand $updateIngredientCommand
+        UpdateIngredientCommand $updateIngredientCommand,
     ): JsonResponse {
         $bus->dispatch($updateIngredientCommand);
 
@@ -86,8 +88,7 @@ class IngredientController extends AbstractController
     public function deleteIngredientById(
         int $id,
         MessageBusInterface $bus,
-    ): JsonResponse
-    {
+    ): JsonResponse {
         $bus->dispatch(new DeleteIngredientCommand($id));
 
         return $this->json([

@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Tests\MessageHandler\Ingredient;
@@ -24,7 +25,7 @@ final class CreateIngredientHandlerTest extends KernelTestCase
     protected function setUp(): void
     {
         self::bootKernel();
-        $this->em      = self::getContainer()->get(EntityManagerInterface::class);
+        $this->em = self::getContainer()->get(EntityManagerInterface::class);
         $this->handler = self::getContainer()->get(CreateIngredientHandler::class);
 
         // Isolation for every test: start a DB transaction and roll it back in tearDown

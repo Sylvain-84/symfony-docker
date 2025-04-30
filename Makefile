@@ -42,3 +42,15 @@ cache-clear:
 
 phpunit:
 	$(PHPUNIT) $(ARGS)
+
+phpstan:
+	docker exec -it $(PHP_CONTAINER) vendor/bin/phpstan analyse
+
+phpcs:
+	docker exec -it $(PHP_CONTAINER) vendor/bin/phpcs
+
+php-cs-fixer:
+	docker exec -it $(PHP_CONTAINER) vendor/bin/php-cs-fixer fix --dry-run --diff
+
+php-cs-fixer-fix:
+	docker exec -it $(PHP_CONTAINER) vendor/bin/php-cs-fixer fix

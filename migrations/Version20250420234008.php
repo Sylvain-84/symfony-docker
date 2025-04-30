@@ -104,9 +104,9 @@ final class Version20250420234008 extends AbstractMigration
 
         foreach ($ingredients as [$name, $categoryId]) {
             // Create one blank row in each related table and grab its new ID
-            $this->addSql("INSERT INTO ingredient_mineral DEFAULT VALUES;");
-            $this->addSql("INSERT INTO ingredient_nutritional DEFAULT VALUES;");
-            $this->addSql("INSERT INTO ingredient_vitamine DEFAULT VALUES;");
+            $this->addSql('INSERT INTO ingredient_mineral DEFAULT VALUES;');
+            $this->addSql('INSERT INTO ingredient_nutritional DEFAULT VALUES;');
+            $this->addSql('INSERT INTO ingredient_vitamine DEFAULT VALUES;');
 
             // Now insert the ingredient, wiring up the three new FK IDs
             $this->addSql(<<<'SQL'
@@ -126,7 +126,7 @@ SQL
     public function down(Schema $schema): void
     {
         // Remove all seeded ingredients
-        $this->addSql("DELETE FROM ingredient WHERE name IN ('" . implode("','", array_map(static fn($i) => addslashes($i[0]), [
+        $this->addSql("DELETE FROM ingredient WHERE name IN ('".implode("','", array_map(static fn ($i) => addslashes($i[0]), [
             ['Abricots'], ['Avocats'], ['Aubergines'], ['Ananas'], ['Bananes'], ['Betteraves'],
             ['Brocoli'], ['Blettes'], ['Carottes'], ['Courgettes'], ['Chou‑fleur'], ['Cerises'],
             ['Choux'], ['Datte'], ['Dattes séchées'], ['Durian'], ['Échalotes'], ['Fraises'],
@@ -140,12 +140,12 @@ SQL
             ['Yuzu'], ['Zucchini'], ['Patates douces'], ['Chou frisé'], ['Prunes'], ['Mûres'],
             ['Cassis'], ['Framboises'], ['Myrtilles'], ['Abricots secs'], ['Pois chiches'],
             ['Champignons'], ['Pistaches'], ['Amandes'], ['Coriandre'], ['Persil'],
-            ['Ciboulette'], ['Basilic'], ['Romarin'], ['Thym']
-        ])) . "')");
+            ['Ciboulette'], ['Basilic'], ['Romarin'], ['Thym'],
+        ]))."')");
 
         // Optionally clean up orphaned relation rows
-        $this->addSql("DELETE FROM ingredient_mineral WHERE id NOT IN (SELECT mineral_id FROM ingredient);");
-        $this->addSql("DELETE FROM ingredient_nutritional WHERE id NOT IN (SELECT nutritional_id FROM ingredient);");
-        $this->addSql("DELETE FROM ingredient_vitamine WHERE id NOT IN (SELECT vitamine_id FROM ingredient);");
+        $this->addSql('DELETE FROM ingredient_mineral WHERE id NOT IN (SELECT mineral_id FROM ingredient);');
+        $this->addSql('DELETE FROM ingredient_nutritional WHERE id NOT IN (SELECT nutritional_id FROM ingredient);');
+        $this->addSql('DELETE FROM ingredient_vitamine WHERE id NOT IN (SELECT vitamine_id FROM ingredient);');
     }
 }

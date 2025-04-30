@@ -25,9 +25,8 @@ class IngredientCategory
     private Collection $ingredients;
 
     public function __construct(
-        string $name
-    )
-    {
+        string $name,
+    ) {
         $this->name = $name;
         $this->ingredients = new ArrayCollection();
     }

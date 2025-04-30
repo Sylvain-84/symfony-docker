@@ -1,4 +1,5 @@
 <?php
+
 // src/Dto/IngredientDto.php
 
 namespace App\Dto;

@@ -57,7 +57,7 @@ class IngredientMineral
         ?string $potassium = null,
         ?string $selenium = null,
         ?string $sodium = null,
-        ?string $zinc = null
+        ?string $zinc = null,
     ) {
         $this->calcium = $calcium;
         $this->cuivre = $cuivre;
@@ -85,6 +85,7 @@ class IngredientMineral
     public function setCalcium(?string $calcium): self
     {
         $this->calcium = $calcium;
+
         return $this;
     }
 
@@ -96,6 +97,7 @@ class IngredientMineral
     public function setCuivre(?string $cuivre): self
     {
         $this->cuivre = $cuivre;
+
         return $this;
     }
 
@@ -107,6 +109,7 @@ class IngredientMineral
     public function setFer(?string $fer): self
     {
         $this->fer = $fer;
+
         return $this;
     }
 
@@ -118,6 +121,7 @@ class IngredientMineral
     public function setIode(?string $iode): self
     {
         $this->iode = $iode;
+
         return $this;
     }
 
@@ -129,6 +133,7 @@ class IngredientMineral
     public function setMagnesium(?string $magnesium): self
     {
         $this->magnesium = $magnesium;
+
         return $this;
     }
 
@@ -140,6 +145,7 @@ class IngredientMineral
     public function setManganese(?string $manganese): self
     {
         $this->manganese = $manganese;
+
         return $this;
     }
 
@@ -151,6 +157,7 @@ class IngredientMineral
     public function setPhosphore(?string $phosphore): self
     {
         $this->phosphore = $phosphore;
+
         return $this;
     }
 
@@ -162,6 +169,7 @@ class IngredientMineral
     public function setPotassium(?string $potassium): self
     {
         $this->potassium = $potassium;
+
         return $this;
     }
 
@@ -173,6 +181,7 @@ class IngredientMineral
     public function setSelenium(?string $selenium): self
     {
         $this->selenium = $selenium;
+
         return $this;
     }
 
@@ -184,6 +193,7 @@ class IngredientMineral
     public function setSodium(?string $sodium): self
     {
         $this->sodium = $sodium;
+
         return $this;
     }
 
@@ -195,6 +205,7 @@ class IngredientMineral
     public function setZinc(?string $zinc): self
     {
         $this->zinc = $zinc;
+
         return $this;
     }
 }

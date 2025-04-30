@@ -11,7 +11,7 @@ use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 class UpdateIngredientHandler
 {
     public function __construct(
-        private IngredientRepository         $ingredientRepository,
+        private IngredientRepository $ingredientRepository,
         private IngredientCategoryRepository $ingredientCategoryRepository,
     ) {
     }
@@ -24,10 +24,7 @@ class UpdateIngredientHandler
         $ingredient = $this->ingredientRepository->find($command->id);
 
         if (!$ingredient) {
-            throw new \InvalidArgumentException(sprintf(
-                'Ingredient #%d not found.',
-                $command->id
-            ));
+            throw new \InvalidArgumentException(sprintf('Ingredient #%d not found.', $command->id));
         }
 
         /** ----------------------------------------------------------------
@@ -35,14 +32,11 @@ class UpdateIngredientHandler
          * ---------------------------------------------------------------- */
         $category = $this->ingredientCategoryRepository->find($command->category);
         if (!$category) {
-            throw new \InvalidArgumentException(sprintf(
-                'Ingredient category #%d not found.',
-                $command->category
-            ));
+            throw new \InvalidArgumentException(sprintf('Ingredient category #%d not found.', $command->category));
         }
         $ingredient->setCategory($category);
 
-        /** ----------------------------------------------------------------
+        /* ----------------------------------------------------------------
          * 3. Scalar fields on Ingredient
          * ---------------------------------------------------------------- */
         $ingredient->setName($command->name);
@@ -99,7 +93,7 @@ class UpdateIngredientHandler
         $vitamine->setVitamineB9($command->vitamines->vitamineB9);
         $vitamine->setVitamineB12($command->vitamines->vitamineB12);
 
-        /** ----------------------------------------------------------------
+        /* ----------------------------------------------------------------
          * 7. Persist & return the id
          * ---------------------------------------------------------------- */
         $this->ingredientRepository->save($ingredient);

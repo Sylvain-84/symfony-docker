@@ -1,15 +1,10 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Tests\MessageHandler\IngredientCategory;
 
-use App\Entity\Ingredient;
 use App\Entity\IngredientCategory;
-use App\MessageHandler\Ingredient\CreateIngredient\CreateIngredientCommand;
-use App\MessageHandler\Ingredient\CreateIngredient\CreateIngredientHandler;
-use App\MessageHandler\Ingredient\IngredientMineralInput;
-use App\MessageHandler\Ingredient\IngredientNutritionalInput;
-use App\MessageHandler\Ingredient\IngredientVitamineInput;
 use App\MessageHandler\IngredientCategory\CreateIngredientCategory\CreateIngredientCategoryCommand;
 use App\MessageHandler\IngredientCategory\CreateIngredientCategory\CreateIngredientCategoryHandler;
 use Doctrine\ORM\EntityManagerInterface;
@@ -26,7 +21,7 @@ final class CreateIngredientCategoryHandlerTest extends KernelTestCase
     protected function setUp(): void
     {
         self::bootKernel();
-        $this->em      = self::getContainer()->get(EntityManagerInterface::class);
+        $this->em = self::getContainer()->get(EntityManagerInterface::class);
         $this->handler = self::getContainer()->get(CreateIngredientCategoryHandler::class);
 
         // Isolation for every test: start a DB transaction and roll it back in tearDown

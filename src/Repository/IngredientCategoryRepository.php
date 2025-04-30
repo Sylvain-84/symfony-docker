@@ -16,7 +16,6 @@ class IngredientCategoryRepository extends ServiceEntityRepository
         parent::__construct($registry, IngredientCategory::class);
     }
 
-
     public function save(IngredientCategory $entity, bool $flush = true): void
     {
         $this->getEntityManager()->persist($entity);

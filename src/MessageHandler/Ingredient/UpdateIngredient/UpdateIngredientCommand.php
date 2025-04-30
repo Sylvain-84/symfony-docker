@@ -15,5 +15,6 @@ final readonly class UpdateIngredientCommand
         public IngredientNutritionalInput $nutritionals,
         public IngredientMineralInput $minerals,
         public IngredientVitamineInput $vitamines,
-    ) {}
+    ) {
+    }
 }

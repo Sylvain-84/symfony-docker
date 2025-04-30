@@ -20,17 +20,19 @@ class IngredientCategoryController extends AbstractController
         private readonly IngredientCategoryRepository $ingredientCategoryRepository,
     ) {
     }
+
     #[Route('', name: 'index', methods: ['GET'])]
     public function getAllIngredientCategories(): JsonResponse
     {
         $ingredientCategories = $this->ingredientCategoryRepository->findAll();
         $ingredientCategoriesDto = array_map(
-            fn($ingredientCategory) => IngredientCategoryDto::transform(
+            fn ($ingredientCategory) => IngredientCategoryDto::transform(
                 $ingredientCategory->getName(),
                 $ingredientCategory->getId()
             ),
             $ingredientCategories
         );
+
         return $this->json([
             'ingredient_categories' => $ingredientCategoriesDto,
         ]);
@@ -40,7 +42,7 @@ class IngredientCategoryController extends AbstractController
     public function addIngredientCategory(
         MessageBusInterface $bus,
         #[MapRequestPayload]
-        CreateIngredientCategoryCommand $createIngredientCategoryCommand
+        CreateIngredientCategoryCommand $createIngredientCategoryCommand,
     ): JsonResponse {
         $bus->dispatch($createIngredientCategoryCommand);
 
@@ -53,7 +55,7 @@ class IngredientCategoryController extends AbstractController
     public function updateIngredientById(
         MessageBusInterface $bus,
         #[MapRequestPayload]
-        UpdateIngredientCategoryCommand $updateIngredientCategoryCommand
+        UpdateIngredientCategoryCommand $updateIngredientCategoryCommand,
     ): JsonResponse {
         $bus->dispatch($updateIngredientCategoryCommand);
 
@@ -66,8 +68,7 @@ class IngredientCategoryController extends AbstractController
     public function deleteIngredientCategoryById(
         int $id,
         MessageBusInterface $bus,
-    ): JsonResponse
-    {
+    ): JsonResponse {
         $bus->dispatch(new DeleteIngredientCategoryCommand($id));
 
         return $this->json([

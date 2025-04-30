@@ -16,6 +16,7 @@ final readonly class IngredientNutritionalInput
         public ?float $acidesGrasSatures = null,
         public ?float $acidesGrasMonoinsatures = null,
         public ?float $acidesGrasPolyinsatures = null,
-        public ?float $eau = null
-    ) {}
+        public ?float $eau = null,
+    ) {
+    }
 }

@@ -22,7 +22,7 @@ class RecipeController extends AbstractController
     public function addRecipe(
         MessageBusInterface $bus,
         #[MapRequestPayload]
-        CreateRecipeCommand $createRecipeCommand
+        CreateRecipeCommand $createRecipeCommand,
     ): JsonResponse {
         $bus->dispatch($createRecipeCommand);
 

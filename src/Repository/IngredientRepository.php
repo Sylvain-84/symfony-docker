@@ -24,7 +24,7 @@ class IngredientRepository extends ServiceEntityRepository
             $this->getEntityManager()->flush();
         }
     }
-    
+
     public function remove(Ingredient $entity, bool $flush = true): void
     {
         $this->getEntityManager()->remove($entity);

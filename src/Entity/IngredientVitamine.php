@@ -69,7 +69,7 @@ class IngredientVitamine
         ?string $vitamineB5 = null,
         ?string $vitamineB6 = null,
         ?string $vitamineB9 = null,
-        ?string $vitamineB12 = null
+        ?string $vitamineB12 = null,
     ) {
         $this->vitamineA = $vitamineA;
         $this->betaCarotene = $betaCarotene;
@@ -100,6 +100,7 @@ class IngredientVitamine
     public function setVitamineA(?string $vitamineA): self
     {
         $this->vitamineA = $vitamineA;
+
         return $this;
     }
 
@@ -111,6 +112,7 @@ class IngredientVitamine
     public function setBetaCarotene(?string $betaCarotene): self
     {
         $this->betaCarotene = $betaCarotene;
+
         return $this;
     }
 
@@ -122,6 +124,7 @@ class IngredientVitamine
     public function setVitamineD(?string $vitamineD): self
     {
         $this->vitamineD = $vitamineD;
+
         return $this;
     }
 
@@ -133,6 +136,7 @@ class IngredientVitamine
     public function setVitamineE(?string $vitamineE): self
     {
         $this->vitamineE = $vitamineE;
+
         return $this;
     }
 
@@ -144,6 +148,7 @@ class IngredientVitamine
     public function setVitamineK1(?string $vitamineK1): self
     {
         $this->vitamineK1 = $vitamineK1;
+
         return $this;
     }
 
@@ -155,6 +160,7 @@ class IngredientVitamine
     public function setVitamineK2(?string $vitamineK2): self
     {
         $this->vitamineK2 = $vitamineK2;
+
         return $this;
     }
 
@@ -166,6 +172,7 @@ class IngredientVitamine
     public function setVitamineC(?string $vitamineC): self
     {
         $this->vitamineC = $vitamineC;
+
         return $this;
     }
 
@@ -177,6 +184,7 @@ class IngredientVitamine
     public function setVitamineB1(?string $vitamineB1): self
     {
         $this->vitamineB1 = $vitamineB1;
+
         return $this;
     }
 
@@ -188,6 +196,7 @@ class IngredientVitamine
     public function setVitamineB2(?string $vitamineB2): self
     {
         $this->vitamineB2 = $vitamineB2;
+
         return $this;
     }
 
@@ -199,6 +208,7 @@ class IngredientVitamine
     public function setVitamineB3(?string $vitamineB3): self
     {
         $this->vitamineB3 = $vitamineB3;
+
         return $this;
     }
 
@@ -210,6 +220,7 @@ class IngredientVitamine
     public function setVitamineB5(?string $vitamineB5): self
     {
         $this->vitamineB5 = $vitamineB5;
+
         return $this;
     }
 
@@ -221,6 +232,7 @@ class IngredientVitamine
     public function setVitamineB6(?string $vitamineB6): self
     {
         $this->vitamineB6 = $vitamineB6;
+
         return $this;
     }
 
@@ -232,6 +244,7 @@ class IngredientVitamine
     public function setVitamineB9(?string $vitamineB9): self
     {
         $this->vitamineB9 = $vitamineB9;
+
         return $this;
     }
 
@@ -243,6 +256,7 @@ class IngredientVitamine
     public function setVitamineB12(?string $vitamineB12): self
     {
         $this->vitamineB12 = $vitamineB12;
+
         return $this;
     }
 }

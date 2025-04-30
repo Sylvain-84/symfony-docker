@@ -1,4 +1,5 @@
 <?php
+
 namespace App\MessageHandler\Recipe\CreateRecipe;
 
 use App\Entity\Recipe;
@@ -8,11 +9,9 @@ use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 #[AsMessageHandler(handles: CreateRecipeCommand::class)]
 class CreateRecipeHandler
 {
-
     public function __construct(
         private RecipeRepository $recipeRepository,
-        )
-    {
+    ) {
     }
 
     public function __invoke(CreateRecipeCommand $command): int

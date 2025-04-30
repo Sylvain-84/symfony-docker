@@ -14,5 +14,6 @@ final readonly class CreateIngredientCommand
         public IngredientNutritionalInput $nutritionals,
         public IngredientMineralInput $minerals,
         public IngredientVitamineInput $vitamines,
-    ) {}
+    ) {
+    }
 }

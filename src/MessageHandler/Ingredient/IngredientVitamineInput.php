@@ -18,6 +18,7 @@ final readonly class IngredientVitamineInput
         public ?string $vitamineB5 = null,
         public ?string $vitamineB6 = null,
         public ?string $vitamineB9 = null,
-        public ?string $vitamineB12 = null
-    ) {}
+        public ?string $vitamineB12 = null,
+    ) {
+    }
 }

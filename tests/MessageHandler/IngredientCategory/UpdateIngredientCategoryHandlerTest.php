@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Tests\MessageHandler\IngredientCategory;
@@ -18,14 +19,14 @@ use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
  */
 final class UpdateIngredientCategoryHandlerTest extends KernelTestCase
 {
-    private EntityManagerInterface          $em;
+    private EntityManagerInterface $em;
     private UpdateIngredientCategoryHandler $handler;
 
     protected function setUp(): void
     {
         self::bootKernel();
 
-        $this->em      = self::getContainer()->get(EntityManagerInterface::class);
+        $this->em = self::getContainer()->get(EntityManagerInterface::class);
         $this->handler = self::getContainer()->get(UpdateIngredientCategoryHandler::class);
 
         // Isolation par transaction
@@ -55,7 +56,7 @@ final class UpdateIngredientCategoryHandlerTest extends KernelTestCase
         self::assertNotNull($category, 'La catégorie de la fixture n’a pas été trouvée');
 
         $command = new UpdateIngredientCategoryCommand(
-            id:   $category->getId(),
+            id: $category->getId(),
             name: 'UpdatedName'
         );
 

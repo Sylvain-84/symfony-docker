@@ -15,6 +15,7 @@ final readonly class IngredientMineralInput
         public ?float $potassium = null,
         public ?float $selenium = null,
         public ?float $sodium = null,
-        public ?float $zinc = null
-    ) {}
+        public ?float $zinc = null,
+    ) {
+    }
 }

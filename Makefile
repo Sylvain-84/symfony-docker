@@ -34,6 +34,9 @@ migrate:
 fixtures:
 	$(SYMFONY) doctrine:fixtures:load --no-interaction
 
+fixtures-test:
+	$(SYMFONY) doctrine:fixtures:load --env=test --no-interaction
+
 cache-clear:
 	$(SYMFONY) cache:clear
 

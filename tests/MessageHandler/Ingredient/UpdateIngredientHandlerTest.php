@@ -5,10 +5,9 @@ declare(strict_types=1);
 namespace App\Tests\MessageHandler\Ingredient;
 
 use App\DataFixtures\IngredientCategoryFixture;
+use App\DataFixtures\IngredientFixture;
 use App\Entity\Ingredient;
 use App\Entity\IngredientCategory;
-use App\MessageHandler\Ingredient\CreateIngredient\CreateIngredientCommand;
-use App\MessageHandler\Ingredient\CreateIngredient\CreateIngredientHandler;
 use App\MessageHandler\Ingredient\IngredientMineralInput;
 use App\MessageHandler\Ingredient\IngredientNutritionalInput;
 use App\MessageHandler\Ingredient\IngredientVitamineInput;
@@ -27,15 +26,13 @@ final class UpdateIngredientHandlerTest extends KernelTestCase
 {
     private EntityManagerInterface $em;
     private UpdateIngredientHandler $handler;
-    private CreateIngredientHandler $createHandler;
 
     protected function setUp(): void
     {
         self::bootKernel();
 
-        $this->em            = self::getContainer()->get(EntityManagerInterface::class);
-        $this->handler       = self::getContainer()->get(UpdateIngredientHandler::class);
-        $this->createHandler = self::getContainer()->get(CreateIngredientHandler::class);
+        $this->em = self::getContainer()->get(EntityManagerInterface::class);
+        $this->handler = self::getContainer()->get(UpdateIngredientHandler::class);
 
         // Isolation par transaction
         $this->em->beginTransaction();
@@ -43,6 +40,8 @@ final class UpdateIngredientHandlerTest extends KernelTestCase
         // Charge la fixture catégorie
         $loader = new Loader();
         $loader->addFixture(new IngredientCategoryFixture());
+        $loader->addFixture(new IngredientFixture());
+
         (new ORMExecutor($this->em, new ORMPurger()))
             ->execute($loader->getFixtures(), append: true);
     }
@@ -63,34 +62,26 @@ final class UpdateIngredientHandlerTest extends KernelTestCase
         self::assertNotNull($category, 'La catégorie fixture devrait exister');
 
         // 1. Création d'un ingrédient pour disposer d'un ID
-        $createCommand = new CreateIngredientCommand(
-            category:     $category->getId(),
-            name:         'Apple',
-            nutritionals: new IngredientNutritionalInput(),
-            minerals:     new IngredientMineralInput(),
-            vitamines:    new IngredientVitamineInput(),
-        );
 
-        $ingredientId = ($this->createHandler)($createCommand);
-
-        /** @var Ingredient $ingredient */
-        $ingredient = $this->em->getRepository(Ingredient::class)->find($ingredientId);
-        self::assertSame('Apple', $ingredient->getName(), 'Création KO');
+        /** @var Ingredient|null $ingredient */
+        $ingredient = $this->em->getRepository(Ingredient::class)
+            ->findOneBy(['name' => IngredientFixture::ORIGINAL_NAME]);
+        self::assertNotNull($ingredient, 'L\'ingrédient de la fixture devrait exister');
 
         // 2. Mise à jour
         $updateCommand = new UpdateIngredientCommand(
-            id:           $ingredientId,
-            category:     $category->getId(), // on garde la même catégorie
-            name:         'Green Apple',
+            id: $ingredient->getId(),
+            category: $category->getId(),
+            name: 'Green Apple',
             nutritionals: new IngredientNutritionalInput(),
-            minerals:     new IngredientMineralInput(),
-            vitamines:    new IngredientVitamineInput(),
+            minerals: new IngredientMineralInput(),
+            vitamines: new IngredientVitamineInput(),
         );
 
         ($this->handler)($updateCommand);
 
         /** @var Ingredient $updated */
-        $updated = $this->em->getRepository(Ingredient::class)->find($ingredientId);
+        $updated = $this->em->getRepository(Ingredient::class)->find($ingredient->getId());
 
         self::assertSame('Green Apple', $updated->getName());
         self::assertSame($category->getId(), $updated->getCategory()->getId());
@@ -101,12 +92,12 @@ final class UpdateIngredientHandlerTest extends KernelTestCase
         $nonExistingId = 999_999;
 
         $command = new UpdateIngredientCommand(
-            id:           $nonExistingId,
-            category:     1,
-            name:         'Does not matter',
+            id: $nonExistingId,
+            category: 1,
+            name: 'Does not matter',
             nutritionals: new IngredientNutritionalInput(),
-            minerals:     new IngredientMineralInput(),
-            vitamines:    new IngredientVitamineInput(),
+            minerals: new IngredientMineralInput(),
+            vitamines: new IngredientVitamineInput(),
         );
 
         $this->expectException(\InvalidArgumentException::class);

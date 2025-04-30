@@ -43,7 +43,7 @@ final class CreateIngredientCategoryHandlerTest extends KernelTestCase
 
         $returnedId = ($this->handler)($command);
 
-        /** @var IngredientCategory $ingredientCategory */
+        /** @var ?IngredientCategory $ingredientCategory */
         $ingredientCategory = $this->em->getRepository(IngredientCategory::class)->find($returnedId);
 
         self::assertNotNull($ingredientCategory, 'Ingredient should have been persisted');

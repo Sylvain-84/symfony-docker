@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Tests\MessageHandler\Ingredient;
 
+use App\DataFixtures\IngredientCategoryFixture;
 use App\Entity\Ingredient;
 use App\Entity\IngredientCategory;
 use App\MessageHandler\Ingredient\CreateIngredient\CreateIngredientCommand;
@@ -41,10 +42,11 @@ final class CreateIngredientHandlerTest extends KernelTestCase
 
     public function testItCreatesAnIngredientAndReturnsItsId(): void
     {
-        // ─── Arrange ────────────────────────────────────────────────────────────
-        $category = new IngredientCategory('Fruits');
-        $this->em->persist($category);
-        $this->em->flush();
+        /** @var ?IngredientCategory $category */
+        $category = $this->em->getRepository(IngredientCategory::class)
+            ->findOneBy(['name' => IngredientCategoryFixture::ORIGINAL_NAME]);
+
+        self::assertNotNull($category, 'La catégorie de la fixture n’a pas été trouvée');
 
         $command = new CreateIngredientCommand(
             category: $category->getId(),
@@ -56,7 +58,7 @@ final class CreateIngredientHandlerTest extends KernelTestCase
 
         $returnedId = ($this->handler)($command);
 
-        /** @var Ingredient $ingredient */
+        /** @var ?Ingredient $ingredient */
         $ingredient = $this->em->getRepository(Ingredient::class)->find($returnedId);
 
         self::assertNotNull($ingredient, 'Ingredient should have been persisted');
@@ -77,7 +79,7 @@ final class CreateIngredientHandlerTest extends KernelTestCase
         );
 
         $this->expectException(\InvalidArgumentException::class);
-        $this->expectExceptionMessage('Ingredient category #'.$nonExistingCategoryId.' not found.');
+        $this->expectExceptionMessage('Ingredient category #' . $nonExistingCategoryId . ' not found.');
 
         ($this->handler)($command);
     }

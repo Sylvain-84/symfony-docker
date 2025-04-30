@@ -1,75 +1,76 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Entity;
 
-use App\Repository\IngredientVitamineRepository;
 use Doctrine\ORM\Mapping as ORM;
 
-#[ORM\Entity(repositoryClass: IngredientVitamineRepository::class)]
+#[ORM\Entity]
 class IngredientVitamine
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
-    #[ORM\Column]
+    #[ORM\Column(type: 'integer')]
     private ?int $id = null;
 
-    #[ORM\Column(name: 'vitamine_A', type: 'decimal', precision: 10, scale: 2, nullable: true)]
-    private ?string $vitamineA = null;
+    #[ORM\Column(name: 'vitamine_A', type: 'float', nullable: true)]
+    private ?float $vitamineA = null;
 
-    #[ORM\Column(name: 'beta_carotene', type: 'decimal', precision: 10, scale: 2, nullable: true)]
-    private ?string $betaCarotene = null;
+    #[ORM\Column(name: 'beta_carotene', type: 'float', nullable: true)]
+    private ?float $betaCarotene = null;
 
-    #[ORM\Column(name: 'vitamine_D', type: 'decimal', precision: 10, scale: 2, nullable: true)]
-    private ?string $vitamineD = null;
+    #[ORM\Column(name: 'vitamine_D', type: 'float', nullable: true)]
+    private ?float $vitamineD = null;
 
-    #[ORM\Column(name: 'vitamine_E', type: 'decimal', precision: 10, scale: 2, nullable: true)]
-    private ?string $vitamineE = null;
+    #[ORM\Column(name: 'vitamine_E', type: 'float', nullable: true)]
+    private ?float $vitamineE = null;
 
-    #[ORM\Column(name: 'vitamine_K1', type: 'decimal', precision: 10, scale: 2, nullable: true)]
-    private ?string $vitamineK1 = null;
+    #[ORM\Column(name: 'vitamine_K1', type: 'float', nullable: true)]
+    private ?float $vitamineK1 = null;
 
-    #[ORM\Column(name: 'vitamine_K2', type: 'decimal', precision: 10, scale: 2, nullable: true)]
-    private ?string $vitamineK2 = null;
+    #[ORM\Column(name: 'vitamine_K2', type: 'float', nullable: true)]
+    private ?float $vitamineK2 = null;
 
-    #[ORM\Column(name: 'vitamine_C', type: 'decimal', precision: 10, scale: 2, nullable: true)]
-    private ?string $vitamineC = null;
+    #[ORM\Column(name: 'vitamine_C', type: 'float', nullable: true)]
+    private ?float $vitamineC = null;
 
-    #[ORM\Column(name: 'vitamine_B1', type: 'decimal', precision: 10, scale: 2, nullable: true)]
-    private ?string $vitamineB1 = null;
+    #[ORM\Column(name: 'vitamine_B1', type: 'float', nullable: true)]
+    private ?float $vitamineB1 = null;
 
-    #[ORM\Column(name: 'vitamine_B2', type: 'decimal', precision: 10, scale: 2, nullable: true)]
-    private ?string $vitamineB2 = null;
+    #[ORM\Column(name: 'vitamine_B2', type: 'float', nullable: true)]
+    private ?float $vitamineB2 = null;
 
-    #[ORM\Column(name: 'vitamine_B3', type: 'decimal', precision: 10, scale: 2, nullable: true)]
-    private ?string $vitamineB3 = null;
+    #[ORM\Column(name: 'vitamine_B3', type: 'float', nullable: true)]
+    private ?float $vitamineB3 = null;
 
-    #[ORM\Column(name: 'vitamine_B5', type: 'decimal', precision: 10, scale: 2, nullable: true)]
-    private ?string $vitamineB5 = null;
+    #[ORM\Column(name: 'vitamine_B5', type: 'float', nullable: true)]
+    private ?float $vitamineB5 = null;
 
-    #[ORM\Column(name: 'vitamine_B6', type: 'decimal', precision: 10, scale: 2, nullable: true)]
-    private ?string $vitamineB6 = null;
+    #[ORM\Column(name: 'vitamine_B6', type: 'float', nullable: true)]
+    private ?float $vitamineB6 = null;
 
-    #[ORM\Column(name: 'vitamine_B9', type: 'decimal', precision: 10, scale: 2, nullable: true)]
-    private ?string $vitamineB9 = null;
+    #[ORM\Column(name: 'vitamine_B9', type: 'float', nullable: true)]
+    private ?float $vitamineB9 = null;
 
-    #[ORM\Column(name: 'vitamine_B12', type: 'decimal', precision: 10, scale: 2, nullable: true)]
-    private ?string $vitamineB12 = null;
+    #[ORM\Column(name: 'vitamine_B12', type: 'float', nullable: true)]
+    private ?float $vitamineB12 = null;
 
     public function __construct(
-        ?string $vitamineA = null,
-        ?string $betaCarotene = null,
-        ?string $vitamineD = null,
-        ?string $vitamineE = null,
-        ?string $vitamineK1 = null,
-        ?string $vitamineK2 = null,
-        ?string $vitamineC = null,
-        ?string $vitamineB1 = null,
-        ?string $vitamineB2 = null,
-        ?string $vitamineB3 = null,
-        ?string $vitamineB5 = null,
-        ?string $vitamineB6 = null,
-        ?string $vitamineB9 = null,
-        ?string $vitamineB12 = null,
+        ?float $vitamineA = null,
+        ?float $betaCarotene = null,
+        ?float $vitamineD = null,
+        ?float $vitamineE = null,
+        ?float $vitamineK1 = null,
+        ?float $vitamineK2 = null,
+        ?float $vitamineC = null,
+        ?float $vitamineB1 = null,
+        ?float $vitamineB2 = null,
+        ?float $vitamineB3 = null,
+        ?float $vitamineB5 = null,
+        ?float $vitamineB6 = null,
+        ?float $vitamineB9 = null,
+        ?float $vitamineB12 = null,
     ) {
         $this->vitamineA = $vitamineA;
         $this->betaCarotene = $betaCarotene;
@@ -92,171 +93,78 @@ class IngredientVitamine
         return $this->id;
     }
 
-    public function getVitamineA(): ?string
+    public function setId(?int $id): void
     {
-        return $this->vitamineA;
+        $this->id = $id;
     }
 
-    public function setVitamineA(?string $vitamineA): self
+    public function setVitamineA(?float $vitamineA): void
     {
         $this->vitamineA = $vitamineA;
-
-        return $this;
     }
 
-    public function getBetaCarotene(): ?string
-    {
-        return $this->betaCarotene;
-    }
-
-    public function setBetaCarotene(?string $betaCarotene): self
+    public function setBetaCarotene(?float $betaCarotene): void
     {
         $this->betaCarotene = $betaCarotene;
-
-        return $this;
     }
 
-    public function getVitamineD(): ?string
-    {
-        return $this->vitamineD;
-    }
-
-    public function setVitamineD(?string $vitamineD): self
+    public function setVitamineD(?float $vitamineD): void
     {
         $this->vitamineD = $vitamineD;
-
-        return $this;
     }
 
-    public function getVitamineE(): ?string
-    {
-        return $this->vitamineE;
-    }
-
-    public function setVitamineE(?string $vitamineE): self
+    public function setVitamineE(?float $vitamineE): void
     {
         $this->vitamineE = $vitamineE;
-
-        return $this;
     }
 
-    public function getVitamineK1(): ?string
-    {
-        return $this->vitamineK1;
-    }
-
-    public function setVitamineK1(?string $vitamineK1): self
+    public function setVitamineK1(?float $vitamineK1): void
     {
         $this->vitamineK1 = $vitamineK1;
-
-        return $this;
     }
 
-    public function getVitamineK2(): ?string
-    {
-        return $this->vitamineK2;
-    }
-
-    public function setVitamineK2(?string $vitamineK2): self
+    public function setVitamineK2(?float $vitamineK2): void
     {
         $this->vitamineK2 = $vitamineK2;
-
-        return $this;
     }
 
-    public function getVitamineC(): ?string
-    {
-        return $this->vitamineC;
-    }
-
-    public function setVitamineC(?string $vitamineC): self
+    public function setVitamineC(?float $vitamineC): void
     {
         $this->vitamineC = $vitamineC;
-
-        return $this;
     }
 
-    public function getVitamineB1(): ?string
-    {
-        return $this->vitamineB1;
-    }
-
-    public function setVitamineB1(?string $vitamineB1): self
+    public function setVitamineB1(?float $vitamineB1): void
     {
         $this->vitamineB1 = $vitamineB1;
-
-        return $this;
     }
 
-    public function getVitamineB2(): ?string
-    {
-        return $this->vitamineB2;
-    }
-
-    public function setVitamineB2(?string $vitamineB2): self
+    public function setVitamineB2(?float $vitamineB2): void
     {
         $this->vitamineB2 = $vitamineB2;
-
-        return $this;
     }
 
-    public function getVitamineB3(): ?string
-    {
-        return $this->vitamineB3;
-    }
-
-    public function setVitamineB3(?string $vitamineB3): self
+    public function setVitamineB3(?float $vitamineB3): void
     {
         $this->vitamineB3 = $vitamineB3;
-
-        return $this;
     }
 
-    public function getVitamineB5(): ?string
-    {
-        return $this->vitamineB5;
-    }
-
-    public function setVitamineB5(?string $vitamineB5): self
+    public function setVitamineB5(?float $vitamineB5): void
     {
         $this->vitamineB5 = $vitamineB5;
-
-        return $this;
     }
 
-    public function getVitamineB6(): ?string
-    {
-        return $this->vitamineB6;
-    }
-
-    public function setVitamineB6(?string $vitamineB6): self
+    public function setVitamineB6(?float $vitamineB6): void
     {
         $this->vitamineB6 = $vitamineB6;
-
-        return $this;
     }
 
-    public function getVitamineB9(): ?string
-    {
-        return $this->vitamineB9;
-    }
-
-    public function setVitamineB9(?string $vitamineB9): self
+    public function setVitamineB9(?float $vitamineB9): void
     {
         $this->vitamineB9 = $vitamineB9;
-
-        return $this;
     }
 
-    public function getVitamineB12(): ?string
-    {
-        return $this->vitamineB12;
-    }
-
-    public function setVitamineB12(?string $vitamineB12): self
+    public function setVitamineB12(?float $vitamineB12): void
     {
         $this->vitamineB12 = $vitamineB12;
-
-        return $this;
     }
 }

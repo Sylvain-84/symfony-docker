@@ -126,7 +126,7 @@ SQL
     public function down(Schema $schema): void
     {
         // Remove all seeded ingredients
-        $this->addSql("DELETE FROM ingredient WHERE name IN ('".implode("','", array_map(static fn ($i) => addslashes($i[0]), [
+        $this->addSql("DELETE FROM ingredient WHERE name IN ('" . implode("','", array_map(static fn ($i) => addslashes($i[0]), [
             ['Abricots'], ['Avocats'], ['Aubergines'], ['Ananas'], ['Bananes'], ['Betteraves'],
             ['Brocoli'], ['Blettes'], ['Carottes'], ['Courgettes'], ['Chou‑fleur'], ['Cerises'],
             ['Choux'], ['Datte'], ['Dattes séchées'], ['Durian'], ['Échalotes'], ['Fraises'],
@@ -141,7 +141,7 @@ SQL
             ['Cassis'], ['Framboises'], ['Myrtilles'], ['Abricots secs'], ['Pois chiches'],
             ['Champignons'], ['Pistaches'], ['Amandes'], ['Coriandre'], ['Persil'],
             ['Ciboulette'], ['Basilic'], ['Romarin'], ['Thym'],
-        ]))."')");
+        ])) . "')");
 
         // Optionally clean up orphaned relation rows
         $this->addSql('DELETE FROM ingredient_mineral WHERE id NOT IN (SELECT mineral_id FROM ingredient);');

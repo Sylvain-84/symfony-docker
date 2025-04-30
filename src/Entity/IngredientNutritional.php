@@ -11,7 +11,7 @@ class IngredientNutritional
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    private ?int $id = null;
+    private int $id;
 
     #[ORM\Column(type: 'float', options: ['default' => 0])]
     private float $kilocalories = 0.0;
@@ -77,7 +77,7 @@ class IngredientNutritional
         $this->eau = $eau;
     }
 
-    public function getId(): ?int
+    public function getId(): int
     {
         return $this->id;
     }

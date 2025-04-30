@@ -5,6 +5,9 @@ PHP_CONTAINER = symfony-docker-php-1
 SYMFONY = docker exec -it $(PHP_CONTAINER) php bin/console
 COMPOSER = docker exec -it $(PHP_CONTAINER) composer
 PHPUNIT = docker exec --tty $(PHP_CONTAINER) bin/phpunit
+PHPSTAN = docker exec -it $(PHP_CONTAINER) vendor/bin/phpstan analyse
+PHPCS = docker exec -it $(PHP_CONTAINER) vendor/bin/phpcs
+PHPCSFIXER = docker exec -it $(PHP_CONTAINER) vendor/bin/php-cs-fixer fix --dry-run --diff
 
 # Par défaut, affiche l'aide
 help:
@@ -43,14 +46,30 @@ cache-clear:
 phpunit:
 	$(PHPUNIT) $(ARGS)
 
+# Code Quality
 phpstan:
-	docker exec -it $(PHP_CONTAINER) vendor/bin/phpstan analyse
+	$(PHPSTAN)
 
 phpcs:
-	docker exec -it $(PHP_CONTAINER) vendor/bin/phpcs
+	$(PHPCS)
 
 php-cs-fixer:
-	docker exec -it $(PHP_CONTAINER) vendor/bin/php-cs-fixer fix --dry-run --diff
+	$(PHPCSFIXER)
 
 php-cs-fixer-fix:
 	docker exec -it $(PHP_CONTAINER) vendor/bin/php-cs-fixer fix
+
+# 🚦 Tout-en-un : Qualité de code
+quality:
+	@echo "➡️  PHPStan"
+	@$(PHPSTAN)
+	@echo "➡️  PHP_CodeSniffer"
+	@$(PHPCS)
+	@echo "➡️  PHP-CS-Fixer (dry-run)"
+	@$(PHPCSFIXER)
+# 🚦 Qualité + correction automatique
+
+quality-fix:
+	@echo "➡️  PHP-CS-Fixer (apply fix)"
+	@docker exec -it $(PHP_CONTAINER) \
+	      vendor/bin/php-cs-fixer fix

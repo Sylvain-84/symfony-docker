@@ -10,7 +10,7 @@ final readonly class IngredientCategoryDto
     ) {
     }
 
-    public static function transform(string $name, int $id)
+    public static function transform(string $name, int $id): self
     {
         return new self(
             id: $id,

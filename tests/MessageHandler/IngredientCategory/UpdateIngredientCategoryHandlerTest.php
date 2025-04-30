@@ -49,7 +49,7 @@ final class UpdateIngredientCategoryHandlerTest extends KernelTestCase
 
     public function testItUpdatesAnIngredientCategory(): void
     {
-        /** @var IngredientCategory $category */
+        /** @var ?IngredientCategory $category */
         $category = $this->em->getRepository(IngredientCategory::class)
             ->findOneBy(['name' => IngredientCategoryFixture::ORIGINAL_NAME]);
 

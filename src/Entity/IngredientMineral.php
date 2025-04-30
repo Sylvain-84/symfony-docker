@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Entity;
 
 use App\Repository\IngredientMineralRepository;
@@ -10,54 +12,54 @@ class IngredientMineral
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
-    #[ORM\Column]
+    #[ORM\Column(type: 'integer')]
     private ?int $id = null;
 
-    #[ORM\Column(type: 'decimal', precision: 10, scale: 2, nullable: true)]
-    private ?string $calcium = null;
+    #[ORM\Column(type: 'float', nullable: true)]
+    private ?float $calcium = null;
 
-    #[ORM\Column(type: 'decimal', precision: 10, scale: 2, nullable: true)]
-    private ?string $cuivre = null;
+    #[ORM\Column(type: 'float', nullable: true)]
+    private ?float $cuivre = null;
 
-    #[ORM\Column(type: 'decimal', precision: 10, scale: 2, nullable: true)]
-    private ?string $fer = null;
+    #[ORM\Column(type: 'float', nullable: true)]
+    private ?float $fer = null;
 
-    #[ORM\Column(type: 'decimal', precision: 10, scale: 2, nullable: true)]
-    private ?string $iode = null;
+    #[ORM\Column(type: 'float', nullable: true)]
+    private ?float $iode = null;
 
-    #[ORM\Column(type: 'decimal', precision: 10, scale: 2, nullable: true)]
-    private ?string $magnesium = null;
+    #[ORM\Column(type: 'float', nullable: true)]
+    private ?float $magnesium = null;
 
-    #[ORM\Column(type: 'decimal', precision: 10, scale: 2, nullable: true)]
-    private ?string $manganese = null;
+    #[ORM\Column(type: 'float', nullable: true)]
+    private ?float $manganese = null;
 
-    #[ORM\Column(type: 'decimal', precision: 10, scale: 2, nullable: true)]
-    private ?string $phosphore = null;
+    #[ORM\Column(type: 'float', nullable: true)]
+    private ?float $phosphore = null;
 
-    #[ORM\Column(type: 'decimal', precision: 10, scale: 2, nullable: true)]
-    private ?string $potassium = null;
+    #[ORM\Column(type: 'float', nullable: true)]
+    private ?float $potassium = null;
 
-    #[ORM\Column(type: 'decimal', precision: 10, scale: 2, nullable: true)]
-    private ?string $selenium = null;
+    #[ORM\Column(type: 'float', nullable: true)]
+    private ?float $selenium = null;
 
-    #[ORM\Column(type: 'decimal', precision: 10, scale: 2, nullable: true)]
-    private ?string $sodium = null;
+    #[ORM\Column(type: 'float', nullable: true)]
+    private ?float $sodium = null;
 
-    #[ORM\Column(type: 'decimal', precision: 10, scale: 2, nullable: true)]
-    private ?string $zinc = null;
+    #[ORM\Column(type: 'float', nullable: true)]
+    private ?float $zinc = null;
 
     public function __construct(
-        ?string $calcium = null,
-        ?string $cuivre = null,
-        ?string $fer = null,
-        ?string $iode = null,
-        ?string $magnesium = null,
-        ?string $manganese = null,
-        ?string $phosphore = null,
-        ?string $potassium = null,
-        ?string $selenium = null,
-        ?string $sodium = null,
-        ?string $zinc = null,
+        ?float $calcium = null,
+        ?float $cuivre = null,
+        ?float $fer = null,
+        ?float $iode = null,
+        ?float $magnesium = null,
+        ?float $manganese = null,
+        ?float $phosphore = null,
+        ?float $potassium = null,
+        ?float $selenium = null,
+        ?float $sodium = null,
+        ?float $zinc = null,
     ) {
         $this->calcium = $calcium;
         $this->cuivre = $cuivre;
@@ -77,132 +79,132 @@ class IngredientMineral
         return $this->id;
     }
 
-    public function getCalcium(): ?string
+    public function getCalcium(): ?float
     {
         return $this->calcium;
     }
 
-    public function setCalcium(?string $calcium): self
+    public function setCalcium(?float $calcium): self
     {
         $this->calcium = $calcium;
 
         return $this;
     }
 
-    public function getCuivre(): ?string
+    public function getCuivre(): ?float
     {
         return $this->cuivre;
     }
 
-    public function setCuivre(?string $cuivre): self
+    public function setCuivre(?float $cuivre): self
     {
         $this->cuivre = $cuivre;
 
         return $this;
     }
 
-    public function getFer(): ?string
+    public function getFer(): ?float
     {
         return $this->fer;
     }
 
-    public function setFer(?string $fer): self
+    public function setFer(?float $fer): self
     {
         $this->fer = $fer;
 
         return $this;
     }
 
-    public function getIode(): ?string
+    public function getIode(): ?float
     {
         return $this->iode;
     }
 
-    public function setIode(?string $iode): self
+    public function setIode(?float $iode): self
     {
         $this->iode = $iode;
 
         return $this;
     }
 
-    public function getMagnesium(): ?string
+    public function getMagnesium(): ?float
     {
         return $this->magnesium;
     }
 
-    public function setMagnesium(?string $magnesium): self
+    public function setMagnesium(?float $magnesium): self
     {
         $this->magnesium = $magnesium;
 
         return $this;
     }
 
-    public function getManganese(): ?string
+    public function getManganese(): ?float
     {
         return $this->manganese;
     }
 
-    public function setManganese(?string $manganese): self
+    public function setManganese(?float $manganese): self
     {
         $this->manganese = $manganese;
 
         return $this;
     }
 
-    public function getPhosphore(): ?string
+    public function getPhosphore(): ?float
     {
         return $this->phosphore;
     }
 
-    public function setPhosphore(?string $phosphore): self
+    public function setPhosphore(?float $phosphore): self
     {
         $this->phosphore = $phosphore;
 
         return $this;
     }
 
-    public function getPotassium(): ?string
+    public function getPotassium(): ?float
     {
         return $this->potassium;
     }
 
-    public function setPotassium(?string $potassium): self
+    public function setPotassium(?float $potassium): self
     {
         $this->potassium = $potassium;
 
         return $this;
     }
 
-    public function getSelenium(): ?string
+    public function getSelenium(): ?float
     {
         return $this->selenium;
     }
 
-    public function setSelenium(?string $selenium): self
+    public function setSelenium(?float $selenium): self
     {
         $this->selenium = $selenium;
 
         return $this;
     }
 
-    public function getSodium(): ?string
+    public function getSodium(): ?float
     {
         return $this->sodium;
     }
 
-    public function setSodium(?string $sodium): self
+    public function setSodium(?float $sodium): self
     {
         $this->sodium = $sodium;
 
         return $this;
     }
 
-    public function getZinc(): ?string
+    public function getZinc(): ?float
     {
         return $this->zinc;
     }
 
-    public function setZinc(?string $zinc): self
+    public function setZinc(?float $zinc): self
     {
         $this->zinc = $zinc;
 

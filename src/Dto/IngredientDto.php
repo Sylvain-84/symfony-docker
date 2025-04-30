@@ -8,16 +8,16 @@ final readonly class IngredientDto
 {
     private function __construct(
         public int $id,
-        public string $category,
+        public int $categoryId,
         public string $name,
     ) {
     }
 
-    public static function transform(string $category, string $name, int $id)
+    public static function transform(int $categoryId, string $name, int $id): self
     {
         return new self(
             id: $id,
-            category: $category,
+            categoryId: $categoryId,
             name: $name
         );
     }

@@ -31,7 +31,7 @@ class IngredientController extends AbstractController
         $ingredients = $this->ingredientRepository->findAll();
         $ingredientsDto = array_map(
             fn ($ingredient) => IngredientDto::transform(
-                $ingredient->getCategory()->getName(),
+                $ingredient->getCategory()->getId(),
                 $ingredient->getName(),
                 $ingredient->getId()
             ),

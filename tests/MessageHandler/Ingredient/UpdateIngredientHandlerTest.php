@@ -61,14 +61,11 @@ final class UpdateIngredientHandlerTest extends KernelTestCase
 
         self::assertNotNull($category, 'La catégorie fixture devrait exister');
 
-        // 1. Création d'un ingrédient pour disposer d'un ID
-
         /** @var Ingredient|null $ingredient */
         $ingredient = $this->em->getRepository(Ingredient::class)
             ->findOneBy(['name' => IngredientFixture::ORIGINAL_NAME]);
         self::assertNotNull($ingredient, 'L\'ingrédient de la fixture devrait exister');
 
-        // 2. Mise à jour
         $updateCommand = new UpdateIngredientCommand(
             id: $ingredient->getId(),
             category: $category->getId(),

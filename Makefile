@@ -3,6 +3,8 @@ PHP_CONTAINER = symfony-docker-php-1
 
 # Commande Symfony
 SYMFONY = docker exec -it $(PHP_CONTAINER) php bin/console
+COMPOSER = docker exec -it $(PHP_CONTAINER) composer
+PHPUNIT = docker exec --tty $(PHP_CONTAINER) bin/phpunit
 
 # Par défaut, affiche l'aide
 help:
@@ -12,6 +14,10 @@ help:
 	@echo "  make migrate"
 	@echo "  make fixtures"
 	@echo "  make cache-clear"
+
+# Composer avec argument libre
+composer:
+	$(COMPOSER) $(CMD)
 
 # Exécute une commande Symfony passée via CMD
 console:
@@ -30,3 +36,6 @@ fixtures:
 
 cache-clear:
 	$(SYMFONY) cache:clear
+
+phpunit:
+	$(PHPUNIT) $(ARGS)

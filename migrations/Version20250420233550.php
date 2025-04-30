@@ -20,14 +20,20 @@ final class Version20250420233550 extends AbstractMigration
     public function up(Schema $schema): void
     {
         $this->addSql(<<<'SQL'
-            INSERT INTO ingredient_category (id, name) VALUES
-                (1, 'Fruit'),
-                (2, 'Légume'),
-                (3, 'Viande'),
-                (4, 'Poisson'),
-                (5, 'Céréales');
-        SQL);
+        INSERT INTO ingredient_category (id, name) VALUES
+            (1, 'Fruit'),
+            (2, 'Légume'),
+            (3, 'Viande'),
+            (4, 'Poisson'),
+            (5, 'Céréales')
+        ON CONFLICT (id) DO NOTHING;
+    SQL);
+        $this->addSql(<<<'SQL'
+        SELECT setval('ingredient_category_id_seq',
+                      (SELECT MAX(id) FROM ingredient_category), true);
+    SQL);
     }
+
 
     public function down(Schema $schema): void
     {

@@ -87,7 +87,7 @@ class IngredientNutritional
         return $this->kilocalories;
     }
 
-    public function setKilocalories(float $kilocalories): self
+    public function setKilocalories(?float $kilocalories): self
     {
         $this->kilocalories = $kilocalories;
 
@@ -99,7 +99,7 @@ class IngredientNutritional
         return $this->proteine;
     }
 
-    public function setProteine(float $proteine): self
+    public function setProteine(?float $proteine): self
     {
         $this->proteine = $proteine;
 
@@ -111,7 +111,7 @@ class IngredientNutritional
         return $this->glucides;
     }
 
-    public function setGlucides(float $glucides): self
+    public function setGlucides(?float $glucides): self
     {
         $this->glucides = $glucides;
 
@@ -123,7 +123,7 @@ class IngredientNutritional
         return $this->lipides;
     }
 
-    public function setLipides(float $lipides): self
+    public function setLipides(?float $lipides): self
     {
         $this->lipides = $lipides;
 
@@ -135,7 +135,7 @@ class IngredientNutritional
         return $this->sucres;
     }
 
-    public function setSucres(float $sucres): self
+    public function setSucres(?float $sucres): self
     {
         $this->sucres = $sucres;
 
@@ -147,7 +147,7 @@ class IngredientNutritional
         return $this->amidon;
     }
 
-    public function setAmidon(float $amidon): self
+    public function setAmidon(?float $amidon): self
     {
         $this->amidon = $amidon;
 
@@ -159,7 +159,7 @@ class IngredientNutritional
         return $this->fibresAlimentaires;
     }
 
-    public function setFibresAlimentaires(float $fibresAlimentaires): self
+    public function setFibresAlimentaires(?float $fibresAlimentaires): self
     {
         $this->fibresAlimentaires = $fibresAlimentaires;
 
@@ -171,7 +171,7 @@ class IngredientNutritional
         return $this->cholesterol;
     }
 
-    public function setCholesterol(float $cholesterol): self
+    public function setCholesterol(?float $cholesterol): self
     {
         $this->cholesterol = $cholesterol;
 
@@ -183,7 +183,7 @@ class IngredientNutritional
         return $this->acidesGrasSatures;
     }
 
-    public function setAcidesGrasSatures(float $acidesGrasSatures): self
+    public function setAcidesGrasSatures(?float $acidesGrasSatures): self
     {
         $this->acidesGrasSatures = $acidesGrasSatures;
 
@@ -195,7 +195,7 @@ class IngredientNutritional
         return $this->acidesGrasMonoinsatures;
     }
 
-    public function setAcidesGrasMonoinsatures(float $acidesGrasMonoinsatures): self
+    public function setAcidesGrasMonoinsatures(?float $acidesGrasMonoinsatures): self
     {
         $this->acidesGrasMonoinsatures = $acidesGrasMonoinsatures;
 
@@ -207,7 +207,7 @@ class IngredientNutritional
         return $this->acidesGrasPolyinsatures;
     }
 
-    public function setAcidesGrasPolyinsatures(float $acidesGrasPolyinsatures): self
+    public function setAcidesGrasPolyinsatures(?float $acidesGrasPolyinsatures): self
     {
         $this->acidesGrasPolyinsatures = $acidesGrasPolyinsatures;
 
@@ -219,7 +219,7 @@ class IngredientNutritional
         return $this->eau;
     }
 
-    public function setEau(float $eau): self
+    public function setEau(?float $eau): self
     {
         $this->eau = $eau;
 

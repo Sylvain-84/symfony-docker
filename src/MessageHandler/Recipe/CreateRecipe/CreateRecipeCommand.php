@@ -6,7 +6,8 @@ final readonly class CreateRecipeCommand
 {
     public function __construct(
         public string $name,
-        public string $description,
+        public int $category,
+        public ?string $description = null,
     ) {
     }
 }

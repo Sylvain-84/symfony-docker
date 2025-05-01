@@ -19,12 +19,17 @@ class Recipe
     #[ORM\Column(type: 'text', nullable: true)]
     private ?string $description;
 
+    #[ORM\ManyToOne(inversedBy: 'recipes')]
+    private RecipeCategory $category;
+
     public function __construct(
         string $name,
-        string $description,
+        RecipeCategory $category,
+        ?string $description = null,
     ) {
         $this->name = $name;
         $this->description = $description;
+        $this->category = $category;
     }
 
     public function getId(): int
@@ -52,6 +57,18 @@ class Recipe
     public function setDescription(string $description): static
     {
         $this->description = $description;
+
+        return $this;
+    }
+
+    public function getCategory(): RecipeCategory
+    {
+        return $this->category;
+    }
+
+    public function setCategory(RecipeCategory $category): static
+    {
+        $this->category = $category;
 
         return $this;
     }

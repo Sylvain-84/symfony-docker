@@ -9,6 +9,7 @@ use App\DataFixtures\RecipeTagFixture;
 use App\Entity\Recipe;
 use App\Entity\RecipeCategory;
 use App\Entity\RecipeTag;
+use App\Enum\DifficultyEnum;
 use App\MessageHandler\Recipe\CreateRecipe\CreateRecipeCommand;
 use App\MessageHandler\Recipe\CreateRecipe\CreateRecipeHandler;
 use Doctrine\ORM\EntityManagerInterface;
@@ -57,6 +58,7 @@ final class CreateRecipeHandlerTest extends KernelTestCase
             category: $category->getId(),
             description: 'It is a recipe with banana dark chocolate',
             tags: [$tag->getId(), $tag2->getId()],
+            difficulty: DifficultyEnum::EASY
         );
 
         $returnedId = ($this->handler)($command);
@@ -71,6 +73,7 @@ final class CreateRecipeHandlerTest extends KernelTestCase
         self::assertCount(2, $recipe->getTags(), 'Recipe should have 2 tags');
         self::assertSame($tag->getName(), $recipe->getTags()->first()->getName());
         self::assertSame($tag2->getName(), $recipe->getTags()->get(1)->getName());
+        self::assertSame(DifficultyEnum::EASY, $recipe->getDifficulty());
     }
 
     public function testItThrowsWhenCategoryDoesNotExist(): void
@@ -79,7 +82,8 @@ final class CreateRecipeHandlerTest extends KernelTestCase
 
         $command = new CreateRecipeCommand(
             name: 'Mixed eggs',
-            category: $nonExistingCategoryId
+            category: $nonExistingCategoryId,
+            difficulty: DifficultyEnum::EASY,
         );
 
         $this->expectException(\InvalidArgumentException::class);

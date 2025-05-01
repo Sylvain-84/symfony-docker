@@ -12,6 +12,7 @@ final class RecipeTagFixture extends Fixture
 {
     public const string ORIGINAL_NAME = 'OriginalName';
     public const string ORIGINAL_NAME_2 = 'OriginalNameTwo';
+    public const string ORIGINAL_NAME_3 = 'OriginalNameThree';
     public const string ORIGINAL_NAME_UNUSED = 'OriginalNameUnused';
 
     public function load(ObjectManager $manager): void
@@ -30,6 +31,7 @@ final class RecipeTagFixture extends Fixture
     {
         yield self::ORIGINAL_NAME;
         yield self::ORIGINAL_NAME_2;
+        yield self::ORIGINAL_NAME_3;
         yield self::ORIGINAL_NAME_UNUSED;
     }
 }

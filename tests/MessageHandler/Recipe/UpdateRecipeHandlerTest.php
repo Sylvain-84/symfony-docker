@@ -6,8 +6,11 @@ namespace App\Tests\MessageHandler\Recipe;
 
 use App\DataFixtures\RecipeCategoryFixture;
 use App\DataFixtures\RecipeFixture;
+use App\DataFixtures\RecipeTagFixture;
 use App\Entity\Recipe;
 use App\Entity\RecipeCategory;
+use App\Entity\RecipeTag;
+use App\Enum\DifficultyEnum;
 use App\MessageHandler\Recipe\UpdateRecipe\UpdateRecipeCommand;
 use App\MessageHandler\Recipe\UpdateRecipe\UpdateRecipeHandler;
 use Doctrine\Common\DataFixtures\Executor\ORMExecutor;
@@ -63,11 +66,18 @@ final class UpdateRecipeHandlerTest extends KernelTestCase
             ->findOneBy(['name' => RecipeFixture::ORIGINAL_NAME]);
         self::assertNotNull($recipe, 'La recette de la fixture devrait exister');
 
+        $tag = $this->em->getRepository(RecipeTag::class)
+            ->findOneBy(['name' => RecipeTagFixture::ORIGINAL_NAME]);
+        $new_tag = $this->em->getRepository(RecipeTag::class)
+            ->findOneBy(['name' => RecipeTagFixture::ORIGINAL_NAME_3]);
+
         $updateCommand = new UpdateRecipeCommand(
             id: $recipe->getId(),
             category: $category->getId(),
             name: 'Green Apple',
+            difficulty: DifficultyEnum::HARD,
             description: 'It is a recipe with green apple',
+            tags: [$tag->getId(), $new_tag->getId()],
         );
 
         ($this->handler)($updateCommand);
@@ -78,6 +88,9 @@ final class UpdateRecipeHandlerTest extends KernelTestCase
         self::assertSame('Green Apple', $updated->getName());
         self::assertSame('It is a recipe with green apple', $updated->getDescription());
         self::assertSame($category->getId(), $updated->getCategory()->getId());
+        self::assertSame($tag->getName(), $recipe->getTags()->first()->getName());
+        self::assertSame($new_tag->getName(), $recipe->getTags()->get(1)->getName());
+        self::assertSame(DifficultyEnum::HARD, $updated->getDifficulty());
     }
 
     public function testItThrowsWhenRecipeDoesNotExist(): void
@@ -88,6 +101,7 @@ final class UpdateRecipeHandlerTest extends KernelTestCase
             id: $nonExistingId,
             category: 1,
             name: 'Does not matter',
+            difficulty: DifficultyEnum::HARD,
         );
 
         $this->expectException(\InvalidArgumentException::class);

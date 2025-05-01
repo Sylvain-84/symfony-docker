@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use App\Enum\DifficultyEnum;
 use App\Repository\RecipeRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -30,14 +31,19 @@ class Recipe
     #[ORM\ManyToMany(targetEntity: RecipeTag::class)]
     private Collection $tags;
 
+    #[ORM\Column(type: 'string', enumType: DifficultyEnum::class)]
+    private DifficultyEnum $difficulty;
+
     public function __construct(
         string $name,
         RecipeCategory $category,
+        DifficultyEnum $difficulty,
         ?string $description = null,
     ) {
         $this->name = $name;
         $this->description = $description;
         $this->category = $category;
+        $this->difficulty = $difficulty;
         $this->tags = new ArrayCollection();
     }
 
@@ -102,6 +108,18 @@ class Recipe
     public function removeTag(RecipeTag $tag): static
     {
         $this->tags->removeElement($tag);
+
+        return $this;
+    }
+
+    public function getDifficulty(): DifficultyEnum
+    {
+        return $this->difficulty;
+    }
+
+    public function setDifficulty(DifficultyEnum $difficulty): static
+    {
+        $this->difficulty = $difficulty;
 
         return $this;
     }

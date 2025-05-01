@@ -31,6 +31,7 @@ class CreateRecipeHandler
             name: $command->name,
             category: $category,
             description: $command->description,
+            difficulty: $command->difficulty,
         );
 
         foreach ($command->tags as $tagId) {

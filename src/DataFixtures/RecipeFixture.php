@@ -6,6 +6,7 @@ namespace App\DataFixtures;
 
 use App\Entity\Recipe;
 use App\Entity\RecipeCategory;
+use App\Enum\DifficultyEnum;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
@@ -22,7 +23,8 @@ final class RecipeFixture extends Fixture implements DependentFixtureInterface
 
         $recipe = new Recipe(
             name: self::ORIGINAL_NAME,
-            category: $category
+            category: $category,
+            difficulty: DifficultyEnum::MEDIUM
         );
 
         $manager->persist($recipe);

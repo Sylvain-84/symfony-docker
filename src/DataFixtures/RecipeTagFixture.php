@@ -11,20 +11,25 @@ use Doctrine\Persistence\ObjectManager;
 final class RecipeTagFixture extends Fixture
 {
     public const string ORIGINAL_NAME = 'OriginalName';
+    public const string ORIGINAL_NAME_2 = 'OriginalNameTwo';
     public const string ORIGINAL_NAME_UNUSED = 'OriginalNameUnused';
 
     public function load(ObjectManager $manager): void
     {
-        $tag = (new RecipeTag(
-            name: self::ORIGINAL_NAME,
-        ));
-        $tagUnused = (new RecipeTag(
-            name: self::ORIGINAL_NAME_UNUSED,
-        ));
-
-        $manager->persist($tag);
-        $manager->persist($tagUnused);
+        foreach ($this->provideData() as $name) {
+            $manager->persist(new RecipeTag(name: $name));
+        }
 
         $manager->flush();
+    }
+
+    /**
+     * @return iterable<string>
+     */
+    private function provideData(): iterable
+    {
+        yield self::ORIGINAL_NAME;
+        yield self::ORIGINAL_NAME_2;
+        yield self::ORIGINAL_NAME_UNUSED;
     }
 }

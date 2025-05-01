@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\RecipeRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: RecipeRepository::class)]
@@ -22,6 +24,12 @@ class Recipe
     #[ORM\ManyToOne(inversedBy: 'recipes')]
     private RecipeCategory $category;
 
+    /**
+     * @var Collection<int, RecipeTag>
+     */
+    #[ORM\ManyToMany(targetEntity: RecipeTag::class)]
+    private Collection $tags;
+
     public function __construct(
         string $name,
         RecipeCategory $category,
@@ -30,6 +38,7 @@ class Recipe
         $this->name = $name;
         $this->description = $description;
         $this->category = $category;
+        $this->tags = new ArrayCollection();
     }
 
     public function getId(): int
@@ -69,6 +78,30 @@ class Recipe
     public function setCategory(RecipeCategory $category): static
     {
         $this->category = $category;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, RecipeTag>
+     */
+    public function getTags(): Collection
+    {
+        return $this->tags;
+    }
+
+    public function addTag(RecipeTag $tag): static
+    {
+        if (!$this->tags->contains($tag)) {
+            $this->tags->add($tag);
+        }
+
+        return $this;
+    }
+
+    public function removeTag(RecipeTag $tag): static
+    {
+        $this->tags->removeElement($tag);
 
         return $this;
     }

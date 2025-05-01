@@ -5,6 +5,7 @@ namespace App\MessageHandler\Recipe\CreateRecipe;
 use App\Entity\Recipe;
 use App\Repository\RecipeCategoryRepository;
 use App\Repository\RecipeRepository;
+use App\Repository\RecipeTagRepository;
 use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 
 #[AsMessageHandler(handles: CreateRecipeCommand::class)]
@@ -13,6 +14,7 @@ class CreateRecipeHandler
     public function __construct(
         private RecipeRepository $recipeRepository,
         private RecipeCategoryRepository $recipeCategoryRepository,
+        private RecipeTagRepository $recipeTagRepository,
     ) {
     }
 
@@ -27,9 +29,18 @@ class CreateRecipeHandler
 
         $recipe = new Recipe(
             name: $command->name,
+            category: $category,
             description: $command->description,
-            category: $category
         );
+
+        foreach ($command->tags as $tagId) {
+            $tag = $this->recipeTagRepository->find($tagId);
+            if (!$tag) {
+                throw new \InvalidArgumentException(sprintf('Recipe tag #%d not found.', $tagId));
+            }
+
+            $recipe->addTag($tag);
+        }
 
         $this->recipeRepository->save($recipe);
 

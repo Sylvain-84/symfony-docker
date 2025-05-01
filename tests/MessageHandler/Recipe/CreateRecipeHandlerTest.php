@@ -5,8 +5,10 @@ declare(strict_types=1);
 namespace App\Tests\MessageHandler\Recipe;
 
 use App\DataFixtures\RecipeCategoryFixture;
+use App\DataFixtures\RecipeTagFixture;
 use App\Entity\Recipe;
 use App\Entity\RecipeCategory;
+use App\Entity\RecipeTag;
 use App\MessageHandler\Recipe\CreateRecipe\CreateRecipeCommand;
 use App\MessageHandler\Recipe\CreateRecipe\CreateRecipeHandler;
 use Doctrine\ORM\EntityManagerInterface;
@@ -45,10 +47,16 @@ final class CreateRecipeHandlerTest extends KernelTestCase
 
         self::assertNotNull($category, 'La catégorie de la fixture n’a pas été trouvée');
 
+        $tag = $this->em->getRepository(RecipeTag::class)
+            ->findOneBy(['name' => RecipeTagFixture::ORIGINAL_NAME]);
+        $tag2 = $this->em->getRepository(RecipeTag::class)
+            ->findOneBy(['name' => RecipeTagFixture::ORIGINAL_NAME_2]);
+
         $command = new CreateRecipeCommand(
             name: 'Banana dark chocolate',
             category: $category->getId(),
             description: 'It is a recipe with banana dark chocolate',
+            tags: [$tag->getId(), $tag2->getId()],
         );
 
         $returnedId = ($this->handler)($command);
@@ -60,6 +68,9 @@ final class CreateRecipeHandlerTest extends KernelTestCase
         self::assertSame('Banana dark chocolate', $recipe->getName());
         self::assertSame('It is a recipe with banana dark chocolate', $recipe->getDescription());
         self::assertSame($category->getId(), $recipe->getCategory()->getId());
+        self::assertCount(2, $recipe->getTags(), 'Recipe should have 2 tags');
+        self::assertSame($tag->getName(), $recipe->getTags()->first()->getName());
+        self::assertSame($tag2->getName(), $recipe->getTags()->get(1)->getName());
     }
 
     public function testItThrowsWhenCategoryDoesNotExist(): void

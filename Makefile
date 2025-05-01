@@ -33,6 +33,10 @@ new-migration:
 # Exemples d’alias utiles
 migrate:
 	$(SYMFONY) doctrine:migrations:migrate --no-interaction
+	$(SYMFONY) doctrine:migrations:migrate --env=test --no-interaction
+
+# Exemples d’alias utiles
+test-migrate:
 
 fixtures:
 	$(SYMFONY) doctrine:fixtures:load --no-interaction

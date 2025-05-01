@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\MessageHandler\Recipe\CreateRecipe\CreateRecipeCommand;
+use App\MessageHandler\Recipe\DeleteRecipe\DeleteRecipeCommand;
 use App\MessageHandler\Recipe\UpdateRecipe\UpdateRecipeCommand;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -36,6 +37,18 @@ class RecipeController extends AbstractController
 
         return $this->json([
             'message' => 'Recipe edited successfully',
+        ]);
+    }
+
+    #[Route('/{id}', name: 'delete', requirements: ['id' => '\d+'], methods: ['DELETE'])]
+    public function deleteRecipeById(
+        int $id,
+        MessageBusInterface $bus,
+    ): JsonResponse {
+        $bus->dispatch(new DeleteRecipeCommand($id));
+
+        return $this->json([
+            'message' => 'Recipe deleted successfully',
         ]);
     }
 }

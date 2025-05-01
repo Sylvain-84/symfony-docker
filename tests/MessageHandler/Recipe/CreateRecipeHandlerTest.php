@@ -37,7 +37,7 @@ final class CreateRecipeHandlerTest extends KernelTestCase
         parent::tearDown();
     }
 
-    public function testItCreatesAnRecipeAndReturnsItsId(): void
+    public function testItCreatesARecipeAndReturnsItsId(): void
     {
         /** @var ?RecipeCategory $category */
         $category = $this->em->getRepository(RecipeCategory::class)

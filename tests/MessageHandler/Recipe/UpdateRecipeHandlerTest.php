@@ -50,7 +50,7 @@ final class UpdateRecipeHandlerTest extends KernelTestCase
         parent::tearDown();
     }
 
-    public function testItUpdatesAnRecipe(): void
+    public function testItUpdatesARecipe(): void
     {
         /** @var RecipeCategory|null $category */
         $category = $this->em->getRepository(RecipeCategory::class)

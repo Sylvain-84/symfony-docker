@@ -1,0 +1,21 @@
+<?php
+
+namespace App\MessageHandler\RecipeTag\DeleteRecipeTag;
+
+use App\Repository\RecipeTagRepository;
+use Symfony\Component\Messenger\Attribute\AsMessageHandler;
+
+#[AsMessageHandler(handles: DeleteRecipeTagCommand::class)]
+class DeleteRecipeTagHandler
+{
+    public function __construct(
+        private RecipeTagRepository $recipeTagRepository,
+    ) {
+    }
+
+    public function __invoke(DeleteRecipeTagCommand $command): void
+    {
+        $recipe = $this->recipeTagRepository->find($command->id);
+        $this->recipeTagRepository->remove($recipe);
+    }
+}

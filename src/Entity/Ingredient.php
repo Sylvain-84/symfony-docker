@@ -33,7 +33,7 @@ class Ingredient
 
     public function __construct(
         string $name,
-        ?IngredientCategory $category = null,
+        IngredientCategory $category,
         ?IngredientMineral $mineral = new IngredientMineral(),
         ?IngredientNutritional $nutritional = new IngredientNutritional(),
         ?IngredientVitamine $vitamine = new IngredientVitamine(),

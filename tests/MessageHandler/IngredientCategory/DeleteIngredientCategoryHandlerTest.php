@@ -11,6 +11,7 @@ use App\MessageHandler\IngredientCategory\DeleteIngredientCategory\DeleteIngredi
 use Doctrine\Common\DataFixtures\Executor\ORMExecutor;
 use Doctrine\Common\DataFixtures\Loader;
 use Doctrine\Common\DataFixtures\Purger\ORMPurger;
+use Doctrine\DBAL\Exception\ForeignKeyConstraintViolationException;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
@@ -50,7 +51,7 @@ final class DeleteIngredientCategoryHandlerTest extends KernelTestCase
         /** @var IngredientCategory|null $ingredientCategory */
         $ingredientCategory = $this->em
             ->getRepository(IngredientCategory::class)
-            ->findOneBy(['name' => IngredientCategoryFixture::ORIGINAL_NAME]);
+            ->findOneBy(['name' => IngredientCategoryFixture::ORIGINAL_NAME_UNUSED]);
         $ingredientCategoryId = $ingredientCategory->getId();
 
         self::assertNotNull($ingredientCategory, "L'ingrédient fixture n'existe pas");
@@ -61,5 +62,21 @@ final class DeleteIngredientCategoryHandlerTest extends KernelTestCase
 
         $deleted = $this->em->getRepository(IngredientCategory::class)->find($ingredientCategoryId);
         self::assertNull($deleted, 'L’ingrédient devrait être supprimé de la base');
+    }
+
+    public function testItThrowsWhenCategoryIsUsedByIngredient(): void
+    {
+        /** @var IngredientCategory|null $used */
+        $used = $this->em->getRepository(IngredientCategory::class)
+            ->findOneBy(['name' => IngredientCategoryFixture::ORIGINAL_NAME]);
+
+        self::assertNotNull($used, 'Catégorie “USED” manquante');
+        $this->assertGreaterThan(0, $used->getIngredients()->count());
+
+        $command = new DeleteIngredientCategoryCommand($used->getId());
+
+        $this->expectException(ForeignKeyConstraintViolationException::class);
+
+        ($this->handler)($command);
     }
 }

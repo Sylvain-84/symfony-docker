@@ -2,8 +2,8 @@
 
 namespace App\Controller;
 
-use App\MessageHandler\Recipe\UpdateRecipe\UpdateRecipeCommand;
 use App\MessageHandler\Recipe\CreateRecipe\CreateRecipeCommand;
+use App\MessageHandler\Recipe\UpdateRecipe\UpdateRecipeCommand;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpKernel\Attribute\MapRequestPayload;

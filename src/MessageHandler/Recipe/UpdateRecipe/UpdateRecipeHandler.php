@@ -42,7 +42,6 @@ class UpdateRecipeHandler
         $recipe->setName($command->name);
         $recipe->setDescription($command->description);
 
-
         /* ----------------------------------------------------------------
          * 7. Persist & return the id
          * ---------------------------------------------------------------- */

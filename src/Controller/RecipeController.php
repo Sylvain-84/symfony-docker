@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\MessageHandler\Recipe\UpdateRecipe\UpdateRecipeCommand;
 use App\MessageHandler\Recipe\CreateRecipe\CreateRecipeCommand;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -22,6 +23,19 @@ class RecipeController extends AbstractController
 
         return $this->json([
             'message' => 'Recipe added successfully',
+        ]);
+    }
+
+    #[Route('/{id}', name: 'update', methods: ['PUT'], requirements: ['id' => '\d+'])]
+    public function updateRecipeById(
+        MessageBusInterface $bus,
+        #[MapRequestPayload]
+        UpdateRecipeCommand $updateRecipeCommand,
+    ): JsonResponse {
+        $bus->dispatch($updateRecipeCommand);
+
+        return $this->json([
+            'message' => 'Recipe edited successfully',
         ]);
     }
 }

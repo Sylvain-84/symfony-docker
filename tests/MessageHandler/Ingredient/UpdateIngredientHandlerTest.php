@@ -6,8 +6,10 @@ namespace App\Tests\MessageHandler\Ingredient;
 
 use App\DataFixtures\IngredientCategoryFixture;
 use App\DataFixtures\IngredientFixture;
+use App\DataFixtures\IngredientTagFixture;
 use App\Entity\Ingredient;
 use App\Entity\IngredientCategory;
+use App\Entity\IngredientTag;
 use App\MessageHandler\Ingredient\IngredientMineralInput;
 use App\MessageHandler\Ingredient\IngredientNutritionalInput;
 use App\MessageHandler\Ingredient\IngredientVitamineInput;
@@ -66,6 +68,14 @@ final class UpdateIngredientHandlerTest extends KernelTestCase
             ->findOneBy(['name' => IngredientFixture::ORIGINAL_NAME]);
         self::assertNotNull($ingredient, 'L\'ingrédient de la fixture devrait exister');
 
+        $tag = $this->em->getRepository(IngredientTag::class)
+            ->findOneBy(['name' => IngredientTagFixture::ORIGINAL_NAME]);
+        $new_tag = $this->em->getRepository(IngredientTag::class)
+            ->findOneBy(['name' => IngredientTagFixture::ORIGINAL_NAME_3]);
+
+        self::assertNotNull($tag, 'Le première tag de la fixture n’a pas été trouvée');
+        self::assertNotNull($new_tag, 'Le deuxième tag de la fixture n’a pas été trouvée');
+
         $updateCommand = new UpdateIngredientCommand(
             id: $ingredient->getId(),
             category: $category->getId(),
@@ -73,6 +83,7 @@ final class UpdateIngredientHandlerTest extends KernelTestCase
             nutritionals: new IngredientNutritionalInput(),
             minerals: new IngredientMineralInput(),
             vitamines: new IngredientVitamineInput(),
+            tags: [$tag->getId(), $new_tag->getId()],
         );
 
         ($this->handler)($updateCommand);
@@ -82,6 +93,8 @@ final class UpdateIngredientHandlerTest extends KernelTestCase
 
         self::assertSame('Green Apple', $updated->getName());
         self::assertSame($category->getId(), $updated->getCategory()->getId());
+        self::assertSame($tag->getName(), $ingredient->getTags()->first()->getName());
+        self::assertSame($new_tag->getName(), $ingredient->getTags()->get(1)->getName());
     }
 
     public function testItThrowsWhenIngredientDoesNotExist(): void

@@ -30,8 +30,8 @@ class CreateRecipeHandler
         $recipe = new Recipe(
             name: $command->name,
             category: $category,
-            description: $command->description,
             difficulty: $command->difficulty,
+            description: $command->description,
         );
 
         foreach ($command->tags as $tagId) {

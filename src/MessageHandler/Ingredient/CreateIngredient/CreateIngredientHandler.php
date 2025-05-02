@@ -8,6 +8,7 @@ use App\Entity\IngredientNutritional;
 use App\Entity\IngredientVitamine;
 use App\Repository\IngredientCategoryRepository;
 use App\Repository\IngredientRepository;
+use App\Repository\IngredientTagRepository;
 use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 
 #[AsMessageHandler(handles: CreateIngredientCommand::class)]
@@ -16,6 +17,7 @@ class CreateIngredientHandler
     public function __construct(
         private IngredientRepository $ingredientRepository,
         private IngredientCategoryRepository $ingredientCategoryRepository,
+        private IngredientTagRepository $ingredientTagRepository,
     ) {
     }
 
@@ -79,6 +81,15 @@ class CreateIngredientHandler
             nutritional: $ingredientNutritional,
             vitamine: $ingredientVitamine,
         );
+
+        foreach ($command->tags as $tagId) {
+            $tag = $this->ingredientTagRepository->find($tagId);
+            if (!$tag) {
+                throw new \InvalidArgumentException(sprintf('Ingredient tag #%d not found.', $tagId));
+            }
+
+            $ingredient->addTag($tag);
+        }
 
         $this->ingredientRepository->save($ingredient);
 

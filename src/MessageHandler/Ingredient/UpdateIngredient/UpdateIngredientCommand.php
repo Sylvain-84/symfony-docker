@@ -8,6 +8,9 @@ use App\MessageHandler\Ingredient\IngredientVitamineInput;
 
 final readonly class UpdateIngredientCommand
 {
+    /**
+     * @param array<int> $tags
+     */
     public function __construct(
         public int $id,
         public int $category,
@@ -15,6 +18,7 @@ final readonly class UpdateIngredientCommand
         public IngredientNutritionalInput $nutritionals,
         public IngredientMineralInput $minerals,
         public IngredientVitamineInput $vitamines,
+        public ?array $tags = null,
     ) {
     }
 }

@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\IngredientRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: IngredientRepository::class)]
@@ -31,6 +33,12 @@ class Ingredient
     #[ORM\JoinColumn(nullable: false)]
     private IngredientVitamine $vitamine;
 
+    /**
+     * @var Collection<int, IngredientTag>
+     */
+    #[ORM\ManyToMany(targetEntity: IngredientTag::class)]
+    private Collection $tags;
+
     public function __construct(
         string $name,
         IngredientCategory $category,
@@ -43,6 +51,7 @@ class Ingredient
         $this->mineral = $mineral;
         $this->nutritional = $nutritional;
         $this->vitamine = $vitamine;
+        $this->tags = new ArrayCollection();
     }
 
     public function getId(): int
@@ -87,5 +96,29 @@ class Ingredient
     public function getVitamine(): ?IngredientVitamine
     {
         return $this->vitamine;
+    }
+
+    /**
+     * @return Collection<int, IngredientTag>
+     */
+    public function getTags(): Collection
+    {
+        return $this->tags;
+    }
+
+    public function addTag(IngredientTag $tag): static
+    {
+        if (!$this->tags->contains($tag)) {
+            $this->tags->add($tag);
+        }
+
+        return $this;
+    }
+
+    public function removeTag(IngredientTag $tag): static
+    {
+        $this->tags->removeElement($tag);
+
+        return $this;
     }
 }

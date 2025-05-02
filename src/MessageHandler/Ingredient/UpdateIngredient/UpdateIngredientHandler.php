@@ -3,8 +3,12 @@
 namespace App\MessageHandler\Ingredient\UpdateIngredient;
 
 use App\Entity\Ingredient;
+use App\Entity\IngredientMineral;
+use App\Entity\IngredientNutritional;
+use App\Entity\IngredientVitamine;
 use App\Repository\IngredientCategoryRepository;
 use App\Repository\IngredientRepository;
+use App\Repository\IngredientTagRepository;
 use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 
 #[AsMessageHandler(handles: UpdateIngredientCommand::class)]
@@ -13,37 +17,44 @@ class UpdateIngredientHandler
     public function __construct(
         private IngredientRepository $ingredientRepository,
         private IngredientCategoryRepository $ingredientCategoryRepository,
+        private IngredientTagRepository $ingredientTagRepository,
     ) {
     }
 
     public function __invoke(UpdateIngredientCommand $command): void
     {
-        /** ----------------------------------------------------------------
-         * 1. Fetch the ingredient to update
-         * ---------------------------------------------------------------- */
         $ingredient = $this->ingredientRepository->find($command->id);
 
         if (!$ingredient) {
             throw new \InvalidArgumentException(sprintf('Ingredient #%d not found.', $command->id));
         }
 
-        /** ----------------------------------------------------------------
-         * 2. Validate / update the category
-         * ---------------------------------------------------------------- */
         $category = $this->ingredientCategoryRepository->find($command->category);
         if (!$category) {
             throw new \InvalidArgumentException(sprintf('Ingredient category #%d not found.', $command->category));
         }
-        $ingredient->setCategory($category);
 
-        /* ----------------------------------------------------------------
-         * 3. Scalar fields on Ingredient
-         * ---------------------------------------------------------------- */
+        $ingredient->setCategory($category);
         $ingredient->setName($command->name);
 
-        /** ----------------------------------------------------------------
-         * 4. Minerals
-         * ---------------------------------------------------------------- */
+        $mineral = $this->mineral($ingredient, $command);
+        $nutritional = $this->nutritional($ingredient, $command);
+        $vitamine = $this->vitamine($ingredient, $command);
+
+        foreach ($command->tags as $tagId) {
+            $tag = $this->ingredientTagRepository->find($tagId);
+            if (!$tag) {
+                throw new \InvalidArgumentException(sprintf('Ingredient tag #%d not found.', $tagId));
+            }
+
+            $ingredient->addTag($tag);
+        }
+
+        $this->ingredientRepository->save($ingredient);
+    }
+
+    public function mineral(Ingredient $ingredient, UpdateIngredientCommand $command): IngredientMineral
+    {
         $mineral = $ingredient->getMineral();
         $mineral->setCalcium($command->minerals->calcium);
         $mineral->setCuivre($command->minerals->cuivre);
@@ -57,9 +68,11 @@ class UpdateIngredientHandler
         $mineral->setSodium($command->minerals->sodium);
         $mineral->setZinc($command->minerals->zinc);
 
-        /** ----------------------------------------------------------------
-         * 5. Nutritionals
-         * ---------------------------------------------------------------- */
+        return $mineral;
+    }
+
+    public function nutritional(Ingredient $ingredient, UpdateIngredientCommand $command): IngredientNutritional
+    {
         $nutritional = $ingredient->getNutritional();
         $nutritional->setKilocalories($command->nutritionals->kilocalories);
         $nutritional->setProteine($command->nutritionals->proteine);
@@ -74,9 +87,11 @@ class UpdateIngredientHandler
         $nutritional->setAcidesGrasPolyinsatures($command->nutritionals->acidesGrasPolyinsatures);
         $nutritional->setEau($command->nutritionals->eau);
 
-        /** ----------------------------------------------------------------
-         * 6. Vitamins
-         * ---------------------------------------------------------------- */
+        return $nutritional;
+    }
+
+    public function vitamine(Ingredient $ingredient, UpdateIngredientCommand $command): IngredientVitamine
+    {
         $vitamine = $ingredient->getVitamine();
         $vitamine->setVitamineA($command->vitamines->vitamineA);
         $vitamine->setBetaCarotene($command->vitamines->betaCarotene);
@@ -93,9 +108,6 @@ class UpdateIngredientHandler
         $vitamine->setVitamineB9($command->vitamines->vitamineB9);
         $vitamine->setVitamineB12($command->vitamines->vitamineB12);
 
-        /* ----------------------------------------------------------------
-         * 7. Persist & return the id
-         * ---------------------------------------------------------------- */
-        $this->ingredientRepository->save($ingredient);
+        return $vitamine;
     }
 }

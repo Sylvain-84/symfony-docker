@@ -65,15 +65,12 @@ php-cs-fixer-fix:
 
 # 🚦 Tout-en-un : Qualité de code
 quality:
+	@echo "➡️  PHP-CS-Fixer (apply fix)"
+	@docker exec -it $(PHP_CONTAINER) \
+	      vendor/bin/php-cs-fixer fix
 	@echo "➡️  PHPStan"
 	@$(PHPSTAN)
 	@echo "➡️  PHP_CodeSniffer"
 	@$(PHPCS)
 	@echo "➡️  PHP-CS-Fixer (dry-run)"
 	@$(PHPCSFIXER)
-# 🚦 Qualité + correction automatique
-
-quality-fix:
-	@echo "➡️  PHP-CS-Fixer (apply fix)"
-	@docker exec -it $(PHP_CONTAINER) \
-	      vendor/bin/php-cs-fixer fix

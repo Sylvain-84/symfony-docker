@@ -5,8 +5,10 @@ declare(strict_types=1);
 namespace App\Tests\MessageHandler\Ingredient;
 
 use App\DataFixtures\IngredientCategoryFixture;
+use App\DataFixtures\IngredientTagFixture;
 use App\Entity\Ingredient;
 use App\Entity\IngredientCategory;
+use App\Entity\IngredientTag;
 use App\MessageHandler\Ingredient\CreateIngredient\CreateIngredientCommand;
 use App\MessageHandler\Ingredient\CreateIngredient\CreateIngredientHandler;
 use App\MessageHandler\Ingredient\IngredientMineralInput;
@@ -48,12 +50,21 @@ final class CreateIngredientHandlerTest extends KernelTestCase
 
         self::assertNotNull($category, 'La catégorie de la fixture n’a pas été trouvée');
 
+        $tag = $this->em->getRepository(IngredientTag::class)
+            ->findOneBy(['name' => IngredientTagFixture::ORIGINAL_NAME]);
+        $tag2 = $this->em->getRepository(IngredientTag::class)
+            ->findOneBy(['name' => IngredientTagFixture::ORIGINAL_NAME_2]);
+
+        self::assertNotNull($tag, 'Le première tag de la fixture n’a pas été trouvée');
+        self::assertNotNull($tag2, 'Le deuxième tag de la fixture n’a pas été trouvée');
+
         $command = new CreateIngredientCommand(
             category: $category->getId(),
             name: 'Banana',
             nutritionals: new IngredientNutritionalInput(),
             minerals: new IngredientMineralInput(),
             vitamines: new IngredientVitamineInput(),
+            tags: [$tag->getId(), $tag2->getId()],
         );
 
         $returnedId = ($this->handler)($command);
@@ -64,6 +75,8 @@ final class CreateIngredientHandlerTest extends KernelTestCase
         self::assertNotNull($ingredient, 'Ingredient should have been persisted');
         self::assertSame('Banana', $ingredient->getName());
         self::assertSame($category->getId(), $ingredient->getCategory()->getId());
+        self::assertSame($tag->getName(), $ingredient->getTags()->first()->getName());
+        self::assertSame($tag2->getName(), $ingredient->getTags()->get(1)->getName());
     }
 
     public function testItThrowsWhenCategoryDoesNotExist(): void

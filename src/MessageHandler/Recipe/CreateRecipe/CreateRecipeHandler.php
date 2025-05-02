@@ -32,6 +32,8 @@ class CreateRecipeHandler
             category: $category,
             difficulty: $command->difficulty,
             servings: $command->servings,
+            preparationTime: $command->preparationTime,
+            cookingTime: $command->cookingTime,
             description: $command->description,
         );
 

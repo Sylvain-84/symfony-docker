@@ -58,6 +58,8 @@ final class CreateRecipeHandlerTest extends KernelTestCase
             category: $category->getId(),
             difficulty: DifficultyEnum::EASY,
             servings: 3,
+            preparationTime: 20,
+            cookingTime: 0,
             description: 'It is a recipe with banana dark chocolate',
             tags: [$tag->getId(), $tag2->getId()]
         );
@@ -76,6 +78,8 @@ final class CreateRecipeHandlerTest extends KernelTestCase
         self::assertSame($tag2->getName(), $recipe->getTags()->get(1)->getName());
         self::assertSame(DifficultyEnum::EASY, $recipe->getDifficulty());
         self::assertSame(3, $recipe->getServings());
+        self::assertSame(20, $recipe->getPreparationTime());
+        self::assertSame(0, $recipe->getCookingTime());
     }
 
     public function testItThrowsWhenCategoryDoesNotExist(): void

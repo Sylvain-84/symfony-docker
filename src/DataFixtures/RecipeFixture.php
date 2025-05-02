@@ -25,7 +25,9 @@ final class RecipeFixture extends Fixture implements DependentFixtureInterface
             name: self::ORIGINAL_NAME,
             category: $category,
             difficulty: DifficultyEnum::MEDIUM,
-            servings: 4
+            servings: 4,
+            preparationTime: 5,
+            cookingTime: 10
         );
 
         $manager->persist($recipe);

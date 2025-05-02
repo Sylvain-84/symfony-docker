@@ -14,6 +14,8 @@ final readonly class CreateRecipeCommand
         public int $category,
         public DifficultyEnum $difficulty,
         public int $servings,
+        public int $preparationTime = 0,
+        public int $cookingTime = 0,
         public ?string $description = null,
         public ?array $tags = null,
     ) {

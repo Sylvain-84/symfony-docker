@@ -39,17 +39,29 @@ class Recipe
     #[ORM\Column(type: 'integer')]
     private int $servings;
 
+    #[Assert\PositiveOrZero]
+    #[ORM\Column(type: 'integer')]
+    private int $preparationTime;
+
+    #[Assert\PositiveOrZero]
+    #[ORM\Column(type: 'integer')]
+    private int $cookingTime;
+
     public function __construct(
         string $name,
         RecipeCategory $category,
         DifficultyEnum $difficulty,
         int $servings = 1,
+        int $preparationTime = 0,
+        int $cookingTime = 0,
         ?string $description = null,
     ) {
         $this->name = $name;
         $this->description = $description;
         $this->category = $category;
         $this->servings = $servings;
+        $this->preparationTime = $preparationTime;
+        $this->cookingTime = $cookingTime;
         $this->difficulty = $difficulty;
         $this->tags = new ArrayCollection();
     }
@@ -141,5 +153,34 @@ class Recipe
         $this->servings = $servings;
 
         return $this;
+    }
+
+    public function getPreparationTime(): int
+    {
+        return $this->preparationTime;
+    }
+
+    public function setPreparationTime(int $preparationTime): static
+    {
+        $this->preparationTime = $preparationTime;
+
+        return $this;
+    }
+
+    public function getCookingTime(): int
+    {
+        return $this->cookingTime;
+    }
+
+    public function setCookingTime(int $cookingTime): static
+    {
+        $this->cookingTime = $cookingTime;
+
+        return $this;
+    }
+
+    public function getTotalTime(): int
+    {
+        return $this->preparationTime + $this->cookingTime;
     }
 }

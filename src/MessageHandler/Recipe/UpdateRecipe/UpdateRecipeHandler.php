@@ -34,6 +34,8 @@ class UpdateRecipeHandler
         $recipe->setDescription($command->description);
         $recipe->setDifficulty($command->difficulty);
         $recipe->setServings($command->servings);
+        $recipe->setPreparationTime($command->preparationTime);
+        $recipe->setCookingTime($command->cookingTime);
 
         foreach ($command->tags as $tagId) {
             $tag = $this->recipeTagRepository->find($tagId);

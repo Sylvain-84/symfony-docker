@@ -74,11 +74,13 @@ final class UpdateRecipeHandlerTest extends KernelTestCase
         $updateCommand = new UpdateRecipeCommand(
             id: $recipe->getId(),
             category: $category->getId(),
-            name: 'Green Apple',
+            name: 'Green Apple Pie',
             difficulty: DifficultyEnum::HARD,
             description: 'It is a recipe with green apple',
             tags: [$tag->getId(), $new_tag->getId()],
-            servings: 8
+            servings: 8,
+            preparationTime: 12,
+            cookingTime: 30
         );
 
         ($this->handler)($updateCommand);
@@ -86,7 +88,7 @@ final class UpdateRecipeHandlerTest extends KernelTestCase
         /** @var Recipe $updated */
         $updated = $this->em->getRepository(Recipe::class)->find($recipe->getId());
 
-        self::assertSame('Green Apple', $updated->getName());
+        self::assertSame('Green Apple Pie', $updated->getName());
         self::assertSame('It is a recipe with green apple', $updated->getDescription());
         self::assertSame($category->getId(), $updated->getCategory()->getId());
         self::assertSame($tag->getName(), $recipe->getTags()->first()->getName());

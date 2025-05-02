@@ -56,9 +56,10 @@ final class CreateRecipeHandlerTest extends KernelTestCase
         $command = new CreateRecipeCommand(
             name: 'Banana dark chocolate',
             category: $category->getId(),
+            difficulty: DifficultyEnum::EASY,
+            servings: 3,
             description: 'It is a recipe with banana dark chocolate',
-            tags: [$tag->getId(), $tag2->getId()],
-            difficulty: DifficultyEnum::EASY
+            tags: [$tag->getId(), $tag2->getId()]
         );
 
         $returnedId = ($this->handler)($command);
@@ -74,6 +75,7 @@ final class CreateRecipeHandlerTest extends KernelTestCase
         self::assertSame($tag->getName(), $recipe->getTags()->first()->getName());
         self::assertSame($tag2->getName(), $recipe->getTags()->get(1)->getName());
         self::assertSame(DifficultyEnum::EASY, $recipe->getDifficulty());
+        self::assertSame(3, $recipe->getServings());
     }
 
     public function testItThrowsWhenCategoryDoesNotExist(): void
@@ -84,6 +86,7 @@ final class CreateRecipeHandlerTest extends KernelTestCase
             name: 'Mixed eggs',
             category: $nonExistingCategoryId,
             difficulty: DifficultyEnum::EASY,
+            servings: 1
         );
 
         $this->expectException(\InvalidArgumentException::class);

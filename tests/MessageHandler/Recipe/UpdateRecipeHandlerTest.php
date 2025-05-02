@@ -78,6 +78,7 @@ final class UpdateRecipeHandlerTest extends KernelTestCase
             difficulty: DifficultyEnum::HARD,
             description: 'It is a recipe with green apple',
             tags: [$tag->getId(), $new_tag->getId()],
+            servings: 8
         );
 
         ($this->handler)($updateCommand);
@@ -91,6 +92,7 @@ final class UpdateRecipeHandlerTest extends KernelTestCase
         self::assertSame($tag->getName(), $recipe->getTags()->first()->getName());
         self::assertSame($new_tag->getName(), $recipe->getTags()->get(1)->getName());
         self::assertSame(DifficultyEnum::HARD, $updated->getDifficulty());
+        self::assertSame(8, $updated->getServings());
     }
 
     public function testItThrowsWhenRecipeDoesNotExist(): void
@@ -102,6 +104,7 @@ final class UpdateRecipeHandlerTest extends KernelTestCase
             category: 1,
             name: 'Does not matter',
             difficulty: DifficultyEnum::HARD,
+            servings: 1
         );
 
         $this->expectException(\InvalidArgumentException::class);

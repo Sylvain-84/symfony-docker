@@ -13,6 +13,7 @@ final readonly class CreateRecipeCommand
         public string $name,
         public int $category,
         public DifficultyEnum $difficulty,
+        public int $servings,
         public ?string $description = null,
         public ?array $tags = null,
     ) {

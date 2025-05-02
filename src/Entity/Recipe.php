@@ -7,6 +7,7 @@ use App\Repository\RecipeRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: RecipeRepository::class)]
 class Recipe
@@ -34,15 +35,21 @@ class Recipe
     #[ORM\Column(type: 'string', enumType: DifficultyEnum::class)]
     private DifficultyEnum $difficulty;
 
+    #[Assert\Positive]
+    #[ORM\Column(type: 'integer')]
+    private int $servings;
+
     public function __construct(
         string $name,
         RecipeCategory $category,
         DifficultyEnum $difficulty,
+        int $servings = 1,
         ?string $description = null,
     ) {
         $this->name = $name;
         $this->description = $description;
         $this->category = $category;
+        $this->servings = $servings;
         $this->difficulty = $difficulty;
         $this->tags = new ArrayCollection();
     }
@@ -120,6 +127,18 @@ class Recipe
     public function setDifficulty(DifficultyEnum $difficulty): static
     {
         $this->difficulty = $difficulty;
+
+        return $this;
+    }
+
+    public function getServings(): int
+    {
+        return $this->servings;
+    }
+
+    public function setServings(int $servings): static
+    {
+        $this->servings = $servings;
 
         return $this;
     }

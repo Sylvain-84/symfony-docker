@@ -14,6 +14,7 @@ final readonly class UpdateRecipeCommand
         public int $category,
         public string $name,
         public DifficultyEnum $difficulty,
+        public int $servings,
         public ?string $description = null,
         public ?array $tags = null,
     ) {

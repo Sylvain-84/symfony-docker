@@ -37,6 +37,7 @@ class CreateRecipeHandler
             preparationTime: $command->preparationTime,
             cookingTime: $command->cookingTime,
             description: $command->description,
+            note: $command->note,
         );
 
         foreach ($command->tags as $tagId) {

@@ -69,7 +69,8 @@ final class CreateRecipeHandlerTest extends KernelTestCase
             cookingTime: 0,
             description: 'It is a recipe with banana dark chocolate',
             tags: [$tag->getId(), $tag2->getId()],
-            utensils: [$utensil->getId(), $utensil2->getId()]
+            utensils: [$utensil->getId(), $utensil2->getId()],
+            note: 7
         );
 
         $returnedId = ($this->handler)($command);
@@ -91,6 +92,7 @@ final class CreateRecipeHandlerTest extends KernelTestCase
         self::assertCount(2, $recipe->getUtensils(), 'Recipe should have 2 utensils');
         self::assertSame($utensil->getId(), $recipe->getUtensils()->first()->getId());
         self::assertSame($utensil2->getId(), $recipe->getUtensils()->get(1)->getId());
+        self::assertSame(7, $recipe->getNote());
     }
 
     public function testItThrowsWhenCategoryDoesNotExist(): void

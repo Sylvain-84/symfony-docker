@@ -88,7 +88,8 @@ final class UpdateRecipeHandlerTest extends KernelTestCase
             cookingTime: 30,
             description: 'It is a recipe with green apple',
             tags: [$tag->getId(), $new_tag->getId()],
-            utensils: [$utensil->getId(), $new_utensil->getId()]
+            utensils: [$utensil->getId(), $new_utensil->getId()],
+            note: 3
         );
 
         ($this->handler)($updateCommand);
@@ -107,6 +108,7 @@ final class UpdateRecipeHandlerTest extends KernelTestCase
         self::assertSame(30, $updated->getCookingTime());
         self::assertSame($utensil->getId(), $updated->getUtensils()->first()->getId());
         self::assertSame($new_utensil->getId(), $updated->getUtensils()->get(1)->getId());
+        self::assertSame(3, $updated->getNote());
     }
 
     public function testItThrowsWhenRecipeDoesNotExist(): void

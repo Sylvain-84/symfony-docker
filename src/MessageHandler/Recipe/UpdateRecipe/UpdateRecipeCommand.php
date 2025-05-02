@@ -21,6 +21,7 @@ final readonly class UpdateRecipeCommand
         public ?string $description = null,
         public ?array $tags = null,
         public ?array $utensils = null,
+        public ?int $note = null,
     ) {
     }
 }

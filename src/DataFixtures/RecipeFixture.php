@@ -29,7 +29,8 @@ final class RecipeFixture extends Fixture implements DependentFixtureInterface
             difficulty: DifficultyEnum::MEDIUM,
             servings: 4,
             preparationTime: 5,
-            cookingTime: 10
+            cookingTime: 10,
+            note: 8
         );
 
         $recipeTag = $this->getReference(RecipeTagFixture::ORIGINAL_NAME, RecipeTag::class);

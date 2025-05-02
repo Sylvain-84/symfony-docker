@@ -35,16 +35,16 @@ class Recipe
     #[ORM\Column(type: 'string', enumType: DifficultyEnum::class)]
     private DifficultyEnum $difficulty;
 
-    #[Assert\Positive]
     #[ORM\Column(type: 'integer')]
+    #[Assert\Positive]
     private int $servings;
 
-    #[Assert\PositiveOrZero]
     #[ORM\Column(type: 'integer')]
+    #[Assert\PositiveOrZero]
     private int $preparationTime;
 
-    #[Assert\PositiveOrZero]
     #[ORM\Column(type: 'integer')]
+    #[Assert\PositiveOrZero]
     private int $cookingTime;
 
     /**
@@ -52,6 +52,10 @@ class Recipe
      */
     #[ORM\ManyToMany(targetEntity: Utensil::class)]
     private Collection $utensils;
+
+    #[ORM\Column(type: 'integer', nullable: true)]
+    #[Assert\Range(min: 0, max: 10)]
+    private ?int $note = null;
 
     public function __construct(
         string $name,
@@ -61,6 +65,7 @@ class Recipe
         int $preparationTime = 0,
         int $cookingTime = 0,
         ?string $description = null,
+        ?int $note = null,
     ) {
         $this->name = $name;
         $this->description = $description;
@@ -69,6 +74,7 @@ class Recipe
         $this->preparationTime = $preparationTime;
         $this->cookingTime = $cookingTime;
         $this->difficulty = $difficulty;
+        $this->note = $note;
         $this->tags = new ArrayCollection();
         $this->utensils = new ArrayCollection();
     }
@@ -213,5 +219,17 @@ class Recipe
     public function getTotalTime(): int
     {
         return $this->preparationTime + $this->cookingTime;
+    }
+
+    public function getNote(): ?int
+    {
+        return $this->note;
+    }
+
+    public function setNote(?int $note): self
+    {
+        $this->note = $note;
+
+        return $this;
     }
 }

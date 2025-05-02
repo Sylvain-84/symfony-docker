@@ -7,9 +7,11 @@ namespace App\Tests\MessageHandler\Recipe;
 use App\DataFixtures\RecipeCategoryFixture;
 use App\DataFixtures\RecipeFixture;
 use App\DataFixtures\RecipeTagFixture;
+use App\DataFixtures\UtensilFixture;
 use App\Entity\Recipe;
 use App\Entity\RecipeCategory;
 use App\Entity\RecipeTag;
+use App\Entity\Utensil;
 use App\Enum\DifficultyEnum;
 use App\MessageHandler\Recipe\UpdateRecipe\UpdateRecipeCommand;
 use App\MessageHandler\Recipe\UpdateRecipe\UpdateRecipeHandler;
@@ -71,16 +73,22 @@ final class UpdateRecipeHandlerTest extends KernelTestCase
         $new_tag = $this->em->getRepository(RecipeTag::class)
             ->findOneBy(['name' => RecipeTagFixture::ORIGINAL_NAME_3]);
 
+        $utensil = $this->em->getRepository(Utensil::class)
+            ->findOneBy(['name' => UtensilFixture::ORIGINAL_NAME]);
+        $new_utensil = $this->em->getRepository(Utensil::class)
+            ->findOneBy(['name' => UtensilFixture::ORIGINAL_NAME_3]);
+
         $updateCommand = new UpdateRecipeCommand(
             id: $recipe->getId(),
             category: $category->getId(),
             name: 'Green Apple Pie',
             difficulty: DifficultyEnum::HARD,
-            description: 'It is a recipe with green apple',
-            tags: [$tag->getId(), $new_tag->getId()],
             servings: 8,
             preparationTime: 12,
-            cookingTime: 30
+            cookingTime: 30,
+            description: 'It is a recipe with green apple',
+            tags: [$tag->getId(), $new_tag->getId()],
+            utensils: [$utensil->getId(), $new_utensil->getId()]
         );
 
         ($this->handler)($updateCommand);
@@ -91,10 +99,14 @@ final class UpdateRecipeHandlerTest extends KernelTestCase
         self::assertSame('Green Apple Pie', $updated->getName());
         self::assertSame('It is a recipe with green apple', $updated->getDescription());
         self::assertSame($category->getId(), $updated->getCategory()->getId());
-        self::assertSame($tag->getName(), $recipe->getTags()->first()->getName());
-        self::assertSame($new_tag->getName(), $recipe->getTags()->get(1)->getName());
+        self::assertSame($tag->getId(), $recipe->getTags()->first()->getId());
+        self::assertSame($new_tag->getId(), $recipe->getTags()->get(1)->getId());
         self::assertSame(DifficultyEnum::HARD, $updated->getDifficulty());
         self::assertSame(8, $updated->getServings());
+        self::assertSame(12, $updated->getPreparationTime());
+        self::assertSame(30, $updated->getCookingTime());
+        self::assertSame($utensil->getId(), $updated->getUtensils()->first()->getId());
+        self::assertSame($new_utensil->getId(), $updated->getUtensils()->get(1)->getId());
     }
 
     public function testItThrowsWhenRecipeDoesNotExist(): void

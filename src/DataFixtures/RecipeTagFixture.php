@@ -18,7 +18,10 @@ final class RecipeTagFixture extends Fixture
     public function load(ObjectManager $manager): void
     {
         foreach ($this->provideData() as $name) {
-            $manager->persist(new RecipeTag(name: $name));
+            $recipeTag = new RecipeTag(name: $name);
+            $manager->persist($recipeTag);
+
+            $this->addReference($name, $recipeTag);
         }
 
         $manager->flush();

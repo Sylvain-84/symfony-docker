@@ -5,6 +5,7 @@ namespace App\MessageHandler\Recipe\UpdateRecipe;
 use App\Repository\RecipeCategoryRepository;
 use App\Repository\RecipeRepository;
 use App\Repository\RecipeTagRepository;
+use App\Repository\UtensilRepository;
 use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 
 #[AsMessageHandler(handles: UpdateRecipeCommand::class)]
@@ -14,6 +15,7 @@ class UpdateRecipeHandler
         private RecipeRepository $recipeRepository,
         private RecipeCategoryRepository $recipeCategoryRepository,
         private RecipeTagRepository $recipeTagRepository,
+        private UtensilRepository $utensilRepository,
     ) {
     }
 
@@ -44,6 +46,15 @@ class UpdateRecipeHandler
             }
 
             $recipe->addTag($tag);
+        }
+
+        foreach ($command->utensils as $utensilId) {
+            $utensil = $this->utensilRepository->find($utensilId);
+            if (!$utensil) {
+                throw new \InvalidArgumentException(sprintf('Utensil #%d not found.', $utensilId));
+            }
+
+            $recipe->addUtensil($utensil);
         }
 
         $this->recipeRepository->save($recipe);

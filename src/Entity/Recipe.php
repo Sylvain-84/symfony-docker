@@ -47,6 +47,12 @@ class Recipe
     #[ORM\Column(type: 'integer')]
     private int $cookingTime;
 
+    /**
+     * @var Collection<int, Utensil>
+     */
+    #[ORM\ManyToMany(targetEntity: Utensil::class)]
+    private Collection $utensils;
+
     public function __construct(
         string $name,
         RecipeCategory $category,
@@ -64,6 +70,7 @@ class Recipe
         $this->cookingTime = $cookingTime;
         $this->difficulty = $difficulty;
         $this->tags = new ArrayCollection();
+        $this->utensils = new ArrayCollection();
     }
 
     public function getId(): int
@@ -127,6 +134,30 @@ class Recipe
     public function removeTag(RecipeTag $tag): static
     {
         $this->tags->removeElement($tag);
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Utensil>
+     */
+    public function getUtensils(): Collection
+    {
+        return $this->utensils;
+    }
+
+    public function addUtensil(Utensil $utensil): static
+    {
+        if (!$this->utensils->contains($utensil)) {
+            $this->utensils->add($utensil);
+        }
+
+        return $this;
+    }
+
+    public function removeUtensil(Utensil $utensil): static
+    {
+        $this->utensils->removeElement($utensil);
 
         return $this;
     }

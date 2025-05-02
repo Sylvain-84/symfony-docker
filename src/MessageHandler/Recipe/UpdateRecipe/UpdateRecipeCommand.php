@@ -8,6 +8,7 @@ final readonly class UpdateRecipeCommand
 {
     /**
      * @param array<int> $tags
+     * @param array<int> $utensils
      */
     public function __construct(
         public int $id,
@@ -19,6 +20,7 @@ final readonly class UpdateRecipeCommand
         public int $cookingTime = 0,
         public ?string $description = null,
         public ?array $tags = null,
+        public ?array $utensils = null,
     ) {
     }
 }

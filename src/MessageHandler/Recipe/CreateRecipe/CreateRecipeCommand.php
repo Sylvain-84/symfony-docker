@@ -8,6 +8,7 @@ final readonly class CreateRecipeCommand
 {
     /**
      * @param array<int> $tags
+     * @param array<int> $utensils
      */
     public function __construct(
         public string $name,
@@ -18,6 +19,7 @@ final readonly class CreateRecipeCommand
         public int $cookingTime = 0,
         public ?string $description = null,
         public ?array $tags = null,
+        public ?array $utensils = null,
     ) {
     }
 }

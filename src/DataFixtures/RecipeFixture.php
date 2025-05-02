@@ -6,6 +6,8 @@ namespace App\DataFixtures;
 
 use App\Entity\Recipe;
 use App\Entity\RecipeCategory;
+use App\Entity\RecipeTag;
+use App\Entity\Utensil;
 use App\Enum\DifficultyEnum;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
@@ -30,6 +32,12 @@ final class RecipeFixture extends Fixture implements DependentFixtureInterface
             cookingTime: 10
         );
 
+        $recipeTag = $this->getReference(RecipeTagFixture::ORIGINAL_NAME, RecipeTag::class);
+        $utensil = $this->getReference(UtensilFixture::ORIGINAL_NAME, Utensil::class);
+
+        $recipe->addTag($recipeTag);
+        $recipe->addUtensil($utensil);
+
         $manager->persist($recipe);
         $manager->flush();
     }
@@ -38,6 +46,8 @@ final class RecipeFixture extends Fixture implements DependentFixtureInterface
     {
         return [
             RecipeCategoryFixture::class,
+            RecipeTagFixture::class,
+            UtensilFixture::class,
         ];
     }
 }

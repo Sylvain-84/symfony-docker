@@ -6,9 +6,11 @@ namespace App\Tests\MessageHandler\Recipe;
 
 use App\DataFixtures\RecipeCategoryFixture;
 use App\DataFixtures\RecipeTagFixture;
+use App\DataFixtures\UtensilFixture;
 use App\Entity\Recipe;
 use App\Entity\RecipeCategory;
 use App\Entity\RecipeTag;
+use App\Entity\Utensil;
 use App\Enum\DifficultyEnum;
 use App\MessageHandler\Recipe\CreateRecipe\CreateRecipeCommand;
 use App\MessageHandler\Recipe\CreateRecipe\CreateRecipeHandler;
@@ -53,6 +55,11 @@ final class CreateRecipeHandlerTest extends KernelTestCase
         $tag2 = $this->em->getRepository(RecipeTag::class)
             ->findOneBy(['name' => RecipeTagFixture::ORIGINAL_NAME_2]);
 
+        $utensil = $this->em->getRepository(Utensil::class)
+            ->findOneBy(['name' => UtensilFixture::ORIGINAL_NAME]);
+        $utensil2 = $this->em->getRepository(Utensil::class)
+            ->findOneBy(['name' => UtensilFixture::ORIGINAL_NAME_2]);
+
         $command = new CreateRecipeCommand(
             name: 'Banana dark chocolate',
             category: $category->getId(),
@@ -61,7 +68,8 @@ final class CreateRecipeHandlerTest extends KernelTestCase
             preparationTime: 20,
             cookingTime: 0,
             description: 'It is a recipe with banana dark chocolate',
-            tags: [$tag->getId(), $tag2->getId()]
+            tags: [$tag->getId(), $tag2->getId()],
+            utensils: [$utensil->getId(), $utensil2->getId()]
         );
 
         $returnedId = ($this->handler)($command);
@@ -74,12 +82,15 @@ final class CreateRecipeHandlerTest extends KernelTestCase
         self::assertSame('It is a recipe with banana dark chocolate', $recipe->getDescription());
         self::assertSame($category->getId(), $recipe->getCategory()->getId());
         self::assertCount(2, $recipe->getTags(), 'Recipe should have 2 tags');
-        self::assertSame($tag->getName(), $recipe->getTags()->first()->getName());
-        self::assertSame($tag2->getName(), $recipe->getTags()->get(1)->getName());
+        self::assertSame($tag->getId(), $recipe->getTags()->first()->getId());
+        self::assertSame($tag2->getId(), $recipe->getTags()->get(1)->getId());
         self::assertSame(DifficultyEnum::EASY, $recipe->getDifficulty());
         self::assertSame(3, $recipe->getServings());
         self::assertSame(20, $recipe->getPreparationTime());
         self::assertSame(0, $recipe->getCookingTime());
+        self::assertCount(2, $recipe->getUtensils(), 'Recipe should have 2 utensils');
+        self::assertSame($utensil->getId(), $recipe->getUtensils()->first()->getId());
+        self::assertSame($utensil2->getId(), $recipe->getUtensils()->get(1)->getId());
     }
 
     public function testItThrowsWhenCategoryDoesNotExist(): void

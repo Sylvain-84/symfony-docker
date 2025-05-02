@@ -18,7 +18,10 @@ final class UtensilFixture extends Fixture
     public function load(ObjectManager $manager): void
     {
         foreach ($this->provideData() as $name) {
-            $manager->persist(new Utensil(name: $name));
+            $utensil = new Utensil(name: $name);
+            $manager->persist($utensil);
+
+            $this->addReference($name, $utensil);
         }
 
         $manager->flush();

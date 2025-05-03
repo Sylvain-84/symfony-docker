@@ -13,6 +13,7 @@ use App\Entity\RecipeCategory;
 use App\Entity\RecipeTag;
 use App\Entity\Utensil;
 use App\Enum\DifficultyEnum;
+use App\MessageHandler\Recipe\InstructionInput;
 use App\MessageHandler\Recipe\UpdateRecipe\UpdateRecipeCommand;
 use App\MessageHandler\Recipe\UpdateRecipe\UpdateRecipeHandler;
 use Doctrine\Common\DataFixtures\Executor\ORMExecutor;
@@ -78,6 +79,10 @@ final class UpdateRecipeHandlerTest extends KernelTestCase
         $new_utensil = $this->em->getRepository(Utensil::class)
             ->findOneBy(['name' => UtensilFixture::ORIGINAL_NAME_3]);
 
+        $instructions = [
+            new InstructionInput('Préparer', 'Coupez les oranges en cubes', 1),
+            new InstructionInput('Servir', 'Dressez dans les bols', 2),
+        ];
         $updateCommand = new UpdateRecipeCommand(
             id: $recipe->getId(),
             category: $category->getId(),
@@ -89,7 +94,8 @@ final class UpdateRecipeHandlerTest extends KernelTestCase
             description: 'It is a recipe with green apple',
             tags: [$tag->getId(), $new_tag->getId()],
             utensils: [$utensil->getId(), $new_utensil->getId()],
-            note: 3
+            note: 3,
+            instructions: $instructions
         );
 
         ($this->handler)($updateCommand);
@@ -109,6 +115,9 @@ final class UpdateRecipeHandlerTest extends KernelTestCase
         self::assertSame($utensil->getId(), $updated->getUtensils()->first()->getId());
         self::assertSame($new_utensil->getId(), $updated->getUtensils()->get(1)->getId());
         self::assertSame(3, $updated->getNote());
+        self::assertCount(2, $updated->getInstructions(), 'La recette devrait avoir 2 instructions');
+        self::assertSame('Préparer', $updated->getInstructions()->first()->getName());
+        self::assertSame(2, $updated->getInstructions()->last()->getPosition());
     }
 
     public function testItThrowsWhenRecipeDoesNotExist(): void

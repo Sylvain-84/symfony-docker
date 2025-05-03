@@ -14,6 +14,7 @@ use App\Entity\Utensil;
 use App\Enum\DifficultyEnum;
 use App\MessageHandler\Recipe\CreateRecipe\CreateRecipeCommand;
 use App\MessageHandler\Recipe\CreateRecipe\CreateRecipeHandler;
+use App\MessageHandler\Recipe\InstructionInput;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
@@ -42,7 +43,7 @@ final class CreateRecipeHandlerTest extends KernelTestCase
         parent::tearDown();
     }
 
-    public function testItCreatesARecipeAndReturnsItsId(): void
+    public function testItCreatesARecipe(): void
     {
         /** @var ?RecipeCategory $category */
         $category = $this->em->getRepository(RecipeCategory::class)
@@ -60,6 +61,11 @@ final class CreateRecipeHandlerTest extends KernelTestCase
         $utensil2 = $this->em->getRepository(Utensil::class)
             ->findOneBy(['name' => UtensilFixture::ORIGINAL_NAME_2]);
 
+        $instructions = [
+            new InstructionInput('Préparer', 'Coupez les bananes en rondelles', 1),
+            new InstructionInput('Mélanger', 'Ajoutez le chocolat et mélangez', 2),
+            new InstructionInput('Servir', 'Dressez dans les assiettes', 3),
+        ];
         $command = new CreateRecipeCommand(
             name: 'Banana dark chocolate',
             category: $category->getId(),
@@ -70,7 +76,8 @@ final class CreateRecipeHandlerTest extends KernelTestCase
             description: 'It is a recipe with banana dark chocolate',
             tags: [$tag->getId(), $tag2->getId()],
             utensils: [$utensil->getId(), $utensil2->getId()],
-            note: 7
+            note: 7,
+            instructions: $instructions
         );
 
         $returnedId = ($this->handler)($command);
@@ -93,6 +100,9 @@ final class CreateRecipeHandlerTest extends KernelTestCase
         self::assertSame($utensil->getId(), $recipe->getUtensils()->first()->getId());
         self::assertSame($utensil2->getId(), $recipe->getUtensils()->get(1)->getId());
         self::assertSame(7, $recipe->getNote());
+        self::assertCount(3, $recipe->getInstructions(), 'Recipe should have 3 instructions');
+        self::assertSame('Préparer', $recipe->getInstructions()->first()->getName());
+        self::assertSame(3, $recipe->getInstructions()->last()->getPosition());
     }
 
     public function testItThrowsWhenCategoryDoesNotExist(): void

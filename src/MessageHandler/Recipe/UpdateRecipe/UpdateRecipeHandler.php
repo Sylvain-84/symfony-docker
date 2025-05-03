@@ -1,7 +1,11 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\MessageHandler\Recipe\UpdateRecipe;
 
+use App\Entity\Recipe;
+use App\Entity\RecipeInstruction;
 use App\Repository\RecipeCategoryRepository;
 use App\Repository\RecipeRepository;
 use App\Repository\RecipeTagRepository;
@@ -40,6 +44,15 @@ class UpdateRecipeHandler
         $recipe->setCookingTime($command->cookingTime);
         $recipe->setNote($command->note);
 
+        $recipe = $this->tags($command, $recipe);
+        $recipe = $this->utensils($command, $recipe);
+        $recipe = $this->instructions($command, $recipe);
+
+        $this->recipeRepository->save($recipe);
+    }
+
+    private function tags(UpdateRecipeCommand $command, Recipe $recipe): Recipe
+    {
         foreach ($command->tags as $tagId) {
             $tag = $this->recipeTagRepository->find($tagId);
             if (!$tag) {
@@ -49,6 +62,11 @@ class UpdateRecipeHandler
             $recipe->addTag($tag);
         }
 
+        return $recipe;
+    }
+
+    private function utensils(UpdateRecipeCommand $command, Recipe $recipe): Recipe
+    {
         foreach ($command->utensils as $utensilId) {
             $utensil = $this->utensilRepository->find($utensilId);
             if (!$utensil) {
@@ -58,6 +76,24 @@ class UpdateRecipeHandler
             $recipe->addUtensil($utensil);
         }
 
-        $this->recipeRepository->save($recipe);
+        return $recipe;
+    }
+
+    private function instructions(UpdateRecipeCommand $command, Recipe $recipe): Recipe
+    {
+        $recipe->clearInstructions();
+
+        foreach ($command->instructions as $instruction) {
+            $recipe->addInstruction(
+                new RecipeInstruction(
+                    name: $instruction->name,
+                    description: $instruction->description,
+                    recipe: $recipe,
+                    position: $instruction->position,
+                )
+            );
+        }
+
+        return $recipe;
     }
 }

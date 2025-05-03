@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Entity;
 
 use App\Enum\DifficultyEnum;
@@ -57,6 +59,16 @@ class Recipe
     #[Assert\Range(min: 0, max: 10)]
     private ?int $note = null;
 
+    /** @var Collection<int, RecipeInstruction> */
+    #[ORM\OneToMany(
+        targetEntity: RecipeInstruction::class,
+        mappedBy: 'recipe',
+        cascade: ['persist', 'remove'],
+        orphanRemoval: true,
+    )]
+    #[ORM\OrderBy(['position' => 'ASC'])]
+    private Collection $instructions;
+
     public function __construct(
         string $name,
         RecipeCategory $category,
@@ -77,6 +89,7 @@ class Recipe
         $this->note = $note;
         $this->tags = new ArrayCollection();
         $this->utensils = new ArrayCollection();
+        $this->instructions = new ArrayCollection();
     }
 
     public function getId(): int
@@ -231,5 +244,34 @@ class Recipe
         $this->note = $note;
 
         return $this;
+    }
+
+    /**
+     * @return Collection<int, RecipeInstruction>
+     */
+    public function getInstructions(): Collection
+    {
+        return $this->instructions;
+    }
+
+    public function addInstruction(RecipeInstruction $instruction): static
+    {
+        if (!$this->instructions->contains($instruction)) {
+            $this->instructions->add($instruction);
+        }
+
+        return $this;
+    }
+
+    public function removeInstruction(RecipeInstruction $instruction): static
+    {
+        $this->instructions->removeElement($instruction);
+
+        return $this;
+    }
+
+    public function clearInstructions(): void
+    {
+        $this->instructions = new ArrayCollection();
     }
 }

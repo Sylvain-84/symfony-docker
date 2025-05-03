@@ -1,14 +1,18 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\MessageHandler\Recipe\UpdateRecipe;
 
 use App\Enum\DifficultyEnum;
+use App\MessageHandler\Recipe\InstructionInput;
 
 final readonly class UpdateRecipeCommand
 {
     /**
-     * @param array<int> $tags
-     * @param array<int> $utensils
+     * @param list<int>              $tags
+     * @param list<int>              $utensils
+     * @param list<InstructionInput> $instructions
      */
     public function __construct(
         public int $id,
@@ -22,6 +26,7 @@ final readonly class UpdateRecipeCommand
         public ?array $tags = null,
         public ?array $utensils = null,
         public ?int $note = null,
+        public ?array $instructions = null,
     ) {
     }
 }

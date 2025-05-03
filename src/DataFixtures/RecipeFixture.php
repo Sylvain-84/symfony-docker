@@ -6,6 +6,7 @@ namespace App\DataFixtures;
 
 use App\Entity\Recipe;
 use App\Entity\RecipeCategory;
+use App\Entity\RecipeInstruction;
 use App\Entity\RecipeTag;
 use App\Entity\Utensil;
 use App\Enum\DifficultyEnum;
@@ -39,8 +40,40 @@ final class RecipeFixture extends Fixture implements DependentFixtureInterface
         $recipe->addTag($recipeTag);
         $recipe->addUtensil($utensil);
 
+        $instructions = [
+            new RecipeInstruction(
+                name: 'Préparer',
+                description: 'Couper les légumes',
+                recipe: $recipe,
+                position: 1
+            ),
+            new RecipeInstruction(
+                name: 'Cuire',
+                description: 'Ajouter les légumes dans l\'eau bouillante',
+                recipe: $recipe,
+                position: 2
+            ),
+            new RecipeInstruction(
+                name: 'Servir',
+                description: 'Dresser dans les assiettes',
+                recipe: $recipe,
+                position: 3
+            ),
+            new RecipeInstruction(
+                name: 'Déguster',
+                description: 'Bon appétit !',
+                recipe: $recipe,
+                position: 4
+            ),
+        ];
+        foreach ($instructions as $instruction) {
+            $recipe->addInstruction($instruction);
+        }
+
         $manager->persist($recipe);
         $manager->flush();
+
+        $instructions = $recipe->getInstructions();
     }
 
     public function getDependencies(): array

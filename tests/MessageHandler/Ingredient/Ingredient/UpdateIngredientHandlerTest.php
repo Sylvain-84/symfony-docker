@@ -80,9 +80,34 @@ final class UpdateIngredientHandlerTest extends KernelTestCase
             id: $ingredient->getId(),
             category: $category->getId(),
             name: 'Green Apple',
-            nutritionals: new IngredientNutritionalInput(),
-            minerals: new IngredientMineralInput(),
-            vitamines: new IngredientVitamineInput(),
+            nutritionals: new IngredientNutritionalInput(
+                kilocalories: 52,
+                proteine: 0.3,
+                glucides: 13.8,
+                lipides: 0.2,
+                sucres: 10.4,
+                fibresAlimentaires: 2.4,
+                eau: 85.6,
+            ),
+            minerals: new IngredientMineralInput(
+                calcium: 6,
+                fer: 0.12,
+                magnesium: 5,
+                phosphore: 11,
+                potassium: 107,
+                sodium: 1,
+                zinc: 0.04,
+            ),
+            vitamines: new IngredientVitamineInput(
+                vitamineA: 3,
+                vitamineC: 4.6,
+                vitamineE: 0.18,
+                vitamineK1: 2.2,
+                vitamineB1: 0.017,
+                vitamineB2: 0.026,
+                vitamineB6: 0.041,
+                vitamineB9: 0.003,   // 3 µg
+            ),
             tags: [$tag->getId(), $new_tag->getId()],
         );
 
@@ -95,6 +120,19 @@ final class UpdateIngredientHandlerTest extends KernelTestCase
         self::assertSame($category->getId(), $updated->getCategory()->getId());
         self::assertSame($tag->getName(), $ingredient->getTags()->first()->getName());
         self::assertSame($new_tag->getName(), $ingredient->getTags()->get(1)->getName());
+        $nutritionals = $updated->getNutritionals();
+        self::assertSame(52.0, $nutritionals->getKilocalories());
+        self::assertSame(0.3, $nutritionals->getProteine());
+        self::assertSame(13.8, $nutritionals->getGlucides());
+        self::assertSame(10.4, $nutritionals->getSucres());
+
+        $minerals = $updated->getMinerals();
+        self::assertSame(107.0, $minerals->getPotassium());
+        self::assertSame(6.0, $minerals->getCalcium());
+
+        $vitamines = $updated->getVitamines();
+        self::assertSame(4.6, $vitamines->getVitamineC());
+        self::assertSame(0.041, $vitamines->getVitamineB6());
     }
 
     public function testItThrowsWhenIngredientDoesNotExist(): void

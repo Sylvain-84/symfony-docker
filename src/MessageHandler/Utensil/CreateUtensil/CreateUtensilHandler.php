@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\MessageHandler\Utensil\CreateUtensil;
 
 use App\Entity\Utensil;

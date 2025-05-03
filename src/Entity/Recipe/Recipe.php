@@ -17,7 +17,7 @@ class Recipe
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    private readonly int $id;
+    private int $id;
 
     #[ORM\Column(length: 255)]
     private string $name;
@@ -69,6 +69,16 @@ class Recipe
     #[ORM\OrderBy(['position' => 'ASC'])]
     private Collection $instructions;
 
+    /** @var Collection<int, RecipeComment> */
+    #[ORM\OneToMany(
+        targetEntity: RecipeComment::class,
+        mappedBy: 'recipe',
+        cascade: ['persist', 'remove'],
+        orphanRemoval: true
+    )]
+    #[ORM\OrderBy(['createdAt' => 'DESC'])]
+    private Collection $comments;
+
     public function __construct(
         string $name,
         RecipeCategory $category,
@@ -90,6 +100,7 @@ class Recipe
         $this->tags = new ArrayCollection();
         $this->utensils = new ArrayCollection();
         $this->instructions = new ArrayCollection();
+        $this->comments = new ArrayCollection();
     }
 
     public function getId(): int
@@ -273,5 +284,29 @@ class Recipe
     public function clearInstructions(): void
     {
         $this->instructions = new ArrayCollection();
+    }
+
+    /**
+     * @return Collection<int, RecipeComment>
+     */
+    public function getComments(): Collection
+    {
+        return $this->comments;
+    }
+
+    public function addComment(RecipeComment $comment): self
+    {
+        if (!$this->comments->contains($comment)) {
+            $this->comments->add($comment);
+        }
+
+        return $this;
+    }
+
+    public function removeComment(RecipeComment $comment): self
+    {
+        $this->comments->removeElement($comment);
+
+        return $this;
     }
 }

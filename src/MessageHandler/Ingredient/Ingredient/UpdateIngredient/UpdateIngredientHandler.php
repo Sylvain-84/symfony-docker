@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace App\MessageHandler\Ingredient\Ingredient\UpdateIngredient;
 
 use App\Entity\Ingredient\Ingredient;
-use App\Entity\Ingredient\IngredientMineral;
-use App\Entity\Ingredient\IngredientNutritional;
-use App\Entity\Ingredient\IngredientVitamine;
+use App\Entity\Ingredient\IngredientMinerals;
+use App\Entity\Ingredient\IngredientNutritionals;
+use App\Entity\Ingredient\IngredientVitamines;
 use App\Repository\Ingredient\IngredientCategoryRepository;
 use App\Repository\Ingredient\IngredientRepository;
 use App\Repository\Ingredient\IngredientTagRepository;
@@ -25,6 +25,7 @@ class UpdateIngredientHandler
 
     public function __invoke(UpdateIngredientCommand $command): void
     {
+        /** @var ?Ingredient $ingredient */
         $ingredient = $this->ingredientRepository->find($command->id);
 
         if (!$ingredient) {
@@ -43,6 +44,10 @@ class UpdateIngredientHandler
         $nutritional = $this->nutritional($ingredient, $command);
         $vitamine = $this->vitamine($ingredient, $command);
 
+        $ingredient->setMinerals($mineral);
+        $ingredient->setNutritionals($nutritional);
+        $ingredient->setVitamines($vitamine);
+
         foreach ($command->tags as $tagId) {
             $tag = $this->ingredientTagRepository->find($tagId);
             if (!$tag) {
@@ -55,9 +60,9 @@ class UpdateIngredientHandler
         $this->ingredientRepository->save($ingredient);
     }
 
-    public function mineral(Ingredient $ingredient, UpdateIngredientCommand $command): IngredientMineral
+    public function mineral(Ingredient $ingredient, UpdateIngredientCommand $command): IngredientMinerals
     {
-        $mineral = $ingredient->getMineral();
+        $mineral = $ingredient->getMinerals();
         $mineral->setCalcium($command->minerals->calcium);
         $mineral->setCuivre($command->minerals->cuivre);
         $mineral->setFer($command->minerals->fer);
@@ -73,9 +78,9 @@ class UpdateIngredientHandler
         return $mineral;
     }
 
-    public function nutritional(Ingredient $ingredient, UpdateIngredientCommand $command): IngredientNutritional
+    public function nutritional(Ingredient $ingredient, UpdateIngredientCommand $command): IngredientNutritionals
     {
-        $nutritional = $ingredient->getNutritional();
+        $nutritional = $ingredient->getNutritionals();
         $nutritional->setKilocalories($command->nutritionals->kilocalories);
         $nutritional->setProteine($command->nutritionals->proteine);
         $nutritional->setGlucides($command->nutritionals->glucides);
@@ -92,9 +97,9 @@ class UpdateIngredientHandler
         return $nutritional;
     }
 
-    public function vitamine(Ingredient $ingredient, UpdateIngredientCommand $command): IngredientVitamine
+    public function vitamine(Ingredient $ingredient, UpdateIngredientCommand $command): IngredientVitamines
     {
-        $vitamine = $ingredient->getVitamine();
+        $vitamine = $ingredient->getVitamines();
         $vitamine->setVitamineA($command->vitamines->vitamineA);
         $vitamine->setBetaCarotene($command->vitamines->betaCarotene);
         $vitamine->setVitamineD($command->vitamines->vitamineD);

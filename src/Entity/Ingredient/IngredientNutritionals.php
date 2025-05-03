@@ -8,7 +8,7 @@ use App\Repository\Ingredient\IngredientNutritionalRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: IngredientNutritionalRepository::class)]
-class IngredientNutritional
+class IngredientNutritionals
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]

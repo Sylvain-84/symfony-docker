@@ -14,7 +14,7 @@ final class Version20250420234008 extends AbstractMigration
 {
     public function getDescription(): string
     {
-        return 'Seed ingredients (and related mineral/nutritional/vitamine rows)';
+        return 'Seed ingredients (and related minerals/nutritionals/vitamines rows)';
     }
 
     public function up(Schema $schema): void
@@ -104,17 +104,17 @@ final class Version20250420234008 extends AbstractMigration
 
         foreach ($ingredients as [$name, $categoryId]) {
             // Create one blank row in each related table and grab its new ID
-            $this->addSql('INSERT INTO ingredient_mineral DEFAULT VALUES;');
-            $this->addSql('INSERT INTO ingredient_nutritional DEFAULT VALUES;');
-            $this->addSql('INSERT INTO ingredient_vitamine DEFAULT VALUES;');
+            $this->addSql('INSERT INTO ingredient_minerals DEFAULT VALUES;');
+            $this->addSql('INSERT INTO ingredient_nutritionals DEFAULT VALUES;');
+            $this->addSql('INSERT INTO ingredient_vitamines DEFAULT VALUES;');
 
             // Now insert the ingredient, wiring up the three new FK IDs
             $this->addSql(<<<'SQL'
-INSERT INTO ingredient (mineral_id, nutritional_id, vitamine_id, category_id, name)
+INSERT INTO ingredient (minerals_id, nutritionals_id, vitamines_id, category_id, name)
 VALUES (
-  currval('ingredient_mineral_id_seq'),
-  currval('ingredient_nutritional_id_seq'),
-  currval('ingredient_vitamine_id_seq'),
+  currval('ingredient_minerals_id_seq'),
+  currval('ingredient_nutritionals_id_seq'),
+  currval('ingredient_vitamines_id_seq'),
   ?, ?
 )
 SQL
@@ -144,8 +144,8 @@ SQL
         ])) . "')");
 
         // Optionally clean up orphaned relation rows
-        $this->addSql('DELETE FROM ingredient_mineral WHERE id NOT IN (SELECT mineral_id FROM ingredient);');
-        $this->addSql('DELETE FROM ingredient_nutritional WHERE id NOT IN (SELECT nutritional_id FROM ingredient);');
-        $this->addSql('DELETE FROM ingredient_vitamine WHERE id NOT IN (SELECT vitamine_id FROM ingredient);');
+        $this->addSql('DELETE FROM ingredient_minerals WHERE id NOT IN (SELECT minerals_id FROM ingredient);');
+        $this->addSql('DELETE FROM ingredient_nutritionals WHERE id NOT IN (SELECT nutritionals_id FROM ingredient);');
+        $this->addSql('DELETE FROM ingredient_vitamines WHERE id NOT IN (SELECT vitamines_id FROM ingredient);');
     }
 }

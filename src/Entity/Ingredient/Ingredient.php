@@ -25,15 +25,15 @@ class Ingredient
 
     #[ORM\OneToOne(cascade: ['persist', 'remove'])]
     #[ORM\JoinColumn(nullable: false)]
-    private IngredientMineral $mineral;
+    private IngredientMinerals $minerals;
 
     #[ORM\OneToOne(cascade: ['persist', 'remove'])]
     #[ORM\JoinColumn(nullable: false)]
-    private IngredientNutritional $nutritional;
+    private IngredientNutritionals $nutritionals;
 
     #[ORM\OneToOne(cascade: ['persist', 'remove'])]
     #[ORM\JoinColumn(nullable: false)]
-    private IngredientVitamine $vitamine;
+    private IngredientVitamines $vitamines;
 
     /**
      * @var Collection<int, IngredientTag>
@@ -44,15 +44,15 @@ class Ingredient
     public function __construct(
         string $name,
         IngredientCategory $category,
-        ?IngredientMineral $mineral = new IngredientMineral(),
-        ?IngredientNutritional $nutritional = new IngredientNutritional(),
-        ?IngredientVitamine $vitamine = new IngredientVitamine(),
+        ?IngredientMinerals $minerals = new IngredientMinerals(),
+        ?IngredientNutritionals $nutritionals = new IngredientNutritionals(),
+        ?IngredientVitamines $vitamines = new IngredientVitamines(),
     ) {
         $this->name = $name;
         $this->category = $category;
-        $this->mineral = $mineral;
-        $this->nutritional = $nutritional;
-        $this->vitamine = $vitamine;
+        $this->minerals = $minerals;
+        $this->nutritionals = $nutritionals;
+        $this->vitamines = $vitamines;
         $this->tags = new ArrayCollection();
     }
 
@@ -85,19 +85,40 @@ class Ingredient
         return $this;
     }
 
-    public function getMineral(): ?IngredientMineral
+    public function getMinerals(): ?IngredientMinerals
     {
-        return $this->mineral;
+        return $this->minerals;
     }
 
-    public function getNutritional(): ?IngredientNutritional
+    public function getNutritionals(): ?IngredientNutritionals
     {
-        return $this->nutritional;
+        return $this->nutritionals;
     }
 
-    public function getVitamine(): ?IngredientVitamine
+    public function getVitamines(): ?IngredientVitamines
     {
-        return $this->vitamine;
+        return $this->vitamines;
+    }
+
+    public function setMinerals(IngredientMinerals $minerals): static
+    {
+        $this->minerals = $minerals;
+
+        return $this;
+    }
+
+    public function setNutritionals(IngredientNutritionals $nutritionals): static
+    {
+        $this->nutritionals = $nutritionals;
+
+        return $this;
+    }
+
+    public function setVitamines(IngredientVitamines $vitamines): static
+    {
+        $this->vitamines = $vitamines;
+
+        return $this;
     }
 
     /**

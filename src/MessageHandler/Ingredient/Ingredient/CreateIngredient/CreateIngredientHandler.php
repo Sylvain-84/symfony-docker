@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace App\MessageHandler\Ingredient\Ingredient\CreateIngredient;
 
 use App\Entity\Ingredient\Ingredient;
-use App\Entity\Ingredient\IngredientMineral;
-use App\Entity\Ingredient\IngredientNutritional;
-use App\Entity\Ingredient\IngredientVitamine;
+use App\Entity\Ingredient\IngredientMinerals;
+use App\Entity\Ingredient\IngredientNutritionals;
+use App\Entity\Ingredient\IngredientVitamines;
 use App\Repository\Ingredient\IngredientCategoryRepository;
 use App\Repository\Ingredient\IngredientRepository;
 use App\Repository\Ingredient\IngredientTagRepository;
@@ -32,7 +32,7 @@ class CreateIngredientHandler
             throw new \InvalidArgumentException(sprintf('Ingredient category #%d not found.', $command->category));
         }
 
-        $ingredientMineral = new IngredientMineral(
+        $ingredientMineral = new IngredientMinerals(
             calcium: $command->minerals->calcium,
             cuivre: $command->minerals->cuivre,
             fer: $command->minerals->fer,
@@ -45,7 +45,7 @@ class CreateIngredientHandler
             sodium: $command->minerals->sodium,
             zinc: $command->minerals->zinc
         );
-        $ingredientNutritional = new IngredientNutritional(
+        $ingredientNutritional = new IngredientNutritionals(
             kilocalories: $command->nutritionals->kilocalories,
             proteine: $command->nutritionals->proteine,
             glucides: $command->nutritionals->glucides,
@@ -59,7 +59,7 @@ class CreateIngredientHandler
             acidesGrasPolyinsatures: $command->nutritionals->acidesGrasPolyinsatures,
             eau: $command->nutritionals->eau
         );
-        $ingredientVitamine = new IngredientVitamine(
+        $ingredientVitamine = new IngredientVitamines(
             vitamineA: $command->vitamines->vitamineA,
             betaCarotene: $command->vitamines->betaCarotene,
             vitamineD: $command->vitamines->vitamineD,
@@ -79,9 +79,9 @@ class CreateIngredientHandler
         $ingredient = new Ingredient(
             name: $command->name,
             category: $category,
-            mineral: $ingredientMineral,
-            nutritional: $ingredientNutritional,
-            vitamine: $ingredientVitamine,
+            minerals: $ingredientMineral,
+            nutritionals: $ingredientNutritional,
+            vitamines: $ingredientVitamine,
         );
 
         foreach ($command->tags as $tagId) {

@@ -4,18 +4,18 @@ declare(strict_types=1);
 
 namespace App\Repository\Ingredient;
 
-use App\Entity\Ingredient\IngredientNutritional;
+use App\Entity\Ingredient\IngredientNutritionals;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
- * @extends ServiceEntityRepository<IngredientNutritional>
+ * @extends ServiceEntityRepository<IngredientNutritionals>
  */
 class IngredientNutritionalRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, IngredientNutritional::class);
+        parent::__construct($registry, IngredientNutritionals::class);
     }
 
     //    /**

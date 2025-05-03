@@ -61,9 +61,24 @@ final class CreateIngredientHandlerTest extends KernelTestCase
         $command = new CreateIngredientCommand(
             category: $category->getId(),
             name: 'Banana',
-            nutritionals: new IngredientNutritionalInput(),
-            minerals: new IngredientMineralInput(),
-            vitamines: new IngredientVitamineInput(),
+            nutritionals: new IngredientNutritionalInput(
+                kilocalories: 89,
+                proteine: 1.1,
+                glucides: 22.8,
+                lipides: 0.3,
+                sucres: 12.2,
+                fibresAlimentaires: 2.6,
+            ),
+            minerals: new IngredientMineralInput(
+                magnesium: 27,
+                phosphore: 22,
+                potassium: 358,
+            ),
+            vitamines: new IngredientVitamineInput(
+                vitamineC: 8.7,
+                vitamineB6: 0.4,
+                vitamineB9: 0.02,
+            ),
             tags: [$tag->getId(), $tag2->getId()],
         );
 
@@ -77,6 +92,10 @@ final class CreateIngredientHandlerTest extends KernelTestCase
         self::assertSame($category->getId(), $ingredient->getCategory()->getId());
         self::assertSame($tag->getName(), $ingredient->getTags()->first()->getName());
         self::assertSame($tag2->getName(), $ingredient->getTags()->get(1)->getName());
+        self::assertSame(89.0, $ingredient->getNutritionals()->getKilocalories());
+        self::assertSame(1.1, $ingredient->getNutritionals()->getProteine());
+        self::assertSame(358.0, $ingredient->getMinerals()->getPotassium());
+        self::assertSame(8.7, $ingredient->getVitamines()->getVitamineC());
     }
 
     public function testItThrowsWhenCategoryDoesNotExist(): void

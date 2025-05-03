@@ -7,7 +7,7 @@ namespace App\Entity\Ingredient;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity]
-class IngredientVitamine
+class IngredientVitamines
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -93,64 +93,79 @@ class IngredientVitamine
         return $this->id;
     }
 
-    public function setVitamineA(?float $vitamineA): void
+    public function getVitamineA(): ?float
     {
-        $this->vitamineA = $vitamineA;
+        return $this->vitamineA;
     }
 
-    public function setBetaCarotene(?float $betaCarotene): void
+    public function getBetaCarotene(): ?float
     {
-        $this->betaCarotene = $betaCarotene;
+        return $this->betaCarotene;
     }
 
-    public function setVitamineD(?float $vitamineD): void
+    public function getVitamineD(): ?float
     {
-        $this->vitamineD = $vitamineD;
+        return $this->vitamineD;
     }
 
-    public function setVitamineE(?float $vitamineE): void
+    public function getVitamineE(): ?float
     {
-        $this->vitamineE = $vitamineE;
+        return $this->vitamineE;
     }
 
-    public function setVitamineK1(?float $vitamineK1): void
+    public function getVitamineK1(): ?float
     {
-        $this->vitamineK1 = $vitamineK1;
+        return $this->vitamineK1;
     }
 
-    public function setVitamineK2(?float $vitamineK2): void
+    public function getVitamineK2(): ?float
     {
-        $this->vitamineK2 = $vitamineK2;
+        return $this->vitamineK2;
     }
 
-    public function setVitamineC(?float $vitamineC): void
+    public function getVitamineC(): ?float
     {
-        $this->vitamineC = $vitamineC;
+        return $this->vitamineC;
     }
 
-    public function setVitamineB1(?float $vitamineB1): void
+    public function getVitamineB1(): ?float
     {
-        $this->vitamineB1 = $vitamineB1;
+        return $this->vitamineB1;
     }
 
-    public function setVitamineB2(?float $vitamineB2): void
+    public function getVitamineB2(): ?float
     {
-        $this->vitamineB2 = $vitamineB2;
+        return $this->vitamineB2;
     }
 
-    public function setVitamineB3(?float $vitamineB3): void
+    public function getVitamineB3(): ?float
     {
-        $this->vitamineB3 = $vitamineB3;
+        return $this->vitamineB3;
     }
 
-    public function setVitamineB5(?float $vitamineB5): void
+    public function getVitamineB5(): ?float
     {
-        $this->vitamineB5 = $vitamineB5;
+        return $this->vitamineB5;
     }
 
-    public function setVitamineB6(?float $vitamineB6): void
+    public function getVitamineB6(): ?float
     {
-        $this->vitamineB6 = $vitamineB6;
+        return $this->vitamineB6;
+    }
+
+    public function getVitamineB9(): ?float
+    {
+        return $this->vitamineB9;
+    }
+
+    public function getVitamineB12(): ?float
+    {
+        return $this->vitamineB12;
+    }
+
+    public function setVitamineB12(?float $vitamineB12): void
+    {
+        $this->vitamineB12 = $vitamineB12;
     }
 
     public function setVitamineB9(?float $vitamineB9): void
@@ -158,8 +173,63 @@ class IngredientVitamine
         $this->vitamineB9 = $vitamineB9;
     }
 
-    public function setVitamineB12(?float $vitamineB12): void
+    public function setVitamineB6(?float $vitamineB6): void
     {
-        $this->vitamineB12 = $vitamineB12;
+        $this->vitamineB6 = $vitamineB6;
+    }
+
+    public function setVitamineB5(?float $vitamineB5): void
+    {
+        $this->vitamineB5 = $vitamineB5;
+    }
+
+    public function setVitamineB3(?float $vitamineB3): void
+    {
+        $this->vitamineB3 = $vitamineB3;
+    }
+
+    public function setVitamineB2(?float $vitamineB2): void
+    {
+        $this->vitamineB2 = $vitamineB2;
+    }
+
+    public function setVitamineB1(?float $vitamineB1): void
+    {
+        $this->vitamineB1 = $vitamineB1;
+    }
+
+    public function setVitamineC(?float $vitamineC): void
+    {
+        $this->vitamineC = $vitamineC;
+    }
+
+    public function setVitamineK2(?float $vitamineK2): void
+    {
+        $this->vitamineK2 = $vitamineK2;
+    }
+
+    public function setVitamineK1(?float $vitamineK1): void
+    {
+        $this->vitamineK1 = $vitamineK1;
+    }
+
+    public function setVitamineE(?float $vitamineE): void
+    {
+        $this->vitamineE = $vitamineE;
+    }
+
+    public function setVitamineD(?float $vitamineD): void
+    {
+        $this->vitamineD = $vitamineD;
+    }
+
+    public function setBetaCarotene(?float $betaCarotene): void
+    {
+        $this->betaCarotene = $betaCarotene;
+    }
+
+    public function setVitamineA(?float $vitamineA): void
+    {
+        $this->vitamineA = $vitamineA;
     }
 }

@@ -74,3 +74,24 @@ quality:
 	@$(PHPCS)
 	@echo "➡️  PHP-CS-Fixer (dry-run)"
 	@$(PHPCSFIXER)
+
+# reset database for dev and test
+reset-db:
+	@echo "➡️  Resetting database for dev"
+	@docker exec -it $(PHP_CONTAINER) \
+	      php bin/console doctrine:database:drop --force --if-exists
+	@docker exec -it $(PHP_CONTAINER) \
+	      php bin/console doctrine:database:create
+	@docker exec -it $(PHP_CONTAINER) \
+	      php bin/console doctrine:schema:update --force
+	@docker exec -it $(PHP_CONTAINER) \
+	      php bin/console doctrine:fixtures:load --no-interaction
+	@echo "➡️  Resetting database for test"
+	@docker exec -it $(PHP_CONTAINER) \
+	      php bin/console doctrine:database:drop --env=test --force --if-exists
+	@docker exec -it $(PHP_CONTAINER) \
+	      php bin/console doctrine:database:create --env=test
+	@docker exec -it $(PHP_CONTAINER) \
+	      php bin/console doctrine:schema:update --env=test --force
+	@docker exec -it $(PHP_CONTAINER) \
+	      php bin/console doctrine:fixtures:load --env=test --no-interaction

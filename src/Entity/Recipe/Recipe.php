@@ -79,6 +79,15 @@ class Recipe
     #[ORM\OrderBy(['createdAt' => 'DESC'])]
     private Collection $comments;
 
+    /** @var Collection<int, RecipeIngredient> */
+    #[ORM\OneToMany(
+        mappedBy: 'recipe',
+        targetEntity: RecipeIngredient::class,
+        cascade: ['persist', 'remove'],
+        orphanRemoval: true
+    )]
+    private Collection $recipeIngredients;
+
     public function __construct(
         string $name,
         RecipeCategory $category,
@@ -101,6 +110,7 @@ class Recipe
         $this->utensils = new ArrayCollection();
         $this->instructions = new ArrayCollection();
         $this->comments = new ArrayCollection();
+        $this->recipeIngredients = new ArrayCollection();
     }
 
     public function getId(): int
@@ -308,5 +318,34 @@ class Recipe
         $this->comments->removeElement($comment);
 
         return $this;
+    }
+
+    public function addIngredient(RecipeIngredient $ingredient): self
+    {
+        if (!$this->recipeIngredients->contains($ingredient)) {
+            $this->recipeIngredients->add($ingredient);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, RecipeIngredient>
+     */
+    public function getIngredients(): Collection
+    {
+        return $this->recipeIngredients;
+    }
+
+    public function removeRecipeIngredient(RecipeIngredient $ingredient): self
+    {
+        $this->recipeIngredients->removeElement($ingredient);
+
+        return $this;
+    }
+
+    public function clearRecipeIngredients(): void
+    {
+        $this->recipeIngredients = new ArrayCollection();
     }
 }

@@ -4,16 +4,15 @@ declare(strict_types=1);
 
 namespace App\Tests\MessageHandler\Recipe\RecipeCategory;
 
-use App\DataFixtures\Recipe\RecipeCategoryFixture;
+use App\Entity\Recipe\Recipe;
 use App\Entity\Recipe\RecipeCategory;
+use App\Enum\DifficultyEnum;
 use App\MessageHandler\Recipe\RecipeCategory\DeleteRecipeCategory\DeleteRecipeCategoryCommand;
-use App\MessageHandler\Recipe\RecipeCategory\DeleteRecipeCategory\DeleteRecipeCategoryHandler;
-use Doctrine\Common\DataFixtures\Executor\ORMExecutor;
-use Doctrine\Common\DataFixtures\Loader;
-use Doctrine\Common\DataFixtures\Purger\ORMPurger;
 use Doctrine\DBAL\Exception\ForeignKeyConstraintViolationException;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
+use Symfony\Component\Messenger\Exception\HandlerFailedException;
+use Symfony\Component\Messenger\MessageBusInterface;
 
 /**
  * @covers \App\MessageHandler\Recipe\RecipeCategory\DeleteRecipeCategory\DeleteRecipeCategoryHandler
@@ -21,62 +20,53 @@ use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 final class DeleteRecipeCategoryHandlerTest extends KernelTestCase
 {
     private EntityManagerInterface $em;
-    private DeleteRecipeCategoryHandler $handler;
+    private MessageBusInterface $bus;
 
     protected function setUp(): void
     {
         self::bootKernel();
-
-        $this->em = self::getContainer()->get(EntityManagerInterface::class);
-        $this->handler = self::getContainer()->get(DeleteRecipeCategoryHandler::class);
-
-        $this->em->beginTransaction();
-
-        $loader = new Loader();
-        $loader->addFixture(new RecipeCategoryFixture());
-
-        (new ORMExecutor($this->em, new ORMPurger()))
-            ->execute($loader->getFixtures(), append: true);
+        $c = self::getContainer();
+        $this->em = $c->get(EntityManagerInterface::class);
+        $this->bus = $c->get(MessageBusInterface::class);
     }
 
-    protected function tearDown(): void
+    public function testItDeletesARecipeCategory(): void
     {
-        $this->em->rollback();
-        $this->em->close();
-        parent::tearDown();
-    }
+        // Arrange
+        $category = new RecipeCategory('Drinks');
+        $this->em->persist($category);
+        $this->em->flush();
 
-    public function testItDeletesAnRecipeCategory(): void
-    {
-        /** @var RecipeCategory|null $RecipeCategory */
-        $RecipeCategory = $this->em
-            ->getRepository(RecipeCategory::class)
-            ->findOneBy(['name' => RecipeCategoryFixture::ORIGINAL_NAME_UNUSED]);
-        $RecipeCategoryId = $RecipeCategory->getId();
+        $categoryId = $category->getId();
 
-        self::assertNotNull($RecipeCategory, "L'ingrédient fixture n'existe pas");
+        // Act
+        $this->bus->dispatch(new DeleteRecipeCategoryCommand($categoryId));
 
-        $command = new DeleteRecipeCategoryCommand($RecipeCategoryId);
-
-        ($this->handler)($command);
-
-        $deleted = $this->em->getRepository(RecipeCategory::class)->find($RecipeCategoryId);
-        self::assertNull($deleted, 'L’ingrédient devrait être supprimé de la base');
+        // Assert
+        $this->assertNull(
+            $this->em->find(RecipeCategory::class, $categoryId),
+            'Category should be removed from the database'
+        );
     }
 
     public function testItThrowsWhenCategoryIsUsedByRecipe(): void
     {
-        /** @var RecipeCategory|null $used */
-        $used = $this->em->getRepository(RecipeCategory::class)
-            ->findOneBy(['name' => RecipeCategoryFixture::ORIGINAL_NAME]);
+        $category = new RecipeCategory('Lunch');
+        $recipe = new Recipe('Banana dark chocolate', $category, DifficultyEnum::EASY);
 
-        self::assertNotNull($used, 'Catégorie “USED” manquante');
-        $this->assertGreaterThan(0, $used->getRecipes()->count());
+        $this->em->persist($category);
+        $this->em->persist($recipe);
+        $this->em->flush();
 
-        $command = new DeleteRecipeCategoryCommand($used->getId());
-
-        $this->expectException(ForeignKeyConstraintViolationException::class);
-
-        ($this->handler)($command);
+        try {
+            $this->bus->dispatch(new DeleteRecipeCategoryCommand($category->getId()));
+            self::fail('Foreign-key violation expected');
+        } catch (HandlerFailedException $e) {
+            $this->assertInstanceOf(
+                ForeignKeyConstraintViolationException::class,
+                array_values($e->getWrappedExceptions())[0],
+                'Inner exception should be DBAL foreign-key violation'
+            );
+        }
     }
 }

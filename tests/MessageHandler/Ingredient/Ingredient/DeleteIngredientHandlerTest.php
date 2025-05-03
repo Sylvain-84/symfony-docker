@@ -52,7 +52,7 @@ final class DeleteIngredientHandlerTest extends KernelTestCase
         /** @var Ingredient|null $ingredient */
         $ingredient = $this->em
             ->getRepository(Ingredient::class)
-            ->findOneBy(['name' => IngredientFixture::ORIGINAL_NAME]);
+            ->findOneBy(['name' => IngredientFixture::ORIGINAL_NAME_UNUSED]);
         $ingredientId = $ingredient->getId();
 
         self::assertNotNull($ingredient, "L'ingrédient fixture n'existe pas");

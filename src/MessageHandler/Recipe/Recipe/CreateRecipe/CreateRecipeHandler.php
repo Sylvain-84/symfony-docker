@@ -5,7 +5,9 @@ declare(strict_types=1);
 namespace App\MessageHandler\Recipe\Recipe\CreateRecipe;
 
 use App\Entity\Recipe\Recipe;
+use App\Entity\Recipe\RecipeIngredient;
 use App\Entity\Recipe\RecipeInstruction;
+use App\Repository\Ingredient\IngredientRepository;
 use App\Repository\Recipe\RecipeCategoryRepository;
 use App\Repository\Recipe\RecipeRepository;
 use App\Repository\Recipe\RecipeTagRepository;
@@ -20,6 +22,7 @@ class CreateRecipeHandler
         private RecipeCategoryRepository $recipeCategoryRepository,
         private RecipeTagRepository $recipeTagRepository,
         private UtensilRepository $utensilRepository,
+        private IngredientRepository $ingredientRepository,
     ) {
     }
 
@@ -46,6 +49,7 @@ class CreateRecipeHandler
         $recipe = $this->tags($command, $recipe);
         $recipe = $this->utensils($command, $recipe);
         $recipe = $this->instructions($command, $recipe);
+        $recipe = $this->ingredients($command, $recipe);
 
         $this->recipeRepository->save($recipe);
 
@@ -89,6 +93,29 @@ class CreateRecipeHandler
                     description: $instruction->description,
                     recipe: $recipe,
                     position: $instruction->position,
+                )
+            );
+        }
+
+        return $recipe;
+    }
+
+    private function ingredients(CreateRecipeCommand $command, Recipe $recipe): Recipe
+    {
+        $recipe->clearRecipeIngredients();
+
+        foreach ($command->ingredients as $ingredientInput) {
+            $ingredient = $this->ingredientRepository->find($ingredientInput->ingredientId);
+            if (!$ingredient) {
+                throw new \InvalidArgumentException("Ingredient #{$ingredientInput->ingredientId} not found.");
+            }
+
+            $recipe->addIngredient(
+                new RecipeIngredient(
+                    recipe: $recipe,
+                    ingredient: $ingredient,
+                    quantity: $ingredientInput->quantity,
+                    unit: $ingredientInput->unit,
                 )
             );
         }

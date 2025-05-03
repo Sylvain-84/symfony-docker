@@ -13,7 +13,7 @@ class IngredientMineral
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(type: 'integer')]
-    private readonly int $id;
+    private int $id;
 
     #[ORM\Column(type: 'float', nullable: true)]
     private ?float $calcium = null;

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Tests\MessageHandler\Recipe\Recipe;
 
-use App\DataFixtures\RecipeFixture;
+use App\DataFixtures\Recipe\RecipeFixture;
 use App\Entity\Recipe\Recipe;
 use App\MessageHandler\Recipe\Recipe\DeleteRecipe\DeleteRecipeCommand;
 use App\MessageHandler\Recipe\Recipe\DeleteRecipe\DeleteRecipeHandler;

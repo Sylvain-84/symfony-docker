@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Tests\MessageHandler\Recipe\Utensil;
 
-use App\DataFixtures\UtensilFixture;
+use App\DataFixtures\Recipe\UtensilFixture;
 use App\Entity\Recipe\Utensil;
 use App\MessageHandler\Recipe\Utensil\UpdateUtensil\UpdateUtensilCommand;
 use App\MessageHandler\Recipe\Utensil\UpdateUtensil\UpdateUtensilHandler;

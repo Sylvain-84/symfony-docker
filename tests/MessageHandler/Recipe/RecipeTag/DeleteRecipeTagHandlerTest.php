@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Tests\MessageHandler\Recipe\RecipeTag;
 
-use App\DataFixtures\RecipeTagFixture;
+use App\DataFixtures\Recipe\RecipeTagFixture;
 use App\Entity\Recipe\RecipeTag;
 use App\MessageHandler\Recipe\RecipeTag\DeleteRecipeTag\DeleteRecipeTagCommand;
 use App\MessageHandler\Recipe\RecipeTag\DeleteRecipeTag\DeleteRecipeTagHandler;

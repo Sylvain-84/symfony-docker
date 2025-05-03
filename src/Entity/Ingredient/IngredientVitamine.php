@@ -12,7 +12,7 @@ class IngredientVitamine
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(type: 'integer')]
-    private readonly int $id;
+    private int $id;
 
     #[ORM\Column(name: 'vitamine_A', type: 'float', nullable: true)]
     private ?float $vitamineA = null;

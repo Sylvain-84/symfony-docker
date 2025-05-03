@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace App\Tests\MessageHandler\Recipe\Recipe;
 
-use App\DataFixtures\RecipeCategoryFixture;
-use App\DataFixtures\RecipeFixture;
-use App\DataFixtures\RecipeTagFixture;
-use App\DataFixtures\UtensilFixture;
+use App\DataFixtures\Recipe\RecipeCategoryFixture;
+use App\DataFixtures\Recipe\RecipeFixture;
+use App\DataFixtures\Recipe\RecipeTagFixture;
+use App\DataFixtures\Recipe\UtensilFixture;
 use App\Entity\Recipe\Recipe;
 use App\Entity\Recipe\RecipeCategory;
 use App\Entity\Recipe\RecipeTag;

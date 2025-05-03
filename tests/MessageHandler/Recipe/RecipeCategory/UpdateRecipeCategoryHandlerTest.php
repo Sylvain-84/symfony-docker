@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Tests\MessageHandler\Recipe\RecipeCategory;
 
-use App\DataFixtures\RecipeCategoryFixture;
+use App\DataFixtures\Recipe\RecipeCategoryFixture;
 use App\Entity\Recipe\RecipeCategory;
 use App\MessageHandler\Recipe\RecipeCategory\UpdateRecipeCategory\UpdateRecipeCategoryCommand;
 use App\MessageHandler\Recipe\RecipeCategory\UpdateRecipeCategory\UpdateRecipeCategoryHandler;

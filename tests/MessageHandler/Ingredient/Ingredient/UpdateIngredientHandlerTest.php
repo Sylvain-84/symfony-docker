@@ -78,7 +78,7 @@ final class UpdateIngredientHandlerTest extends KernelTestCase
 
         $updateCommand = new UpdateIngredientCommand(
             id: $ingredient->getId(),
-            category: $category->getId(),
+            categoryId: $category->getId(),
             name: 'Green Apple',
             nutritionals: new IngredientNutritionalInput(
                 kilocalories: 52,
@@ -141,7 +141,7 @@ final class UpdateIngredientHandlerTest extends KernelTestCase
 
         $command = new UpdateIngredientCommand(
             id: $nonExistingId,
-            category: 1,
+            categoryId: 1,
             name: 'Does not matter',
             nutritionals: new IngredientNutritionalInput(),
             minerals: new IngredientMineralInput(),

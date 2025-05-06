@@ -32,9 +32,9 @@ class UpdateIngredientHandler
             throw new \InvalidArgumentException(sprintf('Ingredient #%d not found.', $command->id));
         }
 
-        $category = $this->ingredientCategoryRepository->find($command->category);
+        $category = $this->ingredientCategoryRepository->find($command->categoryId);
         if (!$category) {
-            throw new \InvalidArgumentException(sprintf('Ingredient category #%d not found.', $command->category));
+            throw new \InvalidArgumentException(sprintf('Ingredient category #%d not found.', $command->categoryId));
         }
 
         $ingredient->setCategory($category);

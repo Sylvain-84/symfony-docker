@@ -31,12 +31,12 @@ class IngredientController extends AbstractController
     public function getAllIngredients(): JsonResponse
     {
         /** @var Ingredient[] $ingredients */
-        $ingredients = $this->ingredientRepository->findAll();
+        $ingredients = $this->ingredientRepository->findAllOrderedByName();
         $ingredientsDto = array_map(
             fn ($ingredient) => IngredientListDto::transform(
-                $ingredient->getCategory()->getName(),
-                $ingredient->getName(),
-                $ingredient->getId()
+                category: $ingredient->getCategory()->getName(),
+                name: $ingredient->getName(),
+                id: $ingredient->getId()
             ),
             $ingredients
         );
@@ -63,13 +63,13 @@ class IngredientController extends AbstractController
     {
         $ingredient = $this->ingredientRepository->find($id);
 
-        return $this->json([
+        return $this->json(
             IngredientDto::transform(
-                $ingredient->getCategory()->getId(),
-                $ingredient->getName(),
-                $ingredient->getId()
+                categoryId: $ingredient->getCategory()->getId(),
+                name: $ingredient->getName(),
+                id: $ingredient->getId()
             ),
-        ]);
+        );
     }
 
     #[Route('/{id}', name: 'update', methods: ['PUT'], requirements: ['id' => '\d+'])]

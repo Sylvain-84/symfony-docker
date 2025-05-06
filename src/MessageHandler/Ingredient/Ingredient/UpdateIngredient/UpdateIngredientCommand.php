@@ -15,7 +15,7 @@ final readonly class UpdateIngredientCommand
      */
     public function __construct(
         public int $id,
-        public int $category,
+        public int $categoryId,
         public string $name,
         public IngredientNutritionalInput $nutritionals,
         public IngredientMineralInput $minerals,

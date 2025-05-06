@@ -18,6 +18,17 @@ class IngredientRepository extends ServiceEntityRepository
         parent::__construct($registry, Ingredient::class);
     }
 
+    /**
+     * @return Ingredient[] Returns an array of Ingredient objects
+     */
+    public function findAllOrderedByName(): array
+    {
+        return $this->createQueryBuilder('i')
+            ->orderBy('UNACCENT(LOWER(i.name))', 'ASC')
+            ->getQuery()
+            ->getResult();
+    }
+
     public function save(Ingredient $entity, bool $flush = true): void
     {
         $this->getEntityManager()->persist($entity);

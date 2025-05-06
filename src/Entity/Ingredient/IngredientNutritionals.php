@@ -13,7 +13,7 @@ class IngredientNutritionals
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    private readonly int $id;
+    private int $id;
 
     #[ORM\Column(type: 'float', options: ['default' => 0])]
     private float $kilocalories = 0.0;

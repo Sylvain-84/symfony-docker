@@ -13,7 +13,7 @@ class Utensil
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    private readonly int $id;
+    private int $id;
 
     #[ORM\Column(length: 255)]
     private string $name;

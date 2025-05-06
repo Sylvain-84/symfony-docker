@@ -48,14 +48,7 @@ class UpdateIngredientHandler
         $ingredient->setNutritionals($nutritional);
         $ingredient->setVitamines($vitamine);
 
-        foreach ($command->tags as $tagId) {
-            $tag = $this->ingredientTagRepository->find($tagId);
-            if (!$tag) {
-                throw new \InvalidArgumentException(sprintf('Ingredient tag #%d not found.', $tagId));
-            }
-
-            $ingredient->addTag($tag);
-        }
+        $ingredient = $this->tags($command, $ingredient);
 
         $this->ingredientRepository->save($ingredient);
     }
@@ -116,5 +109,21 @@ class UpdateIngredientHandler
         $vitamine->setVitamineB12($command->vitamines->vitamineB12);
 
         return $vitamine;
+    }
+
+    public function tags(UpdateIngredientCommand $command, Ingredient $ingredient): Ingredient
+    {
+        if (null !== $command->tags) {
+            foreach ($command->tags as $tagId) {
+                $tag = $this->ingredientTagRepository->find($tagId);
+                if (!$tag) {
+                    throw new \InvalidArgumentException(sprintf('Ingredient tag #%d not found.', $tagId));
+                }
+
+                $ingredient->addTag($tag);
+            }
+        }
+
+        return $ingredient;
     }
 }

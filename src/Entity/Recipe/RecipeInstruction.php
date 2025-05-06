@@ -21,7 +21,7 @@ class RecipeInstruction
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    private readonly int $id;
+    private int $id;
 
     #[Assert\NotBlank]
     #[ORM\Column(length: 255)]

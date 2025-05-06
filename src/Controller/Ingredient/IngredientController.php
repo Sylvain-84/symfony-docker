@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Controller\Ingredient;
 
 use App\Dto\Ingredient\IngredientDto;
+use App\Dto\Ingredient\IngredientListDto;
 use App\Entity\Ingredient\Ingredient;
 use App\MessageHandler\Ingredient\Ingredient\CreateIngredient\CreateIngredientCommand;
 use App\MessageHandler\Ingredient\Ingredient\DeleteIngredient\DeleteIngredientCommand;
@@ -32,17 +33,15 @@ class IngredientController extends AbstractController
         /** @var Ingredient[] $ingredients */
         $ingredients = $this->ingredientRepository->findAll();
         $ingredientsDto = array_map(
-            fn ($ingredient) => IngredientDto::transform(
-                $ingredient->getCategory()->getId(),
+            fn ($ingredient) => IngredientListDto::transform(
+                $ingredient->getCategory()->getName(),
                 $ingredient->getName(),
                 $ingredient->getId()
             ),
             $ingredients
         );
 
-        return $this->json([
-            'ingredients' => $ingredientsDto,
-        ]);
+        return $this->json($ingredientsDto);
     }
 
     #[Route('', name: 'add', methods: ['POST'])]

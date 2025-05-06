@@ -6,9 +6,9 @@ declare(strict_types=1);
 
 namespace App\Dto;
 
-use App\Enum\UnityEnum;
+use App\Enum\DifficultyEnum;
 
-final readonly class UnitiesDto
+final readonly class DifficultyDto
 {
     private function __construct(
         public string $name,
@@ -16,11 +16,11 @@ final readonly class UnitiesDto
     ) {
     }
 
-    public static function transform(UnityEnum $unity): self
+    public static function transform(DifficultyEnum $difficulty): self
     {
         return new self(
-            name: $unity->name,
-            value: $unity->value
+            name: $difficulty->name,
+            value: $difficulty->value
         );
     }
 }

@@ -15,12 +15,25 @@ use Symfony\Component\HttpKernel\Attribute\MapRequestPayload;
 use Symfony\Component\Messenger\MessageBusInterface;
 use Symfony\Component\Routing\Attribute\Route;
 
-#[Route('/utensils', name: 'recipe_tags_')]
+#[Route('/utensils', name: 'utensils_')]
 class UtensilController extends AbstractController
 {
     public function __construct(
         private readonly UtensilRepository $utensilRepository,
     ) {
+    }
+
+    #[Route('/{id}', name: 'get', methods: ['GET'], requirements: ['id' => '\d+'])]
+    public function getUtensilById(
+        int $id,
+    ): JsonResponse {
+        $utensil = $this->utensilRepository->find($id);
+        $utensilDto = UtensilDto::transform(
+            $utensil->getName(),
+            $utensil->getId()
+        );
+
+        return $this->json($utensilDto);
     }
 
     #[Route('', name: 'index', methods: ['GET'])]
@@ -35,9 +48,7 @@ class UtensilController extends AbstractController
             $utensils
         );
 
-        return $this->json([
-            'recipe_tags' => $utensilsDto,
-        ]);
+        return $this->json($utensilsDto);
     }
 
     #[Route('', name: 'add', methods: ['POST'])]

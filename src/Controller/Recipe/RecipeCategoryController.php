@@ -23,6 +23,19 @@ class RecipeCategoryController extends AbstractController
     ) {
     }
 
+    #[Route('/{id}', name: 'get', methods: ['GET'], requirements: ['id' => '\d+'])]
+    public function getRecipeCategoryById(
+        int $id,
+    ): JsonResponse {
+        $recipeCategory = $this->recipeCategoryRepository->find($id);
+        $recipeCategoryDto = RecipeCategoryDto::transform(
+            $recipeCategory->getName(),
+            $recipeCategory->getId()
+        );
+
+        return $this->json($recipeCategoryDto);
+    }
+
     #[Route('', name: 'index', methods: ['GET'])]
     public function getAllRecipeCategories(): JsonResponse
     {
@@ -35,9 +48,7 @@ class RecipeCategoryController extends AbstractController
             $recipeCategories
         );
 
-        return $this->json([
-            'recipe_categories' => $recipeCategoriesDto,
-        ]);
+        return $this->json($recipeCategoriesDto);
     }
 
     #[Route('', name: 'add', methods: ['POST'])]

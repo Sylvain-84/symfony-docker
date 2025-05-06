@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
-use App\Dto\UnitiesDto;
+use App\Dto\UnityDto;
 use App\Enum\UnityEnum;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -17,7 +17,7 @@ class UnityController extends AbstractController
     public function getUnities(): JsonResponse
     {
         $units = array_map(
-            static fn (UnityEnum $unity) => UnitiesDto::transform($unity),
+            static fn (UnityEnum $unity) => UnityDto::transform($unity),
             UnityEnum::cases()
         );
 

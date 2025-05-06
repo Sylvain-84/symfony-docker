@@ -23,6 +23,19 @@ class RecipeTagController extends AbstractController
     ) {
     }
 
+    #[Route('/{id}', name: 'get', methods: ['GET'], requirements: ['id' => '\d+'])]
+    public function getRecipeTagById(
+        int $id,
+    ): JsonResponse {
+        $recipeTag = $this->recipeTagRepository->find($id);
+        $recipeTagDto = RecipeTagDto::transform(
+            $recipeTag->getName(),
+            $recipeTag->getId()
+        );
+
+        return $this->json($recipeTagDto);
+    }
+
     #[Route('', name: 'index', methods: ['GET'])]
     public function getAllRecipeTags(): JsonResponse
     {
@@ -35,9 +48,7 @@ class RecipeTagController extends AbstractController
             $recipeTags
         );
 
-        return $this->json([
-            'recipe_tags' => $recipeTagsDto,
-        ]);
+        return $this->json($recipeTagsDto);
     }
 
     #[Route('', name: 'add', methods: ['POST'])]

@@ -23,6 +23,19 @@ class IngredientCategoryController extends AbstractController
     ) {
     }
 
+    #[Route('/{id}', name: 'get', methods: ['GET'], requirements: ['id' => '\d+'])]
+    public function getIngredientCategoryById(
+        int $id,
+    ): JsonResponse {
+        $ingredientCategory = $this->ingredientCategoryRepository->find($id);
+        $ingredientCategoryDto = IngredientCategoryDto::transform(
+            $ingredientCategory->getName(),
+            $ingredientCategory->getId()
+        );
+
+        return $this->json($ingredientCategoryDto);
+    }
+
     #[Route('', name: 'index', methods: ['GET'])]
     public function getAllIngredientCategories(): JsonResponse
     {
@@ -35,9 +48,7 @@ class IngredientCategoryController extends AbstractController
             $ingredientCategories
         );
 
-        return $this->json([
-            'ingredient_categories' => $ingredientCategoriesDto,
-        ]);
+        return $this->json($ingredientCategoriesDto);
     }
 
     #[Route('', name: 'add', methods: ['POST'])]
@@ -54,7 +65,7 @@ class IngredientCategoryController extends AbstractController
     }
 
     #[Route('/{id}', name: 'update', methods: ['PUT'], requirements: ['id' => '\d+'])]
-    public function updateIngredientById(
+    public function updateIngredientCategoryById(
         MessageBusInterface $bus,
         #[MapRequestPayload]
         UpdateIngredientCategoryCommand $updateIngredientCategoryCommand,

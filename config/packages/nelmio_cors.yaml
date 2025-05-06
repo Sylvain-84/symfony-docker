@@ -1,21 +1,10 @@
-# config/packages/nelmio_cors.yaml
 nelmio_cors:
-  defaults:
-    # allow any origin
-    allow_origin: ['*']
-    # allow all standard HTTP methods (incl. OPTIONS for preflight)
-    allow_methods: ['GET','POST','PUT','PATCH','DELETE','OPTIONS']
-    # allow any custom headers the client might send
-    allow_headers: ['*']
-    # expose all response headers back to the client
-    expose_headers: ['*']
-    # how long (in seconds) the browser may cache this pre-flight response
-    max_age: 3600
-    # must be false if you use '*' above
-    allow_credentials: false
-
-  # apply this to every path — change '^/' if you only want to CORS-enable certain prefixes
-  paths:
-    '^/':
-      # inherit all defaults
-      origin_regex: true
+    defaults:
+        allow_credentials: false
+        allow_origin: ['http://localhost:3000']
+        allow_headers: ['Content-Type']
+        allow_methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS']
+        max_age: 3600
+    
+    paths:
+        '^/': ~

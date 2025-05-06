@@ -59,7 +59,7 @@ final class CreateIngredientHandlerTest extends KernelTestCase
         self::assertNotNull($tag2, 'Le deuxième tag de la fixture n’a pas été trouvée');
 
         $command = new CreateIngredientCommand(
-            category: $category->getId(),
+            categoryId: $category->getId(),
             name: 'Banana',
             nutritionals: new IngredientNutritionalInput(
                 kilocalories: 89,
@@ -103,7 +103,7 @@ final class CreateIngredientHandlerTest extends KernelTestCase
         $nonExistingCategoryId = 999_999;
 
         $command = new CreateIngredientCommand(
-            category: $nonExistingCategoryId,
+            categoryId: $nonExistingCategoryId,
             name: 'Mango',
             nutritionals: new IngredientNutritionalInput(),
             minerals: new IngredientMineralInput(),

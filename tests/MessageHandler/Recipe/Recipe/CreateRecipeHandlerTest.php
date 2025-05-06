@@ -74,7 +74,7 @@ final class CreateRecipeHandlerTest extends KernelTestCase
 
         $cmd = new CreateRecipeCommand(
             name: 'Banana dark chocolate',
-            category: $category->getId(),
+            categoryId: $category->getId(),
             difficulty: DifficultyEnum::EASY,
             servings: 3,
             preparationTime: 20,
@@ -183,7 +183,7 @@ final class CreateRecipeHandlerTest extends KernelTestCase
 
         $cmd = new CreateRecipeCommand(
             name: 'irrelevant',
-            category: $invalidCategory,
+            categoryId: $invalidCategory,
             difficulty: DifficultyEnum::EASY,
             servings: 1
         );

@@ -34,9 +34,9 @@ class UpdateRecipeHandler
             throw new \InvalidArgumentException(sprintf('Recipe #%d not found.', $command->id));
         }
 
-        $category = $this->recipeCategoryRepository->find($command->category);
+        $category = $this->recipeCategoryRepository->find($command->categoryId);
         if (!$category) {
-            throw new \InvalidArgumentException(sprintf('Recipe category #%d not found.', $command->category));
+            throw new \InvalidArgumentException(sprintf('Recipe category #%d not found.', $command->categoryId));
         }
         $recipe->setCategory($category);
         $recipe->setName($command->name);
@@ -57,13 +57,15 @@ class UpdateRecipeHandler
 
     private function tags(UpdateRecipeCommand $command, Recipe $recipe): Recipe
     {
-        foreach ($command->tags as $tagId) {
-            $tag = $this->recipeTagRepository->find($tagId);
-            if (!$tag) {
-                throw new \InvalidArgumentException(sprintf('Recipe tag #%d not found.', $tagId));
-            }
+        if (null !== $command->tags) {
+            foreach ($command->tags as $tagId) {
+                $tag = $this->recipeTagRepository->find($tagId);
+                if (!$tag) {
+                    throw new \InvalidArgumentException(sprintf('Recipe tag #%d not found.', $tagId));
+                }
 
-            $recipe->addTag($tag);
+                $recipe->addTag($tag);
+            }
         }
 
         return $recipe;
@@ -71,13 +73,15 @@ class UpdateRecipeHandler
 
     private function utensils(UpdateRecipeCommand $command, Recipe $recipe): Recipe
     {
-        foreach ($command->utensils as $utensilId) {
-            $utensil = $this->utensilRepository->find($utensilId);
-            if (!$utensil) {
-                throw new \InvalidArgumentException(sprintf('Utensil #%d not found.', $utensilId));
-            }
+        if (null !== $command->utensils) {
+            foreach ($command->utensils as $utensilId) {
+                $utensil = $this->utensilRepository->find($utensilId);
+                if (!$utensil) {
+                    throw new \InvalidArgumentException(sprintf('Utensil #%d not found.', $utensilId));
+                }
 
-            $recipe->addUtensil($utensil);
+                $recipe->addUtensil($utensil);
+            }
         }
 
         return $recipe;
@@ -87,15 +91,17 @@ class UpdateRecipeHandler
     {
         $recipe->clearInstructions();
 
-        foreach ($command->instructions as $instruction) {
-            $recipe->addInstruction(
-                new RecipeInstruction(
-                    name: $instruction->name,
-                    description: $instruction->description,
-                    recipe: $recipe,
-                    position: $instruction->position,
-                )
-            );
+        if (null !== $command->instructions) {
+            foreach ($command->instructions as $instruction) {
+                $recipe->addInstruction(
+                    new RecipeInstruction(
+                        name: $instruction->name,
+                        description: $instruction->description,
+                        recipe: $recipe,
+                        position: $instruction->position,
+                    )
+                );
+            }
         }
 
         return $recipe;

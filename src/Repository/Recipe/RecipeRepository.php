@@ -18,6 +18,17 @@ class RecipeRepository extends ServiceEntityRepository
         parent::__construct($registry, Recipe::class);
     }
 
+    /**
+     * @return Recipe[] Returns an array of Recipe objects
+     */
+    public function findAllOrderedByName(): array
+    {
+        return $this->createQueryBuilder('r')
+            ->orderBy('UNACCENT(LOWER(r.name))', 'ASC')
+            ->getQuery()
+            ->getResult();
+    }
+
     public function save(Recipe $entity, bool $flush = true): void
     {
         $this->getEntityManager()->persist($entity);

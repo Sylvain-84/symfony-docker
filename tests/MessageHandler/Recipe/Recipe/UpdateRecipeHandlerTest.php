@@ -79,7 +79,7 @@ final class UpdateRecipeHandlerTest extends KernelTestCase
 
         $cmd = new UpdateRecipeCommand(
             id: $recipe->getId(),
-            category: $category->getId(),
+            categoryId: $category->getId(),
             name: 'Green Apple Pie',
             difficulty: DifficultyEnum::HARD,
             servings: 8,
@@ -195,7 +195,7 @@ final class UpdateRecipeHandlerTest extends KernelTestCase
 
         $cmd = new UpdateRecipeCommand(
             id: $invalidId,
-            category: 1,
+            categoryId: 1,
             name: 'irrelevant',
             difficulty: DifficultyEnum::HARD,
             servings: 1

@@ -36,7 +36,10 @@ class RecipeController extends AbstractController
                 category: $recipe->getCategory()->getName(),
                 name: $recipe->getName(),
                 id: $recipe->getId(),
-                difficulty: $recipe->getDifficulty()->value
+                difficulty: $recipe->getDifficulty()->value,
+                preparationTime: $recipe->getPreparationTime(),
+                cookingTime: $recipe->getCookingTime(),
+                note: $recipe->getNote()
             ),
             $recipes
         );
@@ -53,8 +56,17 @@ class RecipeController extends AbstractController
             RecipeDto::transform(
                 categoryId: $recipe->getCategory()->getId(),
                 name: $recipe->getName(),
+                description: $recipe->getDescription(),
                 id: $recipe->getId(),
-                difficulty: $recipe->getDifficulty()->value
+                difficulty: $recipe->getDifficulty()->value,
+                servings: $recipe->getServings(),
+                preparationTime: $recipe->getPreparationTime(),
+                cookingTime: $recipe->getCookingTime(),
+                note: $recipe->getNote(),
+                ingredients: $recipe->getIngredients()->toArray(),
+                instructions: $recipe->getInstructions()->toArray(),
+                tags: $recipe->getTags()->toArray(),
+                utensils: $recipe->getUtensils()->toArray(),
             ),
         );
     }

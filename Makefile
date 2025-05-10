@@ -5,7 +5,7 @@ PHP_CONTAINER = symfony-docker-php-1
 SYMFONY = docker exec -it $(PHP_CONTAINER) php bin/console
 COMPOSER = docker exec -it $(PHP_CONTAINER) composer
 PHPUNIT = docker exec --tty $(PHP_CONTAINER) bin/phpunit
-PHPSTAN = docker exec -it $(PHP_CONTAINER) vendor/bin/phpstan analyse
+PHPSTAN = docker exec -it $(PHP_CONTAINER) vendor/bin/phpstan analyse --memory-limit=512M
 PHPCS = docker exec -it $(PHP_CONTAINER) vendor/bin/phpcs
 PHPCSFIXER = docker exec -it $(PHP_CONTAINER) vendor/bin/php-cs-fixer fix --dry-run --diff
 
@@ -77,21 +77,14 @@ quality:
 
 # reset database for dev and test
 reset-db:
-	@echo "➡️  Resetting database for dev"
-	@docker exec -it $(PHP_CONTAINER) \
-	      php bin/console doctrine:database:drop --force --if-exists
-	@docker exec -it $(PHP_CONTAINER) \
-	      php bin/console doctrine:database:create
-	@docker exec -it $(PHP_CONTAINER) \
-	      php bin/console doctrine:schema:update --force
-	@docker exec -it $(PHP_CONTAINER) \
-	      php bin/console doctrine:fixtures:load --no-interaction
-	@echo "➡️  Resetting database for test"
-	@docker exec -it $(PHP_CONTAINER) \
-	      php bin/console doctrine:database:drop --env=test --force --if-exists
-	@docker exec -it $(PHP_CONTAINER) \
-	      php bin/console doctrine:database:create --env=test
-	@docker exec -it $(PHP_CONTAINER) \
-	      php bin/console doctrine:schema:update --env=test --force
-	@docker exec -it $(PHP_CONTAINER) \
-	      php bin/console doctrine:fixtures:load --env=test --no-interaction
+	# --- base de développement ---
+	$(SYMFONY) doctrine:database:drop    --force --if-exists
+	$(SYMFONY) doctrine:database:create  --no-interaction
+	$(SYMFONY) doctrine:migrations:migrate --no-interaction
+	$(SYMFONY) doctrine:fixtures:load    --no-interaction
+
+	# --- base de tests ---
+	$(SYMFONY) doctrine:database:drop    --env=test --force --if-exists
+	$(SYMFONY) doctrine:database:create  --env=test --no-interaction
+	$(SYMFONY) doctrine:migrations:migrate --env=test --no-interaction
+	$(SYMFONY) doctrine:fixtures:load    --env=test --no-interaction

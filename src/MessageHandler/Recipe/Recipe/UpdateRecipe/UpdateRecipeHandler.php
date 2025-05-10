@@ -57,6 +57,8 @@ class UpdateRecipeHandler
 
     private function tags(UpdateRecipeCommand $command, Recipe $recipe): Recipe
     {
+        $recipe->clearTags();
+
         if (null !== $command->tags) {
             foreach ($command->tags as $tagId) {
                 $tag = $this->recipeTagRepository->find($tagId);
@@ -73,6 +75,8 @@ class UpdateRecipeHandler
 
     private function utensils(UpdateRecipeCommand $command, Recipe $recipe): Recipe
     {
+        $recipe->clearUtensils();
+
         if (null !== $command->utensils) {
             foreach ($command->utensils as $utensilId) {
                 $utensil = $this->utensilRepository->find($utensilId);
@@ -122,7 +126,7 @@ class UpdateRecipeHandler
                     recipe: $recipe,
                     ingredient: $ingredient,
                     quantity: $ingredientInput->quantity,
-                    unit: $ingredientInput->unit,
+                    unit: $ingredientInput->unity,
                 )
             );
         }

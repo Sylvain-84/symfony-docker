@@ -144,4 +144,9 @@ class Ingredient
 
         return $this;
     }
+
+    public function clearTags(): void
+    {
+        $this->tags = new ArrayCollection();
+    }
 }

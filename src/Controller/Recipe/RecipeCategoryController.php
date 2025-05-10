@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Controller\Recipe;
 
-use App\Dto\Recipe\RecipeCategoryDto;
+use App\Dto\CategoryDto;
 use App\MessageHandler\Recipe\RecipeCategory\CreateRecipeCategory\CreateRecipeCategoryCommand;
 use App\MessageHandler\Recipe\RecipeCategory\DeleteRecipeCategory\DeleteRecipeCategoryCommand;
 use App\MessageHandler\Recipe\RecipeCategory\UpdateRecipeCategory\UpdateRecipeCategoryCommand;
@@ -28,7 +28,7 @@ class RecipeCategoryController extends AbstractController
         int $id,
     ): JsonResponse {
         $recipeCategory = $this->recipeCategoryRepository->find($id);
-        $recipeCategoryDto = RecipeCategoryDto::transform(
+        $recipeCategoryDto = CategoryDto::transform(
             $recipeCategory->getName(),
             $recipeCategory->getId()
         );
@@ -41,7 +41,7 @@ class RecipeCategoryController extends AbstractController
     {
         $recipeCategories = $this->recipeCategoryRepository->findAll();
         $recipeCategoriesDto = array_map(
-            fn ($recipeCategory) => RecipeCategoryDto::transform(
+            fn ($recipeCategory) => CategoryDto::transform(
                 $recipeCategory->getName(),
                 $recipeCategory->getId()
             ),

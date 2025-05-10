@@ -113,6 +113,8 @@ class UpdateIngredientHandler
 
     public function tags(UpdateIngredientCommand $command, Ingredient $ingredient): Ingredient
     {
+        $ingredient->clearTags();
+
         if (null !== $command->tags) {
             foreach ($command->tags as $tagId) {
                 $tag = $this->ingredientTagRepository->find($tagId);

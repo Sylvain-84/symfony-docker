@@ -11,7 +11,7 @@ final readonly class RecipeIngredientInput
     public function __construct(
         public int $ingredientId,
         public float $quantity,
-        public UnityEnum $unit,
+        public UnityEnum $unity,
     ) {
     }
 }

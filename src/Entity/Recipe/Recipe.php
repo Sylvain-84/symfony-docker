@@ -348,4 +348,14 @@ class Recipe
     {
         $this->recipeIngredients = new ArrayCollection();
     }
+
+    public function clearTags(): void
+    {
+        $this->tags = new ArrayCollection();
+    }
+
+    public function clearUtensils(): void
+    {
+        $this->utensils = new ArrayCollection();
+    }
 }

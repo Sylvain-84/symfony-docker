@@ -119,7 +119,7 @@ class CreateRecipeHandler
                     recipe: $recipe,
                     ingredient: $ingredient,
                     quantity: $ingredientInput->quantity,
-                    unit: $ingredientInput->unit,
+                    unit: $ingredientInput->unity,
                 )
             );
         }

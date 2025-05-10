@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Controller\Recipe;
 
-use App\Dto\Recipe\RecipeTagDto;
+use App\Dto\TagDto;
 use App\MessageHandler\Recipe\RecipeTag\CreateRecipeTag\CreateRecipeTagCommand;
 use App\MessageHandler\Recipe\RecipeTag\DeleteRecipeTag\DeleteRecipeTagCommand;
 use App\MessageHandler\Recipe\RecipeTag\UpdateRecipeTag\UpdateRecipeTagCommand;
@@ -28,7 +28,7 @@ class RecipeTagController extends AbstractController
         int $id,
     ): JsonResponse {
         $recipeTag = $this->recipeTagRepository->find($id);
-        $recipeTagDto = RecipeTagDto::transform(
+        $recipeTagDto = TagDto::transform(
             $recipeTag->getName(),
             $recipeTag->getId()
         );
@@ -41,7 +41,7 @@ class RecipeTagController extends AbstractController
     {
         $recipeTags = $this->recipeTagRepository->findAll();
         $recipeTagsDto = array_map(
-            fn ($recipeTag) => RecipeTagDto::transform(
+            fn ($recipeTag) => TagDto::transform(
                 $recipeTag->getName(),
                 $recipeTag->getId()
             ),

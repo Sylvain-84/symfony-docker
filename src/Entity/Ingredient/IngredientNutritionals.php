@@ -132,7 +132,7 @@ class IngredientNutritionals
         return $this;
     }
 
-    public function getSucres(): float
+    public function getSucres(): ?float
     {
         return $this->sucres;
     }
@@ -144,7 +144,7 @@ class IngredientNutritionals
         return $this;
     }
 
-    public function getAmidon(): float
+    public function getAmidon(): ?float
     {
         return $this->amidon;
     }
@@ -156,7 +156,7 @@ class IngredientNutritionals
         return $this;
     }
 
-    public function getFibresAlimentaires(): float
+    public function getFibresAlimentaires(): ?float
     {
         return $this->fibresAlimentaires;
     }
@@ -168,7 +168,7 @@ class IngredientNutritionals
         return $this;
     }
 
-    public function getCholesterol(): float
+    public function getCholesterol(): ?float
     {
         return $this->cholesterol;
     }
@@ -180,7 +180,7 @@ class IngredientNutritionals
         return $this;
     }
 
-    public function getAcidesGrasSatures(): float
+    public function getAcidesGrasSatures(): ?float
     {
         return $this->acidesGrasSatures;
     }
@@ -192,7 +192,7 @@ class IngredientNutritionals
         return $this;
     }
 
-    public function getAcidesGrasMonoinsatures(): float
+    public function getAcidesGrasMonoinsatures(): ?float
     {
         return $this->acidesGrasMonoinsatures;
     }
@@ -204,7 +204,7 @@ class IngredientNutritionals
         return $this;
     }
 
-    public function getAcidesGrasPolyinsatures(): float
+    public function getAcidesGrasPolyinsatures(): ?float
     {
         return $this->acidesGrasPolyinsatures;
     }
@@ -216,7 +216,7 @@ class IngredientNutritionals
         return $this;
     }
 
-    public function getEau(): float
+    public function getEau(): ?float
     {
         return $this->eau;
     }

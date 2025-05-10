@@ -67,7 +67,11 @@ class IngredientController extends AbstractController
             IngredientDto::transform(
                 categoryId: $ingredient->getCategory()->getId(),
                 name: $ingredient->getName(),
-                id: $ingredient->getId()
+                id: $ingredient->getId(),
+                tags: $ingredient->getTags()->toArray(),
+                minerals: $ingredient->getMinerals(),
+                vitamines: $ingredient->getVitamines(),
+                nutritionals: $ingredient->getNutritionals(),
             ),
         );
     }

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Controller\Ingredient;
 
-use App\Dto\Ingredient\IngredientTagDto;
+use App\Dto\TagDto;
 use App\MessageHandler\Ingredient\IngredientTag\CreateIngredientTag\CreateIngredientTagCommand;
 use App\MessageHandler\Ingredient\IngredientTag\DeleteIngredientTag\DeleteIngredientTagCommand;
 use App\MessageHandler\Ingredient\IngredientTag\UpdateIngredientTag\UpdateIngredientTagCommand;
@@ -28,7 +28,7 @@ class IngredientTagController extends AbstractController
         int $id,
     ): JsonResponse {
         $ingredientTag = $this->ingredientTagRepository->find($id);
-        $ingredientTagDto = IngredientTagDto::transform(
+        $ingredientTagDto = TagDto::transform(
             $ingredientTag->getName(),
             $ingredientTag->getId()
         );
@@ -41,7 +41,7 @@ class IngredientTagController extends AbstractController
     {
         $ingredientTags = $this->ingredientTagRepository->findAll();
         $ingredientTagsDto = array_map(
-            fn ($ingredientTag) => IngredientTagDto::transform(
+            fn ($ingredientTag) => TagDto::transform(
                 $ingredientTag->getName(),
                 $ingredientTag->getId()
             ),

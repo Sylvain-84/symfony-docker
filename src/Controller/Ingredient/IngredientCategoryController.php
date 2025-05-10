@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Controller\Ingredient;
 
-use App\Dto\Ingredient\IngredientCategoryDto;
+use App\Dto\CategoryDto;
 use App\MessageHandler\Ingredient\IngredientCategory\CreateIngredientCategory\CreateIngredientCategoryCommand;
 use App\MessageHandler\Ingredient\IngredientCategory\DeleteIngredientCategory\DeleteIngredientCategoryCommand;
 use App\MessageHandler\Ingredient\IngredientCategory\UpdateIngredientCategory\UpdateIngredientCategoryCommand;
@@ -28,7 +28,7 @@ class IngredientCategoryController extends AbstractController
         int $id,
     ): JsonResponse {
         $ingredientCategory = $this->ingredientCategoryRepository->find($id);
-        $ingredientCategoryDto = IngredientCategoryDto::transform(
+        $ingredientCategoryDto = CategoryDto::transform(
             $ingredientCategory->getName(),
             $ingredientCategory->getId()
         );
@@ -41,7 +41,7 @@ class IngredientCategoryController extends AbstractController
     {
         $ingredientCategories = $this->ingredientCategoryRepository->findAll();
         $ingredientCategoriesDto = array_map(
-            fn ($ingredientCategory) => IngredientCategoryDto::transform(
+            fn ($ingredientCategory) => CategoryDto::transform(
                 $ingredientCategory->getName(),
                 $ingredientCategory->getId()
             ),

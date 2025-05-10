@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace App\Dto\Recipe;
+namespace App\Dto;
 
-final readonly class RecipeCategoryDto
+final readonly class TagDto
 {
     private function __construct(
         public int $id,

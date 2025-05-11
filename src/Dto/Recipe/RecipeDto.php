@@ -6,6 +6,7 @@ declare(strict_types=1);
 
 namespace App\Dto\Recipe;
 
+use App\Dto\TagDto;
 use App\Entity\Recipe\RecipeIngredient;
 use App\Entity\Recipe\RecipeInstruction;
 use App\Entity\Recipe\RecipeTag;
@@ -16,8 +17,8 @@ final readonly class RecipeDto
     /**
      * @param list<RecipeIngredientDto>  $ingredients
      * @param list<RecipeInstructionDto> $instructions
-     * @param list<int>                  $tags
-     * @param list<int>                  $utensils
+     * @param list<TagDto>               $tags
+     * @param list<UtensilDto>           $utensils
      */
     private function __construct(
         public int $id,
@@ -85,11 +86,17 @@ final readonly class RecipeDto
                 $instructions
             ),
             tags: array_map(
-                fn ($tag) => $tag->getId(),
+                fn ($tag) => TagDto::transform(
+                    name: $tag->getName(),
+                    id: $tag->getId(),
+                ),
                 $tags
             ),
             utensils: array_map(
-                fn ($utensil) => $utensil->getId(),
+                fn ($utensil) => UtensilDto::transform(
+                    name: $utensil->getName(),
+                    id: $utensil->getId(),
+                ),
                 $utensils
             ),
         );

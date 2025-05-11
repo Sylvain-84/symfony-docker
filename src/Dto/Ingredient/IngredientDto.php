@@ -6,6 +6,7 @@ declare(strict_types=1);
 
 namespace App\Dto\Ingredient;
 
+use App\Dto\TagDto;
 use App\Entity\Ingredient\IngredientMinerals;
 use App\Entity\Ingredient\IngredientNutritionals;
 use App\Entity\Ingredient\IngredientTag;
@@ -14,7 +15,7 @@ use App\Entity\Ingredient\IngredientVitamines;
 final readonly class IngredientDto
 {
     /**
-     * @param list<int> $tags
+     * @param list<TagDto   > $tags
      */
     private function __construct(
         public int $id,
@@ -44,7 +45,10 @@ final readonly class IngredientDto
             categoryId: $categoryId,
             name: $name,
             tags: array_map(
-                fn ($tag) => $tag->getId(),
+                fn ($tag) => TagDto::transform(
+                    name: $tag->getName(),
+                    id: $tag->getId(),
+                ),
                 $tags
             ),
             minerals: IngredientMineralsDto::transform($minerals),

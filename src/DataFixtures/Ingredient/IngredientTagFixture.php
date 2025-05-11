@@ -10,10 +10,10 @@ use Doctrine\Persistence\ObjectManager;
 
 final class IngredientTagFixture extends Fixture
 {
-    public const string ORIGINAL_NAME = 'OriginalName';
-    public const string ORIGINAL_NAME_2 = 'OriginalNameTwo';
-    public const string ORIGINAL_NAME_3 = 'OriginalNameThree';
-    public const string ORIGINAL_NAME_UNUSED = 'OriginalNameUnused';
+    public const string ORIGINAL_NAME = 'Allergen - FIXTURE';
+    public const string ORIGINAL_NAME_2 = 'Antioxidant - FIXTURE';
+    public const string ORIGINAL_NAME_3 = 'Auto-immune - FIXTURE';
+    public const string ORIGINAL_NAME_UNUSED = 'Rich in protein - FIXTURE';
 
     public function load(ObjectManager $manager): void
     {

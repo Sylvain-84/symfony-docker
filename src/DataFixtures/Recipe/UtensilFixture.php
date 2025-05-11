@@ -10,10 +10,10 @@ use Doctrine\Persistence\ObjectManager;
 
 final class UtensilFixture extends Fixture
 {
-    public const string ORIGINAL_NAME = 'OriginalName';
-    public const string ORIGINAL_NAME_2 = 'OriginalNameTwo';
-    public const string ORIGINAL_NAME_3 = 'OriginalNameThree';
-    public const string ORIGINAL_NAME_UNUSED = 'OriginalNameUnused';
+    public const string ORIGINAL_NAME = 'Knife - FIXTURE';
+    public const string ORIGINAL_NAME_2 = 'Spoon - FIXTURE';
+    public const string ORIGINAL_NAME_3 = 'Frypan - FIXTURE';
+    public const string ORIGINAL_NAME_UNUSED = 'Bowl - FIXTURE';
 
     public function load(ObjectManager $manager): void
     {

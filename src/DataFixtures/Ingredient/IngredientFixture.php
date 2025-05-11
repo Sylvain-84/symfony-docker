@@ -13,9 +13,9 @@ use Doctrine\Persistence\ObjectManager;
 
 final class IngredientFixture extends Fixture implements DependentFixtureInterface
 {
-    public const ORIGINAL_NAME = 'OriginalIngredient';
-    public const ORIGINAL_NAME_2 = 'OriginalIngredient2';
-    public const ORIGINAL_NAME_UNUSED = 'OriginalIngredientUnused';
+    public const ORIGINAL_NAME = 'Tomate - FIXTURE';
+    public const ORIGINAL_NAME_2 = 'Carotte - FIXTURE';
+    public const ORIGINAL_NAME_UNUSED = 'Flocon d\'avoine - FIXTURE';
 
     public function load(ObjectManager $manager): void
     {

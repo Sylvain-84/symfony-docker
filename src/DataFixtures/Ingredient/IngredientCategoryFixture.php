@@ -10,8 +10,8 @@ use Doctrine\Persistence\ObjectManager;
 
 final class IngredientCategoryFixture extends Fixture
 {
-    public const ORIGINAL_NAME = 'OriginalName';
-    public const ORIGINAL_NAME_UNUSED = 'OriginalNameUnused';
+    public const ORIGINAL_NAME = 'Fruit - FIXTURE';
+    public const ORIGINAL_NAME_UNUSED = 'Legume - FIXTURE';
 
     public function load(ObjectManager $manager): void
     {

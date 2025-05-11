@@ -20,7 +20,7 @@ use Doctrine\Persistence\ObjectManager;
 
 final class RecipeFixture extends Fixture implements DependentFixtureInterface
 {
-    public const ORIGINAL_NAME = 'OriginalRecipe';
+    public const ORIGINAL_NAME = 'Tarte aux pommes - FIXTURE';
 
     public function load(ObjectManager $manager): void
     {

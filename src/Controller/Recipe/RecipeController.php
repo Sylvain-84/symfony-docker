@@ -68,6 +68,7 @@ class RecipeController extends AbstractController
                 instructions: $recipe->getInstructions()->toArray(),
                 tags: $recipe->getTags()->toArray(),
                 utensils: $recipe->getUtensils()->toArray(),
+                nutritionalsPerServing: $recipe->getNutritionalsPerServing(),
             ),
         );
     }

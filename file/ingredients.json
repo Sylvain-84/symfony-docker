@@ -1,0 +1,54 @@
+[
+  {
+    "name": "Broccoli, raw",
+    "categoryId": 3,
+    "minerals": {
+      "calcium": 47,
+      "cuivre": 0.05,
+      "fer": 0.73,
+      "iode": null,
+      "magnesium": 21,
+      "manganese": 0.21,
+      "phosphore": 66,
+      "potassium": 316,
+      "selenium": null,
+      "sodium": 33,
+      "zinc": 0.41
+    },
+    "nutritionals": {
+      "kilocalories": 34,
+      "proteine": 2.8,
+      "glucides": 6.6,
+      "lipides": 0.4,
+      "sucres": 1.7,
+      "amidon": null,
+      "fibresAlimentaires": 2.6,
+      "cholesterol": 0,
+      "acidesGrasSatures": 0.05,
+      "acidesGrasMonoinsatures": 0.03,
+      "acidesGrasPolyinsatures": 0.04,
+      "eau": 89.3
+    },
+    "vitamines": {
+      "vitamineA": 0.031,
+      "betaCarotene": 0.361,
+      "vitamineD": null,
+      "vitamineE": 0.78,
+      "vitamineK1": 0.102,
+      "vitamineK2": null,
+      "vitamineC": 89.2,
+      "vitamineB1": 0.071,
+      "vitamineB2": 0.117,
+      "vitamineB3": 0.639,
+      "vitamineB5": 0.573,
+      "vitamineB6": 0.175,
+      "vitamineB9": 0.063,
+      "vitamineB12": null
+    },
+    "tagIds": [
+      1,
+      7,
+      9
+    ]
+  }
+]

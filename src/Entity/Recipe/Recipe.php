@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Entity\Recipe;
 
-use App\Entity\Ingredient\IngredientNutritionals;
 use App\Enum\DifficultyEnum;
 use App\Repository\Recipe\RecipeRepository;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -360,104 +359,11 @@ class Recipe
         $this->utensils = new ArrayCollection();
     }
 
-    public function getTotalNutritionals(): IngredientNutritionals
+    /**
+     * @return Collection<int, RecipeIngredient>
+     */
+    public function getRecipeIngredients(): Collection
     {
-        $totals = new IngredientNutritionals();
-
-        foreach ($this->recipeIngredients as $recipeIngredient) {
-            $nutritionals = $recipeIngredient
-                ->getIngredient()
-                ->getNutritionals();
-
-            if (null === $nutritionals) {
-                continue;
-            }
-
-            $multiplier = $recipeIngredient->getQuantity();
-
-            $totals->setKilocalories(
-                $totals->getKilocalories()
-                + $nutritionals->getKilocalories()
-                * $multiplier
-            );
-            $totals->setProteine(
-                $totals->getProteine()
-                + $nutritionals->getProteine()
-                * $multiplier
-            );
-            $totals->setGlucides(
-                $totals->getGlucides()
-                + $nutritionals->getGlucides()
-                * $multiplier
-            );
-            $totals->setLipides(
-                $totals->getLipides()
-                + $nutritionals->getLipides()
-                * $multiplier
-            );
-            $totals->setSucres(
-                ($totals->getSucres() ?? 0)
-                + ($nutritionals->getSucres() ?? 0)
-                * $multiplier
-            );
-            $totals->setAmidon(
-                ($totals->getAmidon() ?? 0)
-                + ($nutritionals->getAmidon() ?? 0)
-                * $multiplier
-            );
-            $totals->setFibresAlimentaires(
-                ($totals->getFibresAlimentaires() ?? 0)
-                + ($nutritionals->getFibresAlimentaires() ?? 0)
-                * $multiplier
-            );
-            $totals->setCholesterol(
-                ($totals->getCholesterol() ?? 0)
-                + ($nutritionals->getCholesterol() ?? 0)
-                * $multiplier
-            );
-            $totals->setAcidesGrasSatures(
-                ($totals->getAcidesGrasSatures() ?? 0)
-                + ($nutritionals->getAcidesGrasSatures() ?? 0)
-                * $multiplier
-            );
-            $totals->setAcidesGrasMonoinsatures(
-                ($totals->getAcidesGrasMonoinsatures() ?? 0)
-                + ($nutritionals->getAcidesGrasMonoinsatures() ?? 0)
-                * $multiplier
-            );
-            $totals->setAcidesGrasPolyinsatures(
-                ($totals->getAcidesGrasPolyinsatures() ?? 0)
-                + ($nutritionals->getAcidesGrasPolyinsatures() ?? 0)
-                * $multiplier
-            );
-            $totals->setEau(
-                ($totals->getEau() ?? 0)
-                + ($nutritionals->getEau() ?? 0)
-                * $multiplier
-            );
-        }
-
-        return $totals;
-    }
-
-    public function getNutritionalsPerServing(): IngredientNutritionals
-    {
-        $perServing = $this->getTotalNutritionals();
-        $divisor = max(1, $this->servings); // avoid /0
-
-        $perServing->setKilocalories($perServing->getKilocalories() / $divisor);
-        $perServing->setProteine($perServing->getProteine() / $divisor);
-        $perServing->setGlucides($perServing->getGlucides() / $divisor);
-        $perServing->setLipides($perServing->getLipides() / $divisor);
-        $perServing->setSucres(($perServing->getSucres() ?? 0) / $divisor);
-        $perServing->setAmidon(($perServing->getAmidon() ?? 0) / $divisor);
-        $perServing->setFibresAlimentaires(($perServing->getFibresAlimentaires() ?? 0) / $divisor);
-        $perServing->setCholesterol(($perServing->getCholesterol() ?? 0) / $divisor);
-        $perServing->setAcidesGrasSatures(($perServing->getAcidesGrasSatures() ?? 0) / $divisor);
-        $perServing->setAcidesGrasMonoinsatures(($perServing->getAcidesGrasMonoinsatures() ?? 0) / $divisor);
-        $perServing->setAcidesGrasPolyinsatures(($perServing->getAcidesGrasPolyinsatures() ?? 0) / $divisor);
-        $perServing->setEau(($perServing->getEau() ?? 0) / $divisor);
-
-        return $perServing;
+        return $this->recipeIngredients;
     }
 }

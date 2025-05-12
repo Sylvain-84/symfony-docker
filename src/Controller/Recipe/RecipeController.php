@@ -12,6 +12,7 @@ use App\MessageHandler\Recipe\Recipe\CreateRecipe\CreateRecipeCommand;
 use App\MessageHandler\Recipe\Recipe\DeleteRecipe\DeleteRecipeCommand;
 use App\MessageHandler\Recipe\Recipe\UpdateRecipe\UpdateRecipeCommand;
 use App\Repository\Recipe\RecipeRepository;
+use App\Service\RecipeNutritionCalculator;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -48,8 +49,11 @@ class RecipeController extends AbstractController
     }
 
     #[Route('/{id}', name: 'show', methods: ['GET'], requirements: ['id' => '\d+'])]
-    public function getRecipeById(int $id, EntityManagerInterface $entityManager): JsonResponse
-    {
+    public function getRecipeById(
+        int $id,
+        EntityManagerInterface $entityManager,
+        RecipeNutritionCalculator $recipeNutritionCalculator,
+    ): JsonResponse {
         $recipe = $this->recipeRepository->find($id);
 
         return $this->json(
@@ -68,7 +72,9 @@ class RecipeController extends AbstractController
                 instructions: $recipe->getInstructions()->toArray(),
                 tags: $recipe->getTags()->toArray(),
                 utensils: $recipe->getUtensils()->toArray(),
-                nutritionalsPerServing: $recipe->getNutritionalsPerServing(),
+                nutritionalsPerServing: $recipeNutritionCalculator->getNutritionalsPerServing($recipe),
+                mineralsPerServing: $recipeNutritionCalculator->getMineralsPerServing($recipe),
+                vitaminsPerServing: $recipeNutritionCalculator->getVitaminsPerServing($recipe),
             ),
         );
     }

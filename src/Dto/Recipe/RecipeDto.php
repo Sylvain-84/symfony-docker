@@ -7,9 +7,13 @@ declare(strict_types=1);
 namespace App\Dto\Recipe;
 
 use App\Dto\CategoryDto;
+use App\Dto\Ingredient\IngredientMineralsDto;
 use App\Dto\Ingredient\IngredientNutritionalsDto;
+use App\Dto\Ingredient\IngredientVitaminesDto;
 use App\Dto\TagDto;
+use App\Entity\Ingredient\IngredientMinerals;
 use App\Entity\Ingredient\IngredientNutritionals;
+use App\Entity\Ingredient\IngredientVitamines;
 use App\Entity\Recipe\RecipeIngredient;
 use App\Entity\Recipe\RecipeInstruction;
 use App\Entity\Recipe\RecipeTag;
@@ -38,6 +42,8 @@ final readonly class RecipeDto
         public array $tags,
         public array $utensils,
         public IngredientNutritionalsDto $totalNutritionals,
+        public IngredientMineralsDto $totalMinerals,
+        public IngredientVitaminesDto $totalVitamins,
     ) {
     }
 
@@ -63,6 +69,8 @@ final readonly class RecipeDto
         array $tags,
         array $utensils,
         IngredientNutritionals $nutritionalsPerServing,
+        IngredientMinerals $mineralsPerServing,
+        IngredientVitamines $vitaminsPerServing,
     ): self {
         return new self(
             id: $id,
@@ -105,7 +113,9 @@ final readonly class RecipeDto
                 ),
                 $utensils
             ),
-            totalNutritionals: IngredientNutritionalsDto::transform($nutritionalsPerServing)
+            totalNutritionals: IngredientNutritionalsDto::transform($nutritionalsPerServing),
+            totalMinerals: IngredientMineralsDto::transform($mineralsPerServing),
+            totalVitamins: IngredientVitaminesDto::transform($vitaminsPerServing),
         );
     }
 }

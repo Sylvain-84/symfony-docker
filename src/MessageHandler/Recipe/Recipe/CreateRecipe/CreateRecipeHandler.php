@@ -109,9 +109,9 @@ class CreateRecipeHandler
     private function ingredients(CreateRecipeCommand $command, Recipe $recipe): Recipe
     {
         foreach ($command->ingredients as $ingredientInput) {
-            $ingredient = $this->ingredientRepository->find($ingredientInput->ingredientId);
+            $ingredient = $this->ingredientRepository->find($ingredientInput->id);
             if (!$ingredient) {
-                throw new \InvalidArgumentException("Ingredient #{$ingredientInput->ingredientId} not found.");
+                throw new \InvalidArgumentException("Ingredient #{$ingredientInput->id} not found.");
             }
 
             $recipe->addIngredient(

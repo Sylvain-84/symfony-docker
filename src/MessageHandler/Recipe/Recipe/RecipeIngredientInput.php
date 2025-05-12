@@ -9,7 +9,7 @@ use App\Enum\UnityEnum;
 final readonly class RecipeIngredientInput
 {
     public function __construct(
-        public int $ingredientId,
+        public int $id,
         public float $quantity,
         public UnityEnum $unity,
     ) {

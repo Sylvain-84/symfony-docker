@@ -55,6 +55,7 @@ class RecipeController extends AbstractController
         return $this->json(
             RecipeDto::transform(
                 categoryId: $recipe->getCategory()->getId(),
+                categoryName: $recipe->getCategory()->getName(),
                 name: $recipe->getName(),
                 description: $recipe->getDescription(),
                 id: $recipe->getId(),

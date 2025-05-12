@@ -66,6 +66,7 @@ class IngredientController extends AbstractController
         return $this->json(
             IngredientDto::transform(
                 categoryId: $ingredient->getCategory()->getId(),
+                categoryName: $ingredient->getCategory()->getName(),
                 name: $ingredient->getName(),
                 id: $ingredient->getId(),
                 tags: $ingredient->getTags()->toArray(),

@@ -6,6 +6,7 @@ declare(strict_types=1);
 
 namespace App\Dto\Recipe;
 
+use App\Dto\CategoryDto;
 use App\Dto\TagDto;
 use App\Entity\Recipe\RecipeIngredient;
 use App\Entity\Recipe\RecipeInstruction;
@@ -22,7 +23,7 @@ final readonly class RecipeDto
      */
     private function __construct(
         public int $id,
-        public int $categoryId,
+        public CategoryDto $category,
         public string $name,
         public ?string $description,
         public string $difficulty,
@@ -45,6 +46,7 @@ final readonly class RecipeDto
      */
     public static function transform(
         int $categoryId,
+        string $categoryName,
         string $name,
         ?string $description,
         int $id,
@@ -60,7 +62,7 @@ final readonly class RecipeDto
     ): self {
         return new self(
             id: $id,
-            categoryId: $categoryId,
+            category: CategoryDto::transform($categoryName, $categoryId),
             name: $name,
             description: $description,
             difficulty: $difficulty,
@@ -70,7 +72,7 @@ final readonly class RecipeDto
             note: $note,
             ingredients: array_map(
                 fn ($ingredient) => RecipeIngredientDto::transform(
-                    ingredientId: $ingredient->getIngredient()->getId(),
+                    id: $ingredient->getIngredient()->getId(),
                     name: $ingredient->getIngredient()->getName(),
                     quantity: $ingredient->getQuantity(),
                     unity: $ingredient->getUnit(),

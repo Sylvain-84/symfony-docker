@@ -11,7 +11,7 @@ use App\Enum\UnityEnum;
 final readonly class RecipeIngredientDto
 {
     private function __construct(
-        public int $ingredientId,
+        public int $id,
         public string $name,
         public float $quantity,
         public string $unity,
@@ -19,13 +19,13 @@ final readonly class RecipeIngredientDto
     }
 
     public static function transform(
-        int $ingredientId,
+        int $id,
         string $name,
         float $quantity,
         UnityEnum $unity,
     ): self {
         return new self(
-            ingredientId: $ingredientId,
+            id: $id,
             name: $name,
             quantity: $quantity,
             unity: $unity->value,

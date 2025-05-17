@@ -70,9 +70,7 @@ class IngredientController extends AbstractController
                 name: $ingredient->getName(),
                 id: $ingredient->getId(),
                 tags: $ingredient->getTags()->toArray(),
-                minerals: $ingredient->getMinerals(),
-                vitamines: $ingredient->getVitamines(),
-                nutritionals: $ingredient->getNutritionals(),
+                nutrition: $ingredient->getNutrition(),
             ),
         );
     }

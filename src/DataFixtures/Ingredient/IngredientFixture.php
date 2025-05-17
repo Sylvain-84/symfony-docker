@@ -6,7 +6,6 @@ namespace App\DataFixtures\Ingredient;
 
 use App\Entity\Ingredient\Ingredient;
 use App\Entity\Ingredient\IngredientCategory;
-use App\Entity\Ingredient\IngredientMinerals;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
@@ -26,7 +25,6 @@ final class IngredientFixture extends Fixture implements DependentFixtureInterfa
         $ingredient = new Ingredient(
             name: self::ORIGINAL_NAME,
             category: $category,
-            minerals: new IngredientMinerals()
         );
 
         $ingredient2 = new Ingredient(

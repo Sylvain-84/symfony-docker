@@ -8,10 +8,8 @@ namespace App\Dto\Ingredient;
 
 use App\Dto\CategoryDto;
 use App\Dto\TagDto;
-use App\Entity\Ingredient\IngredientMinerals;
-use App\Entity\Ingredient\IngredientNutritionals;
+use App\Entity\Ingredient\IngredientNutrition;
 use App\Entity\Ingredient\IngredientTag;
-use App\Entity\Ingredient\IngredientVitamines;
 
 final readonly class IngredientDto
 {
@@ -23,9 +21,7 @@ final readonly class IngredientDto
         public CategoryDto $category,
         public string $name,
         public array $tags,
-        public IngredientMineralsDto $minerals,
-        public IngredientVitaminesDto $vitamines,
-        public IngredientNutritionalsDto $nutritionals,
+        public IngredientNutritionDto $nutritionals,
     ) {
     }
 
@@ -38,9 +34,7 @@ final readonly class IngredientDto
         string $name,
         int $id,
         array $tags,
-        IngredientMinerals $minerals,
-        IngredientVitamines $vitamines,
-        IngredientNutritionals $nutritionals,
+        IngredientNutrition $nutrition,
     ): self {
         return new self(
             id: $id,
@@ -53,9 +47,7 @@ final readonly class IngredientDto
                 ),
                 $tags
             ),
-            minerals: IngredientMineralsDto::transform($minerals),
-            vitamines: IngredientVitaminesDto::transform($vitamines),
-            nutritionals: IngredientNutritionalsDto::transform($nutritionals),
+            nutritionals: IngredientNutritionDto::fromEntity($nutrition),
         );
     }
 }

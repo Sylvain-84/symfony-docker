@@ -11,9 +11,7 @@ use App\Entity\Ingredient\IngredientCategory;
 use App\Entity\Ingredient\IngredientTag;
 use App\MessageHandler\Ingredient\Ingredient\CreateIngredient\CreateIngredientCommand;
 use App\MessageHandler\Ingredient\Ingredient\CreateIngredient\CreateIngredientHandler;
-use App\MessageHandler\Ingredient\Ingredient\IngredientMineralInput;
-use App\MessageHandler\Ingredient\Ingredient\IngredientNutritionalInput;
-use App\MessageHandler\Ingredient\Ingredient\IngredientVitamineInput;
+use App\MessageHandler\Ingredient\Ingredient\IngredientNutritionInput;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
@@ -61,20 +59,16 @@ final class CreateIngredientHandlerTest extends KernelTestCase
         $command = new CreateIngredientCommand(
             categoryId: $category->getId(),
             name: 'Banana',
-            nutritionals: new IngredientNutritionalInput(
-                kilocalories: 89,
-                proteine: 1.1,
+            nutrition: new IngredientNutritionInput(
+                nrjKcal: 89,
+                proteines: 1.1,
                 glucides: 22.8,
                 lipides: 0.3,
                 sucres: 12.2,
-                fibresAlimentaires: 2.6,
-            ),
-            minerals: new IngredientMineralInput(
+                fibres: 2.6,
                 magnesium: 27,
                 phosphore: 22,
                 potassium: 358,
-            ),
-            vitamines: new IngredientVitamineInput(
                 vitamineC: 8.7,
                 vitamineB6: 0.4,
                 vitamineB9: 0.02,
@@ -92,10 +86,10 @@ final class CreateIngredientHandlerTest extends KernelTestCase
         self::assertSame($category->getId(), $ingredient->getCategory()->getId());
         self::assertSame($tag->getName(), $ingredient->getTags()->first()->getName());
         self::assertSame($tag2->getName(), $ingredient->getTags()->get(1)->getName());
-        self::assertSame(89.0, $ingredient->getNutritionals()->getKilocalories());
-        self::assertSame(1.1, $ingredient->getNutritionals()->getProteine());
-        self::assertSame(358.0, $ingredient->getMinerals()->getPotassium());
-        self::assertSame(8.7, $ingredient->getVitamines()->getVitamineC());
+        self::assertSame(89.0, $ingredient->getNutrition()->getNrjKj());
+        self::assertSame(1.1, $ingredient->getNutrition()->getProteines());
+        self::assertSame(358.0, $ingredient->getNutrition()->getPotassium());
+        self::assertSame(8.7, $ingredient->getNutrition()->getVitamineC());
     }
 
     public function testItThrowsWhenCategoryDoesNotExist(): void
@@ -105,9 +99,7 @@ final class CreateIngredientHandlerTest extends KernelTestCase
         $command = new CreateIngredientCommand(
             categoryId: $nonExistingCategoryId,
             name: 'Mango',
-            nutritionals: new IngredientNutritionalInput(),
-            minerals: new IngredientMineralInput(),
-            vitamines: new IngredientVitamineInput(),
+            nutrition: new IngredientNutritionInput(),
         );
 
         $this->expectException(\InvalidArgumentException::class);

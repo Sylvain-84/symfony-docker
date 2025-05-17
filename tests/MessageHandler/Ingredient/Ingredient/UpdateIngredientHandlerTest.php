@@ -10,9 +10,7 @@ use App\DataFixtures\Ingredient\IngredientTagFixture;
 use App\Entity\Ingredient\Ingredient;
 use App\Entity\Ingredient\IngredientCategory;
 use App\Entity\Ingredient\IngredientTag;
-use App\MessageHandler\Ingredient\Ingredient\IngredientMineralInput;
-use App\MessageHandler\Ingredient\Ingredient\IngredientNutritionalInput;
-use App\MessageHandler\Ingredient\Ingredient\IngredientVitamineInput;
+use App\MessageHandler\Ingredient\Ingredient\IngredientNutritionInput;
 use App\MessageHandler\Ingredient\Ingredient\UpdateIngredient\UpdateIngredientCommand;
 use App\MessageHandler\Ingredient\Ingredient\UpdateIngredient\UpdateIngredientHandler;
 use Doctrine\Common\DataFixtures\Executor\ORMExecutor;
@@ -80,29 +78,24 @@ final class UpdateIngredientHandlerTest extends KernelTestCase
             id: $ingredient->getId(),
             categoryId: $category->getId(),
             name: 'Green Apple',
-            nutritionals: new IngredientNutritionalInput(
-                kilocalories: 52,
-                proteine: 0.3,
-                glucides: 13.8,
-                lipides: 0.2,
-                sucres: 10.4,
-                fibresAlimentaires: 2.4,
+            nutrition: new IngredientNutritionInput(
+                nrjKcal: 52,
                 eau: 85.6,
-            ),
-            minerals: new IngredientMineralInput(
-                calcium: 6,
-                fer: 0.12,
+                sodium: 1,
                 magnesium: 5,
                 phosphore: 11,
                 potassium: 107,
-                sodium: 1,
+                calcium: 6,
+                fer: 0.12,
                 zinc: 0.04,
-            ),
-            vitamines: new IngredientVitamineInput(
-                vitamineA: 3,
-                vitamineC: 4.6,
+                proteines: 0.3,
+                glucides: 13.8,
+                sucres: 10.4,
+                fibres: 2.4,
+                lipides: 0.2,
                 vitamineE: 0.18,
                 vitamineK1: 2.2,
+                vitamineC: 4.6,
                 vitamineB1: 0.017,
                 vitamineB2: 0.026,
                 vitamineB6: 0.041,
@@ -120,19 +113,17 @@ final class UpdateIngredientHandlerTest extends KernelTestCase
         self::assertSame($category->getId(), $updated->getCategory()->getId());
         self::assertSame($tag->getName(), $ingredient->getTags()->first()->getName());
         self::assertSame($new_tag->getName(), $ingredient->getTags()->get(1)->getName());
-        $nutritionals = $updated->getNutritionals();
-        self::assertSame(52.0, $nutritionals->getKilocalories());
-        self::assertSame(0.3, $nutritionals->getProteine());
-        self::assertSame(13.8, $nutritionals->getGlucides());
-        self::assertSame(10.4, $nutritionals->getSucres());
+        $nutrition = $updated->getNutrition();
+        self::assertSame(52.0, $nutrition->getNrjKcal());
+        self::assertSame(0.3, $nutrition->getProteines());
+        self::assertSame(13.8, $nutrition->getGlucides());
+        self::assertSame(10.4, $nutrition->getSucres());
 
-        $minerals = $updated->getMinerals();
-        self::assertSame(107.0, $minerals->getPotassium());
-        self::assertSame(6.0, $minerals->getCalcium());
+        self::assertSame(107.0, $nutrition->getPotassium());
+        self::assertSame(6.0, $nutrition->getCalcium());
 
-        $vitamines = $updated->getVitamines();
-        self::assertSame(4.6, $vitamines->getVitamineC());
-        self::assertSame(0.041, $vitamines->getVitamineB6());
+        self::assertSame(4.6, $nutrition->getVitamineC());
+        self::assertSame(0.041, $nutrition->getVitamineB6());
     }
 
     public function testItThrowsWhenIngredientDoesNotExist(): void
@@ -143,9 +134,7 @@ final class UpdateIngredientHandlerTest extends KernelTestCase
             id: $nonExistingId,
             categoryId: 1,
             name: 'Does not matter',
-            nutritionals: new IngredientNutritionalInput(),
-            minerals: new IngredientMineralInput(),
-            vitamines: new IngredientVitamineInput(),
+            nutrition: new IngredientNutritionInput(),
         );
 
         $this->expectException(\InvalidArgumentException::class);

@@ -1,5 +1,54 @@
 [
   {
+    "name": "Template",
+    "categoryId": 4,
+    "minerals": {
+      "calcium": null,
+      "cuivre": null,
+      "fer": null,
+      "iode": null,
+      "magnesium": null,
+      "manganese": null,
+      "phosphore": null,
+      "potassium": null,
+      "selenium": null,
+      "sodium": null,
+      "zinc": null
+    },
+    "nutritionals": {
+      "kilocalories": null,
+      "proteine": null,
+      "glucides": null,
+      "lipides": null,
+      "sucres": null,
+      "amidon": null,
+      "fibresAlimentaires": null,
+      "cholesterol": null,
+      "acidesGrasSatures": null,
+      "acidesGrasMonoinsatures": null,
+      "acidesGrasPolyinsatures": null,
+      "eau": null
+    },
+    "vitamines": {
+      "vitamineA": null,
+      "betaCarotene": null,
+      "vitamineD": null,
+      "vitamineE": null,
+      "vitamineK1": null,
+      "vitamineK2": null,
+      "vitamineC": null,
+      "vitamineB1": null,
+      "vitamineB2": null,
+      "vitamineB3": null,
+      "vitamineB5": null,
+      "vitamineB6": null,
+      "vitamineB9": null,
+      "vitamineB12": null
+    },
+    "tagIds": [
+    ]
+  },
+  {
     "name": "Broccoli, raw",
     "categoryId": 3,
     "minerals": {
@@ -50,5 +99,54 @@
       7,
       9
     ]
+  },
+
+  {
+    "name": "Farine de sarrasin, raw",
+    "categoryId": 4,
+    "minerals": {
+      "calcium": 41,
+      "cuivre": 0.52,
+      "fer": 4.06,
+      "iode": 0,
+      "magnesium": 251,
+      "manganese": 2.03,
+      "phosphore": 337,
+      "potassium": 577,
+      "selenium": 5.7,
+      "sodium": 11,
+      "zinc": 3.12
+    },
+    "nutritionals": {
+      "kilocalories": 335,
+      "proteine": 12.6,
+      "glucides": 70.6,
+      "lipides": 3.1,
+      "sucres": 2.6,
+      "amidon": 58,
+      "fibresAlimentaires": 10,
+      "cholesterol": 0,
+      "acidesGrasSatures": 1,
+      "acidesGrasMonoinsatures": 1,
+      "acidesGrasPolyinsatures": 1,
+      "eau": 11.2
+    },
+    "vitamines": {
+      "vitamineA": 0,
+      "betaCarotene": 0,
+      "vitamineD": 0,
+      "vitamineE": 0.32,
+      "vitamineK1": 7,
+      "vitamineK2": 0,
+      "vitamineC": 0,
+      "vitamineB1": 0.42,
+      "vitamineB2": 0.19,
+      "vitamineB3": 6.15,
+      "vitamineB5": 0.44,
+      "vitamineB6": 0.58,
+      "vitamineB9": 54,
+      "vitamineB12": 0
+    },
+    "tagIds": []
   }
 ]

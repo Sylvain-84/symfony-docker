@@ -7,13 +7,9 @@ declare(strict_types=1);
 namespace App\Dto\Recipe;
 
 use App\Dto\CategoryDto;
-use App\Dto\Ingredient\IngredientMineralsDto;
-use App\Dto\Ingredient\IngredientNutritionalsDto;
-use App\Dto\Ingredient\IngredientVitaminesDto;
+use App\Dto\Ingredient\IngredientNutritionDto;
 use App\Dto\TagDto;
-use App\Entity\Ingredient\IngredientMinerals;
-use App\Entity\Ingredient\IngredientNutritionals;
-use App\Entity\Ingredient\IngredientVitamines;
+use App\Entity\Ingredient\IngredientNutrition;
 use App\Entity\Recipe\RecipeIngredient;
 use App\Entity\Recipe\RecipeInstruction;
 use App\Entity\Recipe\RecipeTag;
@@ -41,9 +37,7 @@ final readonly class RecipeDto
         public array $instructions,
         public array $tags,
         public array $utensils,
-        public IngredientNutritionalsDto $totalNutritionals,
-        public IngredientMineralsDto $totalMinerals,
-        public IngredientVitaminesDto $totalVitamins,
+        public IngredientNutritionDto $totalNutrition,
     ) {
     }
 
@@ -68,9 +62,7 @@ final readonly class RecipeDto
         array $instructions,
         array $tags,
         array $utensils,
-        IngredientNutritionals $nutritionalsPerServing,
-        IngredientMinerals $mineralsPerServing,
-        IngredientVitamines $vitaminsPerServing,
+        IngredientNutrition $nutritionPerServing,
     ): self {
         return new self(
             id: $id,
@@ -113,9 +105,7 @@ final readonly class RecipeDto
                 ),
                 $utensils
             ),
-            totalNutritionals: IngredientNutritionalsDto::transform($nutritionalsPerServing),
-            totalMinerals: IngredientMineralsDto::transform($mineralsPerServing),
-            totalVitamins: IngredientVitaminesDto::transform($vitaminsPerServing),
+            totalNutrition: IngredientNutritionDto::fromEntity($nutritionPerServing),
         );
     }
 }

@@ -25,15 +25,7 @@ class Ingredient
 
     #[ORM\OneToOne(cascade: ['persist', 'remove'])]
     #[ORM\JoinColumn(nullable: false)]
-    private IngredientMinerals $minerals;
-
-    #[ORM\OneToOne(cascade: ['persist', 'remove'])]
-    #[ORM\JoinColumn(nullable: false)]
-    private IngredientNutritionals $nutritionals;
-
-    #[ORM\OneToOne(cascade: ['persist', 'remove'])]
-    #[ORM\JoinColumn(nullable: false)]
-    private IngredientVitamines $vitamines;
+    private IngredientNutrition $nutrition;
 
     /**
      * @var Collection<int, IngredientTag>
@@ -44,15 +36,11 @@ class Ingredient
     public function __construct(
         string $name,
         IngredientCategory $category,
-        ?IngredientMinerals $minerals = new IngredientMinerals(),
-        ?IngredientNutritionals $nutritionals = new IngredientNutritionals(),
-        ?IngredientVitamines $vitamines = new IngredientVitamines(),
+        ?IngredientNutrition $nutrition = new IngredientNutrition(),
     ) {
         $this->name = $name;
         $this->category = $category;
-        $this->minerals = $minerals;
-        $this->nutritionals = $nutritionals;
-        $this->vitamines = $vitamines;
+        $this->nutrition = $nutrition;
         $this->tags = new ArrayCollection();
     }
 
@@ -85,40 +73,14 @@ class Ingredient
         return $this;
     }
 
-    public function getMinerals(): ?IngredientMinerals
+    public function getNutrition(): IngredientNutrition
     {
-        return $this->minerals;
+        return $this->nutrition;
     }
 
-    public function getNutritionals(): ?IngredientNutritionals
+    public function setNutrition(IngredientNutrition $nutrition): void
     {
-        return $this->nutritionals;
-    }
-
-    public function getVitamines(): ?IngredientVitamines
-    {
-        return $this->vitamines;
-    }
-
-    public function setMinerals(IngredientMinerals $minerals): static
-    {
-        $this->minerals = $minerals;
-
-        return $this;
-    }
-
-    public function setNutritionals(IngredientNutritionals $nutritionals): static
-    {
-        $this->nutritionals = $nutritionals;
-
-        return $this;
-    }
-
-    public function setVitamines(IngredientVitamines $vitamines): static
-    {
-        $this->vitamines = $vitamines;
-
-        return $this;
+        $this->nutrition = $nutrition;
     }
 
     /**
